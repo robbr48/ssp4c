@@ -560,10 +560,6 @@ sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzipp
 
     int nfiles;
     char** files = listFiles(ssp,ssp->unzippedLocation,&nfiles);
-    for(int i=0; i<nfiles; ++i) {
-        //add to ssdHandle
-        printf("%s\n",files[i]);
-    }
 
     return ssp;
 }
@@ -626,9 +622,107 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
             for(ezxml_t connectorElement = connectorsElement->child; connectorElement; connectorElement = connectorElement->ordered) {
                 if(!strcmp(connectorElement->name, "ssd:Connector")) {
                     parseStringAttributeEzXmlAndRememberPointer(connectorElement,  "name",      &ssd->connectors[j].name, ssp);
-                    parseStringAttributeEzXmlAndRememberPointer(connectorElement,  "kind",      &ssd->connectors[j].kind, ssp);
+                   // parseStringAttributeEzXmlAndRememberPointer(connectorElement,  "kind",      &ssd->connectors[j].kind, ssp);
+
+                    ssd->connectors[j].kind = ssdConnectorKindUnspecifed;
+                    const char* kind = NULL;
+                    if(parseStringAttributeEzXml(connectorElement, "kind", &kind)) {
+                        if(!strcmp(kind, "input")) {
+                            ssd->connectors[j].kind = ssdConnectorKindInput;
+                        }
+                        else if(!strcmp(kind, "output")) {
+                            ssd->connectors[j].kind = ssdConnectorKindOutput;
+                        }
+                        else if(!strcmp(kind, "parameter")) {
+                            ssd->connectors[j].kind = ssdConnectorKindParameter;
+                        }
+                        else if(!strcmp(kind, "calculatedParameter")) {
+                            ssd->connectors[j].kind = ssdConnectorKindCalculatedParameter;
+                        }
+                        else if(!strcmp(kind, "calculatedParameter")) {
+                            ssd->connectors[j].kind = ssdConnectorKindStructuralParameter;
+                        }
+                        else if(!strcmp(kind, "calculatedConstant")) {
+                            ssd->connectors[j].kind = ssdConnectorKindConstant;
+                        }
+                        else if(!strcmp(kind, "local")) {
+                            ssd->connectors[j].kind = ssdConnectorKindLocal;
+                        }
+                        else if(!strcmp(kind, "inout")) {
+                            ssd->connectors[j].kind = ssdConnectorKindInout;
+                        }
+                        else if(!strcmp(kind, "unspecified")) {
+                            ssd->connectors[j].kind = ssdConnectorKindUnspecifed;
+                        }
+                        else {
+                            printf("Unknown causality: %s\n", kind);
+                            freeDuplicatedConstChar(kind);
+                            return false;
+                        }
+                        freeDuplicatedConstChar(kind);
+                    }
+
                     parseStringAttributeEzXmlAndRememberPointer(connectorElement,  "description",      &ssd->connectors[j].description, ssp);
-                    //! @todo Read type, dimensions and geometry
+
+                    for(ezxml_t subElement = connectorElement->child; subElement; subElement = subElement->ordered) {
+                        if(!strcmp(subElement->name, "ssc:Real")) {
+                            ssd->connectors[j].datatype = sspDataTypeReal;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Float64")) {
+                            ssd->connectors[j].datatype = sspDataTypeFloat64;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Float32")) {
+                            ssd->connectors[j].datatype = sspDataTypeFloat32;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Integer")) {
+                            ssd->connectors[j].datatype = sspDataTypeInteger;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Int8")) {
+                            ssd->connectors[j].datatype = sspDataTypeInt8;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:UInt8")) {
+                            ssd->connectors[j].datatype = sspDataTypeUInt8;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Int16")) {
+                            ssd->connectors[j].datatype = sspDataTypeInt16;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:UInt16")) {
+                            ssd->connectors[j].datatype = sspDataTypeUInt16;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Int32")) {
+                            ssd->connectors[j].datatype = sspDataTypeInt32;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:UInt32")) {
+                            ssd->connectors[j].datatype = sspDataTypeUInt32;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Int64")) {
+                            ssd->connectors[j].datatype = sspDataTypeInt64;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:UInt64")) {
+                            ssd->connectors[j].datatype = sspDataTypeUInt64;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Boolean")) {
+                            ssd->connectors[j].datatype = sspDataTypeBoolean;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:String")) {
+                            ssd->connectors[j].datatype = sspDataTypeString;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Enumeration")) {
+                            ssd->connectors[j].datatype = sspDataTypeEnumeration;
+                        }
+                        else if(!strcmp(subElement->name, "ssc:Binary")) {
+                            ssd->connectors[j].datatype = sspDataTypeBinary;
+                        }
+
+                        //Read unit
+                        if(ssd->connectors[j].datatype == sspDataTypeReal ||
+                           ssd->connectors[j].datatype == sspDataTypeFloat64 ||
+                           ssd->connectors[j].datatype == sspDataTypeFloat32) {
+                            parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &ssd->connectors[j].unit, ssp);
+                        }
+                    }
+
+
                 }
                 ++j;
             }
@@ -638,8 +732,6 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
     ezxml_free(rootElement);
 
     chdir(cwd);
-
-    printf("Finished parsing: %s\n",path);
 
     return true;
 }

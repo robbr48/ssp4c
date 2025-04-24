@@ -56,46 +56,6 @@ sspVersion ssp4c_getSspVersion(sspHandle *ssp)
 //! @param ssp SSP handle
 void ssp4c_freeSsp(sspHandle *ssp)
 {
-    if(ssp->version == sspVersion1) {
-        // for(int i=0; i<ssp->fmi1.numberOfVariables; ++i) {
-        //     freeDuplicatedConstChar(ssp->fmi1.variables[i].name);
-        //     freeDuplicatedConstChar(ssp->fmi1.variables[i].description);
-        // }
-        // free(ssp->fmi1.variables);
-        // freeDuplicatedConstChar(ssp->fmi1.modelName);
-        // freeDuplicatedConstChar(ssp->fmi1.modelIdentifier);
-        // freeDuplicatedConstChar(ssp->fmi1.guid);
-        // freeDuplicatedConstChar(ssp->fmi1.description);
-        // freeDuplicatedConstChar(ssp->fmi1.author);
-        // freeDuplicatedConstChar(ssp->fmi1.version);
-        // freeDuplicatedConstChar(ssp->fmi1.generationTool);
-        // freeDuplicatedConstChar(ssp->fmi1.generationDateAndTime);
-        // freeDuplicatedConstChar(ssp->fmi1.variableNamingConvention);
-    }
-    else if(ssp->version == sspVersion2) {
-        // for(int i=0; i<ssp->fmi2.numberOfVariables; ++i) {
-        //     freeDuplicatedConstChar(ssp->fmi2.variables[i].name);
-        //     freeDuplicatedConstChar(ssp->fmi2.variables[i].description);
-        // }
-        // free(ssp->fmi2.variables);
-        // freeDuplicatedConstChar(ssp->fmi2.modelName);
-        // freeDuplicatedConstChar(ssp->fmi2.guid);
-        // freeDuplicatedConstChar(ssp->fmi2.description);
-        // freeDuplicatedConstChar(ssp->fmi2.author);
-        // freeDuplicatedConstChar(ssp->fmi2.version);
-        // freeDuplicatedConstChar(ssp->fmi2.copyright);
-        // freeDuplicatedConstChar(ssp->fmi2.license);
-        // freeDuplicatedConstChar(ssp->fmi2.generationTool);
-        // freeDuplicatedConstChar(ssp->fmi2.generationDateAndTime);
-        // freeDuplicatedConstChar(ssp->fmi2.variableNamingConvention);
-        // if(ssp->fmi2.supportsCoSimulation) {
-        //     freeDuplicatedConstChar(ssp->fmi2.cs.modelIdentifier);
-        // }
-        // if(ssp->fmi2.supportsModelExchange) {
-        //     freeDuplicatedConstChar(ssp->fmi2.me.modelIdentifier);
-        // }
-    }
-
     if(ssp->unzippedLocation) {
         removeDirectoryRecursively(ssp->unzippedLocation, "ssp4c_");
     }
@@ -169,3 +129,39 @@ const char *ssp4c_getSsdGenerationDateAndTime(ssdHandle *ssd)
 {
     return ssd->generationDateAndTime;
 }
+
+int ssp4c_getNumberOfSsdConnectors(ssdHandle *ssd)
+{
+    return ssd->connectorCount;
+}
+
+ssdConnectorHandle *ssp4c_getSsdConnectorByIndex(ssdHandle *ssd, int i)
+{
+    return &ssd->connectors[i];
+}
+
+const char* ssp4c_getSsdConnectorName(ssdConnectorHandle *con)
+{
+    return con->name;
+}
+
+ssdConnectorKind ssp4c_getSsdConnectorKind(ssdConnectorHandle *con)
+{
+    return con->kind;
+}
+
+const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *con)
+{
+    return con->description;
+}
+
+sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *con)
+{
+    return con->datatype;
+}
+
+const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *con)
+{
+    return con->unit;
+}
+

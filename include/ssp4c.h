@@ -47,6 +47,14 @@ SSP4C_DLLAPI const char* ssp4c_getSsdLicense(ssdHandle *ssd);
 SSP4C_DLLAPI const char* ssp4c_getSsdGenerationTool(ssdHandle *ssd);
 SSP4C_DLLAPI const char* ssp4c_getSsdGenerationDateAndTime(ssdHandle *ssd);
 
+SSP4C_DLLAPI int ssp4c_getNumberOfSsdConnectors(ssdHandle *ssd);
+SSP4C_DLLAPI ssdConnectorHandle *ssp4c_getSsdConnectorByIndex(ssdHandle *ssd, int i);
+SSP4C_DLLAPI const char* ssp4c_getSsdConnectorName(ssdConnectorHandle *con);
+SSP4C_DLLAPI ssdConnectorKind ssp4c_getSsdConnectorKind(ssdConnectorHandle *con);
+SSP4C_DLLAPI const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *con);
+SSP4C_DLLAPI sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *con);
+SSP4C_DLLAPI const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *con);
+
 #ifdef __cplusplus
 }
 #endif
