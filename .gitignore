@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# CMake files
+*.txt.user
+*.txt.user.*
+
+# Build directory
+build
