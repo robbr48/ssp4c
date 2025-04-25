@@ -55,6 +55,37 @@ SSP4C_DLLAPI const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *co
 SSP4C_DLLAPI sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *con);
 SSP4C_DLLAPI const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *con);
 
+SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponents(ssdHandle* ssd);
+SSP4C_DLLAPI ssdComponentHandle* ssp4c_getSsdComponentByIndex(ssdHandle* ssd, int i);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentName(ssdComponentHandle* comp);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentType(ssdComponentHandle* comp);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentSource(ssdComponentHandle* comp);
+SSP4C_DLLAPI ssdComponentImplementation ssp4c_getSsdComponentImplementation(ssdComponentHandle* comp);
+SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle* comp);
+SSP4C_DLLAPI ssdConnectorHandle *ssp4c_getSsdComponentConnectorByIndex(ssdComponentHandle *comp, int i);
+
+SSP4C_DLLAPI double ssp4c_getSsdComponentGeometryX1(ssdComponentHandle *comp);
+SSP4C_DLLAPI double ssp4c_getSsdComponentGeometryY1(ssdComponentHandle *comp);
+SSP4C_DLLAPI double ssp4c_getSsdComponentGeometryX2(ssdComponentHandle *comp);
+SSP4C_DLLAPI double ssp4c_getSsdComponentGeometryY2(ssdComponentHandle *comp);
+SSP4C_DLLAPI double ssp4c_getSsdComponentGeometryRotation(ssdComponentHandle *comp);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentGeometryIconSource(ssdComponentHandle *comp);
+SSP4C_DLLAPI double ssp4c_getSsdComponentGeometryIconRotation(ssdComponentHandle *comp);
+SSP4C_DLLAPI bool ssp4c_getSsdComponentGeometryIconFlip(ssdComponentHandle *comp);
+SSP4C_DLLAPI bool ssp4c_getSsdComponentGeometryIconFixedAspectRatio(ssdComponentHandle *comp);
+
+SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *comp);
+SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_getSsdComponentParameterBindingByIndex(ssdComponentHandle *comp, int i);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingType(ssdParameterBindingHandle *binding);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingSource(ssdParameterBindingHandle *binding);
+SSP4C_DLLAPI ssdParameterBindingsSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding);
+SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandle *binding);
+
+const char* type;
+const char* source;
+ssdParameterBindingsSourceBase sourceBase;
+const char* prefix;
+
 #ifdef __cplusplus
 }
 #endif

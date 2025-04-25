@@ -165,3 +165,118 @@ const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *con)
     return con->unit;
 }
 
+
+int ssp4c_getNumberOfSsdComponents(ssdHandle* ssd)
+{
+    return ssd->componentCount;
+}
+
+ssdComponentHandle* ssp4c_getSsdComponentByIndex(ssdHandle* ssd, int i)
+{
+    return &ssd->components[i];
+}
+
+const char* ssp4c_getSsdComponentName(ssdComponentHandle* comp)
+{
+    return comp->name;
+}
+
+const char* ssp4c_getSsdComponentType(ssdComponentHandle* comp)
+{
+    return comp->type;
+}
+
+const char* ssp4c_getSsdComponentSource(ssdComponentHandle* comp)
+{
+    return comp->source;
+}
+
+ssdComponentImplementation ssp4c_getSsdComponentImplementation(ssdComponentHandle *comp)
+{
+    return comp->implementation;
+}
+
+int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle* comp)
+{
+    return comp->connectorCount;
+}
+
+ssdConnectorHandle *ssp4c_getSsdComponentConnectorByIndex(ssdComponentHandle *comp, int i)
+{
+    return &comp->connectors[i];
+}
+
+double ssp4c_getSsdComponentGeometryX1(ssdComponentHandle *comp)
+{
+    return comp->geometry.x1;
+}
+
+double ssp4c_getSsdComponentGeometryY1(ssdComponentHandle *comp)
+{
+    return comp->geometry.y1;
+}
+
+double ssp4c_getSsdComponentGeometryX2(ssdComponentHandle *comp)
+{
+    return comp->geometry.x2;
+}
+
+double ssp4c_getSsdComponentGeometryY2(ssdComponentHandle *comp)
+{
+    return comp->geometry.y2;
+}
+
+double ssp4c_getSsdComponentGeometryRotation(ssdComponentHandle *comp)
+{
+    return comp->geometry.rotation;
+}
+
+const char* ssp4c_getSsdComponentGeometryIconSource(ssdComponentHandle *comp)
+{
+    return comp->geometry.iconSource;
+}
+
+double ssp4c_getSsdComponentGeometryIconRotation(ssdComponentHandle *comp)
+{
+    return comp->geometry.iconRotation;
+}
+
+bool ssp4c_getSsdComponentGeometryIconFlip(ssdComponentHandle *comp)
+{
+    return comp->geometry.iconFlip;
+}
+
+bool ssp4c_getSsdComponentGeometryIconFixedAspectRatio(ssdComponentHandle *comp)
+{
+    return comp->geometry.iconFixedAspectRatio;
+}
+
+int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *comp)
+{
+    return comp->parameterBindingsCount;
+}
+
+ssdParameterBindingHandle *ssp4c_getSsdComponentParameterBindingByIndex(ssdComponentHandle *comp, int i)
+{
+    return &(comp->parameterBindings[i]);
+}
+
+const char *ssp4c_getSsdComponentParameterBindingType(ssdParameterBindingHandle *binding)
+{
+    return binding->type;
+}
+
+const char *ssp4c_getSsdComponentParameterBindingSource(ssdParameterBindingHandle *binding)
+{
+    return binding->source;
+}
+
+ssdParameterBindingsSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding)
+{
+    return binding->sourceBase;
+}
+
+const char *ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandle *binding)
+{
+    return binding->prefix;
+}

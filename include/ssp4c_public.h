@@ -36,8 +36,19 @@ typedef enum { sspVersionUnknown,
                sspVersion1,
                sspVersion2} sspVersion;
 
+typedef enum { ssdComponentImplementationAny,
+               ssdComponentImplementationCoSimulation,
+               ssdComponentImplementationModelExchange,
+               ssdComponentImplementationScheduledExecution } ssdComponentImplementation;
+
+typedef enum { ssdParameterBindingsSourceBaseSSD,
+               ssdParameterBindingsSourceBaseComponent } ssdParameterBindingsSourceBase;
+
 typedef struct sspHandle sspHandle;
 typedef struct ssdHandle ssdHandle;
 typedef struct ssdConnectorHandle ssdConnectorHandle;
+typedef struct ssdComponentHandle ssdComponentHandle;
+typedef struct ssdElementGeometryHandle ssdElementGeometryHandle;
+typedef struct ssdParameterBindingHandle ssdParameterBindingHandle;
 
 #endif // SSP4C_TYPES_H

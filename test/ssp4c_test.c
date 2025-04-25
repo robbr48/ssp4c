@@ -59,20 +59,61 @@ int main(int argc, char *argv[])
         printf("  generationDateAndTime: %s\n", ssp4c_getSsdGenerationDateAndTime(ssd));
 
         int ssdConnectorCount = ssp4c_getNumberOfSsdConnectors(ssd);
-        printf("Number of SSD connectors: %i\n", ssdConnectorCount);
+        printf("  number of connectors: %i\n", ssdConnectorCount);
+        int ssdComponentCount = ssp4c_getNumberOfSsdComponents(ssd);
+        printf("  number of components: %i\n", ssdComponentCount);
 
         for(int j=0; j<ssdConnectorCount; ++j) {
             ssdConnectorHandle *con = ssp4c_getSsdConnectorByIndex(ssd, j);
-            printf("  -------------------------------------\n");
-            printf("SSD connector name: %s\n", ssp4c_getSsdConnectorName(con));
-            printf("SSD connector kind: %i\n", ssp4c_getSsdConnectorKind(con));
-            printf("SSD connector description: %s\n", ssp4c_getSsdConnectorDescription(con));
-            printf("SSD connector datatype: %i\n", ssp4c_getSsdConnectorDatatype(con));
-            printf("SSD connector unit: %s\n", ssp4c_getSsdConnectorUnit(con));
+            printf("  connector:\n");
+            printf("    name: %s\n", ssp4c_getSsdConnectorName(con));
+            printf("    kind: %i\n", ssp4c_getSsdConnectorKind(con));
+            printf("    description: %s\n", ssp4c_getSsdConnectorDescription(con));
+            printf("    datatype: %i\n", ssp4c_getSsdConnectorDatatype(con));
+            printf("    unit: %s\n", ssp4c_getSsdConnectorUnit(con));
         }
 
+        for(int j=0; j<ssdComponentCount; ++j) {
+            ssdComponentHandle *comp = ssp4c_getSsdComponentByIndex(ssd, j);
+            printf("  component:\n");
+            printf("    name: %s\n", ssp4c_getSsdComponentName(comp));
+            printf("    source: %s\n", ssp4c_getSsdComponentSource(comp));
+            printf("    type: %s\n", ssp4c_getSsdComponentType(comp));
+            printf("    implementation: %i\n", ssp4c_getSsdComponentImplementation(comp));
+            int ssdConnectorCount = ssp4c_getNumberOfSsdComponentConnectors(comp);
+            printf("    number of connectors: %i\n", ssdConnectorCount);
+            int ssdParameterBindingsCount = ssp4c_getNumberOfSsdComponentParameterBindings(comp);
+            printf("    number of parameter bindings: %i\n", ssdParameterBindingsCount);
+
+            for(int j=0; j<ssdConnectorCount; ++j) {
+                ssdConnectorHandle *con = ssp4c_getSsdComponentConnectorByIndex(comp, j);
+                printf("    connector:\n");
+                printf("      name: %s\n", ssp4c_getSsdConnectorName(con));
+                printf("      kind: %i\n", ssp4c_getSsdConnectorKind(con));
+                printf("      description: %s\n", ssp4c_getSsdConnectorDescription(con));
+                printf("      datatype: %i\n", ssp4c_getSsdConnectorDatatype(con));
+                printf("      unit: %s\n", ssp4c_getSsdConnectorUnit(con));
+            }
+
+            printf("    geometry:\n");
+            printf("      x1: %f\n", ssp4c_getSsdComponentGeometryX1(comp));
+            printf("      y1: %f\n", ssp4c_getSsdComponentGeometryY1(comp));
+            printf("      x2: %f\n", ssp4c_getSsdComponentGeometryX2(comp));
+            printf("      y2: %f\n", ssp4c_getSsdComponentGeometryY2(comp));
+            printf("      rotation: %f\n", ssp4c_getSsdComponentGeometryRotation(comp));
+            printf("      iconSource: %s\n", ssp4c_getSsdComponentGeometryIconSource(comp));
+            printf("      iconRotation: %f\n", ssp4c_getSsdComponentGeometryIconRotation(comp));
+            printf("      iconFlip: %i\n", ssp4c_getSsdComponentGeometryIconFlip(comp));
+            printf("      iconFixedAspectRatio: %i\n", ssp4c_getSsdComponentGeometryIconFixedAspectRatio(comp));
+
+            for(int j=0; j<ssdParameterBindingsCount; ++j) {
+                ssdParameterBindingHandle *binding = ssp4c_getSsdComponentParameterBindingByIndex(comp, j);
+                printf("    parameter binding:\n");
+                printf("      type: %s\n", ssp4c_getSsdComponentParameterBindingType(binding));
+            }
+        }
     }
-    printf("---------------------------------------\n");
+
 
     ssp4c_freeSsp(ssp);
 
