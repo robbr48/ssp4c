@@ -96,8 +96,7 @@ if (SSP4C_BUILD_TEST)
     enable_testing()
     add_subdirectory(test)
     if (WIN32 AND SSP4C_BUILD_SHARED)
-        # On Windows there is no RPATH, so ssp4c.dll must be copied to the test directory if test should be runnable from any directory
-        add_custom_command(TARGET ssp4c POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ssp4c> "${CMAKE_CURRENT_BINARY_DIR}/test")
+        #add_custom_command(TARGET ssp4c POST_BUILD
+        #    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ssp4c> "${CMAKE_CURRENT_BINARY_DIR}/test")
     endif()
 endif()
