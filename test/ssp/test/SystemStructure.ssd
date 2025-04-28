@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ssd:SystemStructureDescription xmlns:ssc="http://ssp-standard.org/SSP1/SystemStructureCommon" xmlns:ssd="http://ssp-standard.org/SSP1/SystemStructureDescription" xmlns:ssv="http://ssp-standard.org/SSP1/SystemStructureParameterValues" xmlns:ssm="http://ssp-standard.org/SSP1/SystemStructureParameterMapping" xmlns:ssb="http://ssp-standard.org/SSP1/SystemStructureSignalDictionary" xmlns:oms="https://raw.githubusercontent.com/OpenModelica/OMSimulator/master/schema/oms.xsd" name="ssdName1" version="1.0" description="SSD description 1" generationTool="Manual" generationDateAndTime="2025-04-24T13:37:37">
+   <ssd:System name="systemName1" description="System description 1">
+      <ssd:Connectors>
+         <ssd:Connector name="F" kind="input" description="force">
+            <ssc:Real unit="N"/>
+         </ssd:Connector>
+         <ssd:Connector name="v" kind="output" description="speed">
+            <ssc:Float64 unit="m/s"/>
+         </ssd:Connector>
+      </ssd:Connectors>
+      <ssd:Elements>
+         <ssd:Component name="resistor" type="application/x-fmu-sharedlibrary" source="resources/test1.fmu">
+            <ssd:Connectors>
+               <ssd:Connector name="I" kind="input" description="current">
+                  <ssc:Real unit="A"/>
+               </ssd:Connector>
+               <ssd:Connector name="U" kind="output" description="voltage">
+                  <ssc:Real unit="V"/>
+               </ssd:Connector>
+            </ssd:Connectors>
+            <ssd:ParameterBindings>
+               <ssd:ParameterBinding type="application/x-ssp-parameter-set">
+                  <ssd:ParameterValues>
+                     <ssd:ParameterSet version="1.0" name="parameters"> 
+                        <ssv:Parameters>
+                           <ssv:Parameter name="timestep" description="Hopsan time step">
+                              <ssv:Real value="0.001" unit="s"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="th_min" description="Min angle">
+                              <ssv:Real value="-15" unit="deg"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="th_max" description="Max angle">
+                              <ssv:Real value="15" unit="deg"/>
+                           </ssv:Parameter>
+                        </ssv:Parameters>
+                        <ssv:Units>
+                           <ssc:Unit name="s">
+                              <ssc:BaseUnit s="1" factor="1" offset="0.0"/>
+                           </ssc:Unit>
+                           <ssc:Unit name="deg">
+                              <ssc:BaseUnit rad="1" factor="0.017453292519943" offset="0.0"/>
+                           </ssc:Unit>
+                        </ssv:Units>
+                     </ssd:ParameterSet>
+                  </ssd:ParameterValues>
+               </ssd:ParameterBinding>
+            </ssd:ParameterBindings>
+         </ssd:Component>
+     </ssd:Elements>
+</ssd:SystemStructureDescription>
