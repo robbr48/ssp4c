@@ -50,5 +50,7 @@ typedef struct ssdConnectorHandle ssdConnectorHandle;
 typedef struct ssdComponentHandle ssdComponentHandle;
 typedef struct ssdElementGeometryHandle ssdElementGeometryHandle;
 typedef struct ssdParameterBindingHandle ssdParameterBindingHandle;
+typedef struct ssvParameterHandle ssvParameterHandle;
+typedef struct ssdParameterSetHandle ssdParameterSetHandle;
 
 #endif // SSP4C_TYPES_H

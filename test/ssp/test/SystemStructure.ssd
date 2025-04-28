@@ -24,14 +24,53 @@
                   <ssd:ParameterValues>
                      <ssd:ParameterSet version="1.0" name="parameters"> 
                         <ssv:Parameters>
-                           <ssv:Parameter name="timestep" description="Hopsan time step">
+                           <ssv:Parameter name="timestep" description="double test parameter">
                               <ssv:Real value="0.001" unit="s"/>
                            </ssv:Parameter>
-                           <ssv:Parameter name="th_min" description="Min angle">
-                              <ssv:Real value="-15" unit="deg"/>
+                           <ssv:Parameter name="a" description="float64 test parameter">
+                              <ssv:Float64 value="3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938" unit="kg"/>
                            </ssv:Parameter>
-                           <ssv:Parameter name="th_max" description="Max angle">
-                              <ssv:Real value="15" unit="deg"/>
+                           <ssv:Parameter name="b" description="float32 test parameter">
+                              <ssv:Float32 value="3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938" unit="m"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="c" description="integer test parameter">
+                              <ssv:Integer value="42"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="d" description="int64 test parameter">
+                              <ssv:Int64 value="-42"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="e" description="int32 test parameter">
+                              <ssv:Int32 value="41"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="f" description="int8 test parameter">
+                              <ssv:Int16 value="-41"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="g" description="int8 test parameter">
+                              <ssv:Int8 value="40"/>
+                           </ssv:Parameter>
+                          <ssv:Parameter name="h" description="uint64 test parameter">
+                              <ssv:UInt64 value="39"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="i" description="uint32 test parameter">
+                              <ssv:UInt32 value="38"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="j" description="uint8 test parameter">
+                              <ssv:UInt16 value="37"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="k" description="uint8 test parameter">
+                              <ssv:UInt8 value="36"/>
+                           </ssv:Parameter>
+                    	   <ssv:Parameter name="l" description="boolean test parameter">
+                              <ssv:Boolean value="true"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="m" description="string test parameter">
+                              <ssv:String value="kitten"/>
+                           </ssv:Parameter>
+                           <ssv:Parameter name="n" description="enumeration test parameter">
+                              <ssv:Enumeration value="x">
+                                  <ssv:Value value="y"/>
+                                  <ssv:Value value="z"/>
+                              </ssv:UInt8>
                            </ssv:Parameter>
                         </ssv:Parameters>
                         <ssv:Units>

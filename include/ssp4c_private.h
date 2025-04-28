@@ -62,10 +62,45 @@ struct ssdElementGeometryHandle {
 };
 typedef struct ssdElementGeometryHandle ssdElementGeometryHandle;
 
-struct ssvParameterSetHandle {
+struct ssvParameterHandle {
+    const char* name;
+    const char* description;
+    const char* id;
+
+    sspDataType datatype;
+    const char* unit;
+
+    double realValue;
+    double float64Value;
+    float float32Value;
+    int intValue;
+    int64_t int64Value;
+    int32_t int32Value;
+    int16_t int16Value;
+    int8_t int8Value;
+    uint64_t uint64Value;
+    uint32_t uint32Value;
+    uint16_t uint16Value;
+    uint8_t uint8Value;
+    bool booleanValue;
+    const char* stringValue;
+    const char* enumValue;
+    int enumValuesCount;
+    const char** enumValues;
 
 };
-typedef struct ssvParameterSetHandle ssvParameterSetHandle;
+typedef struct ssvParameterHandle ssvParameterHandle;
+
+struct ssdParameterSetHandle {
+    const char* version;
+    const char* name;
+    const char* id;
+    const char* description;
+
+    int parameterCount;
+    ssvParameterHandle *parameters;
+};
+typedef struct ssdParameterSetHandle ssdParameterSetHandle;
 
 struct ssmMappingTransformHandle {
     ssmMappingTransform type;
@@ -120,8 +155,7 @@ struct ssdParameterBindingHandle {
     ssdParameterBindingsSourceBase sourceBase;
     const char* prefix;
 
-    int parameterSetsCount;
-    ssvParameterSetHandle *parameterSets;   //! @todo parse and access functions
+    ssdParameterSetHandle *parameterSet;
 
     int parameterMappingsCount;
     ssdComponentParameterMappingHandle *parameterMappings;  //! @todo parse and access functions

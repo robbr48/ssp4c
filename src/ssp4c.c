@@ -280,3 +280,148 @@ const char *ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandl
 {
     return binding->prefix;
 }
+
+ssdParameterSetHandle *ssp4c_getParameterSet(ssdParameterBindingHandle *binding)
+{
+    return binding->parameterSet;
+}
+
+const char *ssp4c_getParameterSetVersion(ssdParameterSetHandle *set)
+{
+    return set->version;
+}
+
+const char *ssp4c_getParameterSetName(ssdParameterSetHandle *set)
+{
+    return set->name;
+}
+
+const char *ssp4c_getParameterSetId(ssdParameterSetHandle *set)
+{
+    return set->id;
+}
+
+const char *ssp4c_getParameterSetDescription(ssdParameterSetHandle *set)
+{
+    return set->description;
+}
+
+int ssp4c_getNumberOfParameterSetParameters(ssdParameterSetHandle *set)
+{
+    return set->parameterCount;
+}
+
+ssvParameterHandle *ssp4c_getParameterSetParameterByIndex(ssdParameterSetHandle *set, int i)
+{
+    return &(set->parameters[i]);
+}
+
+const char *ssp4c_getParameterName(ssvParameterHandle *parameter)
+{
+    return parameter->name;
+}
+
+const char *ssp4c_getParameterDescription(ssvParameterHandle *parameter)
+{
+    return parameter->description;
+}
+
+const char *ssp4c_getParameterId(ssvParameterHandle *parameter)
+{
+    return parameter->id;
+}
+
+sspDataType ssp4c_getParameterDatatype(ssvParameterHandle *parameter)
+{
+    return parameter->datatype;
+}
+
+const char *ssp4c_getParameterUnit(ssvParameterHandle *parameter)
+{
+    return parameter->unit;
+}
+
+double ssp4c_getParameterRealValue(ssvParameterHandle *parameter)
+{
+    return parameter->realValue;
+}
+
+double ssp4c_getParameterFloat64Value(ssvParameterHandle *parameter)
+{
+    return parameter->float64Value;
+}
+
+float ssp4c_getParameterFloat32Value(ssvParameterHandle *parameter)
+{
+    return parameter->float32Value;
+}
+
+int ssp4c_getParameterIntValue(ssvParameterHandle *parameter)
+{
+    return parameter->intValue;
+}
+
+int64_t ssp4c_getParameterInt64Value(ssvParameterHandle *parameter)
+{
+    return parameter->int64Value;
+}
+
+int32_t ssp4c_getParameterInt32Value(ssvParameterHandle *parameter)
+{
+    return parameter->int32Value;
+}
+
+int16_t ssp4c_getParameterInt16Value(ssvParameterHandle *parameter)
+{
+    return parameter->int16Value;
+}
+
+int8_t ssp4c_getParameterInt8Value(ssvParameterHandle *parameter)
+{
+    return parameter->int8Value;
+}
+
+uint64_t ssp4c_getParameterUInt64Value(ssvParameterHandle *parameter)
+{
+    return parameter->uint64Value;
+}
+
+uint32_t ssp4c_getParameterUInt32Value(ssvParameterHandle *parameter)
+{
+    return parameter->uint32Value;
+}
+
+uint16_t ssp4c_getParameterUInt16Value(ssvParameterHandle *parameter)
+{
+    return parameter->uint16Value;
+}
+
+uint8_t ssp4c_getParameterUInt8Value(ssvParameterHandle *parameter)
+{
+    return parameter->uint8Value;
+}
+
+bool ssp4c_getParameterBooleanValue(ssvParameterHandle *parameter)
+{
+    return parameter->booleanValue;
+}
+
+const char *ssp4c_getParameterStringValue(ssvParameterHandle *parameter)
+{
+    return parameter->stringValue;
+}
+
+const char *ssp4c_getParameterEnumValue(ssvParameterHandle *parameter)
+{
+    return parameter->enumValue;
+}
+
+int ssp4c_getNumberOfEnumerableParameterValues(ssvParameterHandle *parameter)
+{
+    return parameter->enumValuesCount;
+}
+
+const char *ssp4c_getEnumerableParameterValueByIndex(ssvParameterHandle *parameter, int i)
+{
+    return (parameter->enumValues)[i];
+}

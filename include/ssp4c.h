@@ -81,10 +81,37 @@ SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingSource(ssdParamete
 SSP4C_DLLAPI ssdParameterBindingsSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding);
 SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandle *binding);
 
-const char* type;
-const char* source;
-ssdParameterBindingsSourceBase sourceBase;
-const char* prefix;
+SSP4C_DLLAPI ssdParameterSetHandle *ssp4c_getParameterSet(ssdParameterBindingHandle *binding);
+
+SSP4C_DLLAPI const char* ssp4c_getParameterSetVersion(ssdParameterSetHandle *set);
+SSP4C_DLLAPI const char* ssp4c_getParameterSetName(ssdParameterSetHandle *set);
+SSP4C_DLLAPI const char* ssp4c_getParameterSetId(ssdParameterSetHandle *set);
+SSP4C_DLLAPI const char* ssp4c_getParameterSetDescription(ssdParameterSetHandle *set);
+SSP4C_DLLAPI int ssp4c_getNumberOfParameterSetParameters(ssdParameterSetHandle *set);
+SSP4C_DLLAPI ssvParameterHandle *ssp4c_getParameterSetParameterByIndex(ssdParameterSetHandle *set, int i);
+
+SSP4C_DLLAPI const char* ssp4c_getParameterName(ssvParameterHandle *parameter);
+SSP4C_DLLAPI const char* ssp4c_getParameterDescription(ssvParameterHandle *parameter);
+SSP4C_DLLAPI const char* ssp4c_getParameterId(ssvParameterHandle *parameter);
+SSP4C_DLLAPI sspDataType ssp4c_getParameterDatatype(ssvParameterHandle *parameter);
+SSP4C_DLLAPI const char* ssp4c_getParameterUnit(ssvParameterHandle *parameter);
+SSP4C_DLLAPI double ssp4c_getParameterRealValue(ssvParameterHandle *parameter);
+SSP4C_DLLAPI double ssp4c_getParameterFloat64Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI float ssp4c_getParameterFloat32Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI int ssp4c_getParameterIntValue(ssvParameterHandle *parameter);
+SSP4C_DLLAPI int64_t ssp4c_getParameterInt64Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI int32_t ssp4c_getParameterInt32Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI int16_t ssp4c_getParameterInt16Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI int8_t ssp4c_getParameterInt8Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI uint64_t ssp4c_getParameterUInt64Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI uint32_t ssp4c_getParameterUInt32Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI uint16_t ssp4c_getParameterUInt16Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI uint8_t ssp4c_getParameterUInt8Value(ssvParameterHandle *parameter);
+SSP4C_DLLAPI bool ssp4c_getParameterBooleanValue(ssvParameterHandle *parameter);
+SSP4C_DLLAPI const char* ssp4c_getParameterStringValue(ssvParameterHandle *parameter);
+SSP4C_DLLAPI const char* ssp4c_getParameterEnumValue(ssvParameterHandle *parameter);
+SSP4C_DLLAPI int ssp4c_getNumberOfEnumerableParameterValues(ssvParameterHandle *parameter);
+SSP4C_DLLAPI const char *ssp4c_getEnumerableParameterValueByIndex(ssvParameterHandle *parameter, int i);
 
 #ifdef __cplusplus
 }

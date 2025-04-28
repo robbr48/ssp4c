@@ -110,10 +110,96 @@ int main(int argc, char *argv[])
                 ssdParameterBindingHandle *binding = ssp4c_getSsdComponentParameterBindingByIndex(comp, j);
                 printf("    parameter binding:\n");
                 printf("      type: %s\n", ssp4c_getSsdComponentParameterBindingType(binding));
+                printf("      prefix: %s\n", ssp4c_getSsdComponentParameterBindingPrefix(binding));
+                printf("      source: %s\n", ssp4c_getSsdComponentParameterBindingSource(binding));
+                printf("      sourceBase: %s\n", ssp4c_getSsdComponentParameterBindingSourceBase(binding));
+
+                ssdParameterSetHandle *set = ssp4c_getParameterSet(binding);
+                if(set) {
+                    printf("      parameter set:\n");
+                    printf("        version: %s\n", ssp4c_getParameterSetVersion(set));
+                    printf("        name: %s\n", ssp4c_getParameterSetName(set));
+                    printf("        id %s\n", ssp4c_getParameterSetId(set));
+                    printf("        description: %s\n", ssp4c_getParameterSetDescription(set));
+                    int parameterSetParameterCount = ssp4c_getNumberOfParameterSetParameters(set);
+                    printf("        number of parameters: %i\n", parameterSetParameterCount);
+                    for(int k=0; k<parameterSetParameterCount; ++k) {
+                        ssvParameterHandle *par = ssp4c_getParameterSetParameterByIndex(set, k);
+                        printf("        parameter:\n");
+                        printf("          name: %s\n", ssp4c_getParameterName(par));
+                        printf("          description: %s\n", ssp4c_getParameterDescription(par));
+                        printf("          id: %s\n", ssp4c_getParameterId(par));
+                        if(ssp4c_getParameterDatatype(par) == sspDataTypeReal) {
+                            printf("          data type: ssv:Real\n");
+                            printf("          value: %f\n", ssp4c_getParameterRealValue(par));
+                            printf("          unit: %s\n", ssp4c_getParameterUnit(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeFloat64) {
+                            printf("          data type: ssv:Float64\n");
+                            printf("          value: %f\n", ssp4c_getParameterFloat64Value(par));
+                            printf("          unit: %s\n", ssp4c_getParameterUnit(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeFloat32) {
+                            printf("          data type: ssv:Float32\n");
+                            printf("          value: %f\n", ssp4c_getParameterFloat32Value(par));
+                            printf("          unit: %s\n", ssp4c_getParameterUnit(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeInteger) {
+                            printf("          data type: ssv:Integer\n");
+                            printf("          value: %d\n", ssp4c_getParameterIntValue(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeInt64) {
+                            printf("          data type: ssv:Int64\n");
+                            printf("          value: %d\n", ssp4c_getParameterInt64Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeInt32) {
+                            printf("          data type: ssv:Int32\n");
+                            printf("          value: %d\n", ssp4c_getParameterInt32Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeInt16) {
+                            printf("          data type: ssv:Int16\n");
+                            printf("          value: %d\n", ssp4c_getParameterInt16Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeInt8) {
+                            printf("          data type: ssv:Int8\n");
+                            printf("          value: %d\n", ssp4c_getParameterInt8Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeUInt64) {
+                            printf("          data type: ssv:UInt64\n");
+                            printf("          value: %d\n", ssp4c_getParameterUInt64Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeUInt32) {
+                            printf("          data type: ssv:UInt32\n");
+                            printf("          value: %d\n", ssp4c_getParameterUInt32Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeUInt16) {
+                            printf("          data type: ssv:UInt16\n");
+                            printf("          value: %d\n", ssp4c_getParameterUInt16Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeUInt8) {
+                            printf("          data type: ssv:UInt8\n");
+                            printf("          value: %d\n", ssp4c_getParameterUInt8Value(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeBoolean) {
+                            printf("          data type: ssv:Boolean\n");
+                            printf("          value: %i\n", ssp4c_getParameterBooleanValue(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeString) {
+                            printf("          data type: ssv:String\n");
+                            printf("          value: %s\n", ssp4c_getParameterStringValue(par));
+                        }
+                        else if(ssp4c_getParameterDatatype(par) == sspDataTypeEnumeration) {
+                            printf("          data type: ssv:Enumeration\n");
+                            printf("          value: %s\n", ssp4c_getParameterEnumValue(par));
+                            for(int l=0; l<ssp4c_getNumberOfEnumerableParameterValues(par); ++l) {
+                                printf("          alternative value: %s\n", ssp4c_getEnumerableParameterValueByIndex(par, l));
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-
 
     ssp4c_freeSsp(ssp);
 
