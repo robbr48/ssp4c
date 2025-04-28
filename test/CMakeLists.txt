@@ -17,4 +17,4 @@ add_test(NAME ssp4c COMMAND $<TARGET_FILE_NAME:ssp4ctest> test.ssp)
 
 add_custom_command(TARGET ssp4ctest POST_BUILD
   WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-  COMMAND ${CMAKE_COMMAND} -E tar "cvf" "${CMAKE_CURRENT_BINARY_DIR}/test.ssp" --format=zip .))
+  COMMAND ${CMAKE_COMMAND} -E tar "cvf" "${CMAKE_CURRENT_BINARY_DIR}/test.ssp" --format=zip .)
