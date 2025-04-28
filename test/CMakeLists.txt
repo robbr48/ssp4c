@@ -13,6 +13,8 @@ target_include_directories(ssp4ctest PRIVATE .)
 target_link_libraries(ssp4ctest ssp4c Threads::Threads ${libmath})
 install(TARGETS ssp4ctest RUNTIME DESTINATION bin)
 
+add_test(NAME ssp4c COMMAND $<TARGET_FILE_NAME:ssp4ctest> test.ssp)
+
 execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/ssp/test
                 COMMAND tar "cvf" "test.ssp" --format=zip *.ssd)
 
