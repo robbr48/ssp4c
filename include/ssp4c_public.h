@@ -1,5 +1,5 @@
-#ifndef SSP4C_TYPES_H
-#define SSP4C_TYPES_H
+#ifndef SSP4C_PUBLIH_H
+#define SSP4C_PUBLIH_H
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -55,4 +55,4 @@ typedef struct ssdParameterSetHandle ssdParameterSetHandle;
 typedef struct ssmParameterMappingHandle ssmParameterMappingHandle;
 typedef struct ssdComponentParameterMappingHandle ssdComponentParameterMappingHandle;
 
-#endif // SSP4C_TYPES_H
+#endif // SSP4C_PUBLIH_H
