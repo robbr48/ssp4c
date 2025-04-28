@@ -1,48 +1,10 @@
-#ifndef SSP4C_TYPES_H
-#define SSP4C_TYPES_H
+#ifndef SSP4C_PRIVATE_H
+#define SSP4C_PRIVATE_H
 
 #include <stdbool.h>
 #include <stdint.h>
 
-// Types
-typedef enum { sspVersionUnknown,
-               sspVersion1,
-               sspVersion2} sspVersion;
-
-typedef enum { sspDataTypeReal,
-               sspDataTypeFloat64,
-               sspDataTypeFloat32,
-               sspDataTypeInteger,
-               sspDataTypeInt8,
-               sspDataTypeUInt8,
-               sspDataTypeInt16,
-               sspDataTypeUInt16,
-               sspDataTypeInt32,
-               sspDataTypeUInt32,
-               sspDataTypeInt64,
-               sspDataTypeUInt64,
-               sspDataTypeBoolean,
-               sspDataTypeString,
-               sspDataTypeEnumeration,
-               sspDataTypeBinary } sspDataType;
-
-typedef enum { ssdConnectorKindInput,
-               ssdConnectorKindOutput,
-               ssdConnectorKindParameter,
-               ssdConnectorKindCalculatedParameter,
-               ssdConnectorKindStructuralParameter,
-               ssdConnectorKindConstant,
-               ssdConnectorKindLocal,
-               ssdConnectorKindInout,
-               ssdConnectorKindUnspecifed } ssdConnectorKind;
-
-typedef enum { ssdComponentImplementationAny,
-               ssdComponentImplementationCoSimulation,
-               ssdComponentImplementationModelExchange,
-               ssdComponentImplementationScheduledExecution } ssdComponentImplementation;
-
-typedef enum { ssdParameterBindingsSourceBaseSSD,
-               ssdParameterBindingsSourceBaseComponent } ssdParameterBindingsSourceBase;
+#include "ssp4c_public.h"
 
 typedef enum { ssmMappingTransformLinear,
                ssmMappingTransformBoolean,
@@ -60,7 +22,6 @@ struct ssdElementGeometryHandle {
     bool iconFlip;
     bool iconFixedAspectRatio;
 };
-typedef struct ssdElementGeometryHandle ssdElementGeometryHandle;
 
 struct ssvParameterHandle {
     const char* name;
@@ -89,7 +50,6 @@ struct ssvParameterHandle {
     const char** enumValues;
 
 };
-typedef struct ssvParameterHandle ssvParameterHandle;
 
 struct ssdParameterSetHandle {
     const char* version;
@@ -100,7 +60,6 @@ struct ssdParameterSetHandle {
     int parameterCount;
     ssvParameterHandle *parameters;
 };
-typedef struct ssdParameterSetHandle ssdParameterSetHandle;
 
 struct ssmMappingTransformHandle {
     ssmMappingTransform type;
@@ -123,7 +82,6 @@ struct ssmParameterMappingEntryHandle {
 
 
 };
-typedef struct ssmParameterMappingEntryHandle ssmParameterMappingEntryHandle;
 
 struct ssmParameterMappingHandle {
     const char* version;
@@ -138,7 +96,6 @@ struct ssmParameterMappingHandle {
 
 
 };
-typedef struct ssmParameterMappingHandle ssmParameterMappingHandle;
 
 struct ssdComponentParameterMappingHandle {
     const char* type;
@@ -147,7 +104,6 @@ struct ssdComponentParameterMappingHandle {
 
     ssmParameterMappingHandle parameterMapping;
 };
-typedef struct ssdComponentParameterMappingHandle ssdComponentParameterMappingHandle;
 
 struct ssdParameterBindingHandle {
     const char* type;
@@ -160,7 +116,6 @@ struct ssdParameterBindingHandle {
     int parameterMappingsCount;
     ssdComponentParameterMappingHandle *parameterMappings;  //! @todo parse and access functions
 };
-typedef struct ssdParameterBindingHandle ssdParameterBindingHandle;
 
 struct ssdConnectorHandle {
     const char* name;
@@ -169,7 +124,6 @@ struct ssdConnectorHandle {
     sspDataType datatype;
     const char* unit;
 };
-typedef struct ssdConnectorHandle ssdConnectorHandle;
 
 struct ssdComponentHandle {
     const char* name;
@@ -185,7 +139,6 @@ struct ssdComponentHandle {
     int parameterBindingsCount;
     ssdParameterBindingHandle* parameterBindings;
 };
-typedef struct ssdComponentHandle ssdComponentHandle;
 
 struct ssdHandle {
     const char* filename;
@@ -206,7 +159,6 @@ struct ssdHandle {
     int componentCount;
     ssdComponentHandle* components;
 };
-typedef struct ssdHandle ssdHandle;
 
 struct sspHandle {
     sspVersion version;
@@ -220,8 +172,5 @@ struct sspHandle {
     void** allocatedPointers;
     int numAllocatedPointers;
 };
-typedef struct sspHandle sspHandle;
 
-
-
-#endif // SSP4C_TYPES_H
+#endif // SSP4C_PUBLIC_H
