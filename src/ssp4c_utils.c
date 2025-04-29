@@ -63,7 +63,7 @@ char **listFiles(sspHandle *ssp, const char *path, int *nfiles) {
         }
 
         struct dirent *entry;
-        while (entry = readdir(dir) != NULL) {
+        while ((entry = readdir(dir)) != NULL) {
             if(entry->d_type == DT_REG || entry->d_type == DT_UNKNOWN) {
                 fileList = reallocAndRememberPointer(ssp, fileList, sizeof(char *) * (count + 1));
                 fileList[count] = duplicateAndRememberString(ssp, entry->d_name);
