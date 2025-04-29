@@ -869,6 +869,7 @@ bool parseParameterBindingsElement(ezxml_t element, int *count, ssdParameterBind
                 else if(!strcmp(sourceBase, "component")) {
                     (*parameterBindings)[i].sourceBase = ssdParameterBindingsSourceBaseComponent;
                 }
+                freeDuplicatedConstChar(sourceBase);
             }
 
             ezxml_t parameterValuesElement = ezxml_child(parameterBindingsElement, "ssd:ParameterValues");
@@ -915,6 +916,7 @@ bool parseComponentsElement(ezxml_t element, int *count, ssdComponentHandle** co
                 else if(!strcmp(implementation, "ScheduledExecution")) {
                     (*components)[i].implementation = ssdComponentImplementationScheduledExecution;
                 }
+                freeDuplicatedConstChar(implementation);
             }
 
             //Parse connectors
