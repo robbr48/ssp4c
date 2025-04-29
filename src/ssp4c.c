@@ -60,8 +60,12 @@ void ssp4c_freeSsp(sspHandle *ssp)
         removeDirectoryRecursively(ssp->unzippedLocation, "ssp4c_");
     }
 
-    freeDuplicatedConstChar(ssp->resourcesLocation);
-    freeDuplicatedConstChar(ssp->unzippedLocation);
+    //Free all allocated memory
+    for(int i=0; i<ssp->numAllocatedPointers; ++i) {
+        free(ssp->allocatedPointers[i]);
+    }
+
+    free(ssp->allocatedPointers);
     free(ssp);
 }
 
