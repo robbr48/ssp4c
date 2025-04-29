@@ -989,16 +989,16 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
     ssd->connectorCount = 0;
     ssd->componentCount = 0;
 
-    parseStringAttributeEzXml(rootElement, "name", &ssd->name);
-    parseStringAttributeEzXml(rootElement, "version", &ssd->version);
-    parseStringAttributeEzXml(rootElement, "id", &ssd->id);
-    parseStringAttributeEzXml(rootElement, "description", &ssd->description);
-    parseStringAttributeEzXml(rootElement, "author", &ssd->author);
-    parseStringAttributeEzXml(rootElement, "fileversion", &ssd->fileversion);
-    parseStringAttributeEzXml(rootElement, "copyright", &ssd->copyright);
-    parseStringAttributeEzXml(rootElement, "license", &ssd->license);
-    parseStringAttributeEzXml(rootElement, "generationTool", &ssd->generationTool);
-    parseStringAttributeEzXml(rootElement, "generationDateAndTime", &ssd->generationDateAndTime);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "name", &ssd->name, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "version", &ssd->version, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "id", &ssd->id, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "description", &ssd->description, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "author", &ssd->author, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "fileversion", &ssd->fileversion, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "copyright", &ssd->copyright, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "license", &ssd->license, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "generationTool", &ssd->generationTool, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(rootElement, "generationDateAndTime", &ssd->generationDateAndTime, ssp);
 
     ezxml_t systemElement = ezxml_child(rootElement, "ssd:System");
     if(systemElement) {
