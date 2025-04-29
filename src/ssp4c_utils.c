@@ -836,6 +836,31 @@ bool parseParameterSetElement(ezxml_t element, ssdParameterSetHandle* parameterS
     return true;
 }
 
+bool parseParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* parameterMappingHandle, sspHandle *ssp)
+{
+    parameterMappingHandle->id = NULL;
+    parameterMappingHandle->id = NULL;
+    parameterMappingHandle->id = NULL;
+    parameterMappingHandle->id = NULL;
+    parameterMappingHandle->sourceBase = ssdParameterSourceBaseSSD;
+    parseStringAttributeEzXmlAndRememberPointer(element, "id", &(parameterMappingHandle->id), ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "description", &(parameterMappingHandle->description), ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "type", &(parameterMappingHandle->type), ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "source", &(parameterMappingHandle->source), ssp);
+
+    parameterMappingHandle->sourceBase = ssdParameterSourceBaseSSD;
+    const char* sourceBase = NULL;
+    if(parseStringAttributeEzXml(element, "sourceBase", &sourceBase)) {
+        if(!strcmp(sourceBase, "SSD")) {
+            parameterMappingHandle->sourceBase = ssdParameterSourceBaseSSD;
+        }
+        else if(!strcmp(sourceBase, "component")) {
+            parameterMappingHandle->sourceBase = ssdParameterSourceBaseComponent;
+        }
+        freeDuplicatedConstChar(sourceBase);
+    }
+}
+
 bool parseParameterBindingsElement(ezxml_t element, int *count, ssdParameterBindingHandle** parameterBindings, sspHandle *ssp)
 {
     (*count) = 0;
@@ -860,23 +885,33 @@ bool parseParameterBindingsElement(ezxml_t element, int *count, ssdParameterBind
             parseStringAttributeEzXmlAndRememberPointer(parameterBindingsElement, "source", &(*parameterBindings)[i].source, ssp);
             parseStringAttributeEzXmlAndRememberPointer(parameterBindingsElement, "prefix", &(*parameterBindings)[i].prefix, ssp);
 
-            (*parameterBindings)[i].sourceBase = ssdParameterBindingsSourceBaseSSD;
+            (*parameterBindings)[i].sourceBase = ssdParameterSourceBaseSSD;
             const char* sourceBase = NULL;
             if(parseStringAttributeEzXml(parameterBindingsElement, "sourceBase", &sourceBase)) {
                 if(!strcmp(sourceBase, "SSD")) {
-                    (*parameterBindings)[i].sourceBase = ssdParameterBindingsSourceBaseSSD;
+                    (*parameterBindings)[i].sourceBase = ssdParameterSourceBaseSSD;
                 }
                 else if(!strcmp(sourceBase, "component")) {
-                    (*parameterBindings)[i].sourceBase = ssdParameterBindingsSourceBaseComponent;
+                    (*parameterBindings)[i].sourceBase = ssdParameterSourceBaseComponent;
                 }
                 freeDuplicatedConstChar(sourceBase);
             }
 
+            //Parse parameter sets
+            (*parameterBindings)[i].parameterSet = NULL;
             ezxml_t parameterValuesElement = ezxml_child(parameterBindingsElement, "ssd:ParameterValues");
             if(parameterValuesElement) {
                 ezxml_t parameterSetElement = ezxml_child(parameterValuesElement, "ssd:ParameterSet");
                 (*parameterBindings)[i].parameterSet = mallocAndRememberPointer(ssp, sizeof(ssdParameterSetHandle));
                 parseParameterSetElement(parameterSetElement, (*parameterBindings)[i].parameterSet, ssp);
+            }
+
+            //Parse parameter mappings
+            (*parameterBindings)[i].parameterMapping = NULL;
+            ezxml_t parameterMappingElement = ezxml_child(parameterBindingsElement, "ssd:ParameterMapping");
+            if(parameterMappingElement) {
+                (*parameterBindings)[i].parameterMapping = mallocAndRememberPointer(ssp, sizeof(ssdParameterMappingHandle));
+                parseParameterMappingElement(parameterMappingElement, (*parameterBindings)[i].parameterMapping, ssp);
             }
         }
     }

@@ -275,7 +275,7 @@ const char *ssp4c_getSsdComponentParameterBindingSource(ssdParameterBindingHandl
     return binding->source;
 }
 
-ssdParameterBindingsSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding)
+ssdParameterSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding)
 {
     return binding->sourceBase;
 }
@@ -288,6 +288,11 @@ const char *ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandl
 ssdParameterSetHandle *ssp4c_getParameterSet(ssdParameterBindingHandle *binding)
 {
     return binding->parameterSet;
+}
+
+ssdParameterMappingHandle *ssp4c_getParameterMapping(ssdParameterBindingHandle *binding)
+{
+    return binding->parameterMapping;
 }
 
 const char *ssp4c_getParameterSetVersion(ssdParameterSetHandle *set)
@@ -428,4 +433,29 @@ int ssp4c_getNumberOfEnumerableParameterValues(ssvParameterHandle *parameter)
 const char *ssp4c_getEnumerableParameterValueByIndex(ssvParameterHandle *parameter, int i)
 {
     return (parameter->enumValues)[i];
+}
+
+const char *ssp4c_getParameterMappingDescription(ssdParameterMappingHandle *mapping)
+{
+    return mapping->description;
+}
+
+const char *ssp4c_getParameterMappingId(ssdParameterMappingHandle *mapping)
+{
+    return mapping->id;
+}
+
+const char *ssp4c_getParameterMappingType(ssdParameterMappingHandle *mapping)
+{
+    return mapping->type;
+}
+
+const char *ssp4c_getParameterMappingSource(ssdParameterMappingHandle *mapping)
+{
+    return mapping->source;
+}
+
+ssdParameterSourceBase ssp4c_getParameterMappingSourceBase(ssdParameterMappingHandle *mapping)
+{
+    return mapping->sourceBase;
 }
