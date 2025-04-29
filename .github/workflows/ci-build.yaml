@@ -57,7 +57,7 @@ jobs:
       - name: Test
         working-directory: ssp4c-build/test
         shell: cmd
-        run: ctest --output-on-failure
+        run: ctest -C Release --output-on-failure
         
   cmake-ubuntu:
     timeout-minutes: 5
