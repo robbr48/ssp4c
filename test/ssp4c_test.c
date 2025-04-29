@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
                 printf("      type: %s\n", ssp4c_getSsdComponentParameterBindingType(binding));
                 printf("      prefix: %s\n", ssp4c_getSsdComponentParameterBindingPrefix(binding));
                 printf("      source: %s\n", ssp4c_getSsdComponentParameterBindingSource(binding));
-                printf("      sourceBase: %s\n", ssp4c_getSsdComponentParameterBindingSourceBase(binding));
+                printf("      sourceBase: %d\n", ssp4c_getSsdComponentParameterBindingSourceBase(binding));
 
                 ssdParameterSetHandle *set = ssp4c_getParameterSet(binding);
                 if(set) {
@@ -196,6 +196,16 @@ int main(int argc, char *argv[])
                             }
                         }
                     }
+                }
+
+                ssdParameterMappingHandle *mapping = ssp4c_getParameterMapping(binding);
+                if(mapping) {
+                    printf("      parameter mapping:\n");
+                    printf("        desciption: %s\n", ssp4c_getParameterMappingDescription(mapping));
+                    printf("        id: %s\n", ssp4c_getParameterMappingId(mapping));
+                    printf("        type: %s\n", ssp4c_getParameterMappingType(mapping));
+                    printf("        source: %s\n", ssp4c_getParameterMappingSource(mapping));
+                    printf("        sourceBase: %d\n", ssp4c_getParameterMappingSourceBase(mapping));
                 }
             }
         }

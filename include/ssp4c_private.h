@@ -98,23 +98,24 @@ struct ssmParameterMappingHandle {
 };
 
 struct ssdComponentParameterMappingHandle {
+    const char* id;
+    const char* description;
     const char* type;
     const char* source;
-    ssdParameterBindingsSourceBase sourceBase;
+    ssdParameterSourceBase sourceBase;
 
-    ssmParameterMappingHandle parameterMapping;
+    ssmParameterMappingHandle parameterMapping; //! @todo parse and access functions
 };
 
 struct ssdParameterBindingHandle {
     const char* type;
     const char* source;
-    ssdParameterBindingsSourceBase sourceBase;
+    ssdParameterSourceBase sourceBase;
     const char* prefix;
 
     ssdParameterSetHandle *parameterSet;
 
-    int parameterMappingsCount;
-    ssdComponentParameterMappingHandle *parameterMappings;  //! @todo parse and access functions
+    ssdParameterMappingHandle *parameterMapping;
 };
 
 struct ssdConnectorHandle {
@@ -164,7 +165,6 @@ struct sspHandle {
     sspVersion version;
     bool unzippedLocationIsTemporary;
     const char* unzippedLocation;
-    const char* resourcesLocation;
 
     int ssdCount;
     ssdHandle *ssds;

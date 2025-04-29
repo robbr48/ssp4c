@@ -41,8 +41,8 @@ typedef enum { ssdComponentImplementationAny,
                ssdComponentImplementationModelExchange,
                ssdComponentImplementationScheduledExecution } ssdComponentImplementation;
 
-typedef enum { ssdParameterBindingsSourceBaseSSD,
-               ssdParameterBindingsSourceBaseComponent } ssdParameterBindingsSourceBase;
+typedef enum { ssdParameterSourceBaseSSD,
+               ssdParameterSourceBaseComponent } ssdParameterSourceBase;
 
 typedef struct sspHandle sspHandle;
 typedef struct ssdHandle ssdHandle;
@@ -53,6 +53,6 @@ typedef struct ssdParameterBindingHandle ssdParameterBindingHandle;
 typedef struct ssvParameterHandle ssvParameterHandle;
 typedef struct ssdParameterSetHandle ssdParameterSetHandle;
 typedef struct ssmParameterMappingHandle ssmParameterMappingHandle;
-typedef struct ssdComponentParameterMappingHandle ssdComponentParameterMappingHandle;
+typedef struct ssdComponentParameterMappingHandle ssdParameterMappingHandle;
 
 #endif // SSP4C_TYPES_H

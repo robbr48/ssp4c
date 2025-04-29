@@ -78,10 +78,10 @@ SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHand
 SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_getSsdComponentParameterBindingByIndex(ssdComponentHandle *comp, int i);
 SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingType(ssdParameterBindingHandle *binding);
 SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingSource(ssdParameterBindingHandle *binding);
-SSP4C_DLLAPI ssdParameterBindingsSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding);
+SSP4C_DLLAPI ssdParameterSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding);
 SSP4C_DLLAPI const char* ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandle *binding);
-
 SSP4C_DLLAPI ssdParameterSetHandle *ssp4c_getParameterSet(ssdParameterBindingHandle *binding);
+SSP4C_DLLAPI ssdParameterMappingHandle *ssp4c_getParameterMapping(ssdParameterBindingHandle *binding);
 
 SSP4C_DLLAPI const char* ssp4c_getParameterSetVersion(ssdParameterSetHandle *set);
 SSP4C_DLLAPI const char* ssp4c_getParameterSetName(ssdParameterSetHandle *set);
@@ -112,6 +112,12 @@ SSP4C_DLLAPI const char* ssp4c_getParameterStringValue(ssvParameterHandle *param
 SSP4C_DLLAPI const char* ssp4c_getParameterEnumValue(ssvParameterHandle *parameter);
 SSP4C_DLLAPI int ssp4c_getNumberOfEnumerableParameterValues(ssvParameterHandle *parameter);
 SSP4C_DLLAPI const char *ssp4c_getEnumerableParameterValueByIndex(ssvParameterHandle *parameter, int i);
+
+SSP4C_DLLAPI const char* ssp4c_getParameterMappingDescription(ssdParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getParameterMappingId(ssdParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getParameterMappingType(ssdParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getParameterMappingSource(ssdParameterMappingHandle *mapping);
+SSP4C_DLLAPI ssdParameterSourceBase ssp4c_getParameterMappingSourceBase(ssdParameterMappingHandle *mapping);
 
 #ifdef __cplusplus
 }

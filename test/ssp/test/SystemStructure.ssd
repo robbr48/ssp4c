@@ -70,7 +70,7 @@
                               <ssv:Enumeration value="x">
                                   <ssv:Value value="y"/>
                                   <ssv:Value value="z"/>
-                              </ssv:UInt8>
+                              </ssv:Enumeration>
                            </ssv:Parameter>
                         </ssv:Parameters>
                         <ssv:Units>
@@ -83,6 +83,7 @@
                         </ssv:Units>
                      </ssd:ParameterSet>
                   </ssd:ParameterValues>
+                  <ssd:ParameterMapping description="parameter mapping" type="application/x-ssp-parameter-mapping"/>
                </ssd:ParameterBinding>
             </ssd:ParameterBindings>
          </ssd:Component>
