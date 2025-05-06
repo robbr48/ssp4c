@@ -214,6 +214,20 @@ void print_ssd_parameterBinding(ssdParameterBindingHandle *h, int indentation)
     print_ssd_parameterMapping(ssp4c_ssd_parameterSet_getParameterMapping(h), indentation+2);
 }
 
+void print_ssd_elementGeometry(ssdElementGeometryHandle *h, int indentation)
+{
+    printf("%*cgeometry:\n", indentation, ' ');
+    printf("%*c  x1: %f\n", indentation, ' ', ssp4c_ssd_elementGeometry_getX1(h));
+    printf("%*c  y1: %f\n", indentation, ' ', ssp4c_ssd_elementGeometry_getY1(h));
+    printf("%*c  x2: %f\n", indentation, ' ', ssp4c_ssd_elementGeometry_getX2(h));
+    printf("%*c  y2: %f\n", indentation, ' ', ssp4c_ssd_elementGeometry_getY2(h));
+    printf("%*c  rotation: %f\n", indentation, ' ', ssp4c_ssd_elementGeometry_getRotation(h));
+    printf("%*c  iconSource: %s\n", indentation, ' ', ssp4c_ssd_elementGeometry_getIconSource(h));
+    printf("%*c  iconRotation: %f\n", indentation, ' ', ssp4c_ssd_elementGeometry_getIconRotation(h));
+    printf("%*c  iconFlip: %i\n", indentation, ' ', ssp4c_ssd_elementGeometry_getIconFlip(h));
+    printf("%*c  iconFixedAspectRatio: %i\n", indentation, ' ', ssp4c_ssd_elementGeometry_getIconFixedAspectRatio(h));
+}
+
 void print_ssd_component(ssdComponentHandle *h, int indentation)
 {
     printf("%*ccomponent:\n", indentation, ' ');
@@ -227,22 +241,13 @@ void print_ssd_component(ssdComponentHandle *h, int indentation)
     printf("%*c  number of parameter bindings: %i\n", indentation, ' ', ssdParameterBindingsCount);
 
     for(int j=0; j<ssdConnectorCount; ++j) {
-        print_ssd_connector(ssp4c_ssd_component_getConnectorByIndex(h, j),4);
+        print_ssd_connector(ssp4c_ssd_component_getConnectorByIndex(h, j), indentation+2);
     }
 
-    printf("%*c  geometry:\n", indentation, ' ');
-    printf("%*c    x1: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryX1(h));
-    printf("%*c    y1: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryY1(h));
-    printf("%*c    x2: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryX2(h));
-    printf("%*c    y2: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryY2(h));
-    printf("%*c    rotation: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryRotation(h));
-    printf("%*c    iconSource: %s\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconSource(h));
-    printf("%*c    iconRotation: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconRotation(h));
-    printf("%*c    iconFlip: %i\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconFlip(h));
-    printf("%*c    iconFixedAspectRatio: %i\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconFixedAspectRatio(h));
+    print_ssd_elementGeometry(ssp4c_ssd_component_getElementGeometry(h), indentation+2);
 
     for(int j=0; j<ssdParameterBindingsCount; ++j) {
-        print_ssd_parameterBinding(ssp4c_ssd_component_getParameterBindingByIndex(h, j), 4);
+        print_ssd_parameterBinding(ssp4c_ssd_component_getParameterBindingByIndex(h, j), indentation+2);
     }
 }
 

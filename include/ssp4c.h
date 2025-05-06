@@ -63,17 +63,19 @@ SSP4C_DLLAPI const char* ssp4c_ssd_component_getSource(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHandle *h);
 SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *h, int i);
-SSP4C_DLLAPI double ssp4c_ssd_component_getGeometryX1(ssdComponentHandle *h);
-SSP4C_DLLAPI double ssp4c_ssd_component_getGeometryY1(ssdComponentHandle *h);
-SSP4C_DLLAPI double ssp4c_ssd_component_getGeometryX2(ssdComponentHandle *h);
-SSP4C_DLLAPI double ssp4c_ssd_component_getGeometryY2(ssdComponentHandle *h);
-SSP4C_DLLAPI double ssp4c_ssd_component_getGeometryRotation(ssdComponentHandle *h);
-SSP4C_DLLAPI const char* ssp4c_ssd_component_getGeometryIconSource(ssdComponentHandle *h);
-SSP4C_DLLAPI double ssp4c_ssd_component_getGeometryIconRotation(ssdComponentHandle *h);
-SSP4C_DLLAPI bool ssp4c_ssd_component_getGeometryIconFlip(ssdComponentHandle *h);
-SSP4C_DLLAPI bool ssp4c_ssd_component_getGeometryIconFixedAspectRatio(ssdComponentHandle *h);
 SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdComponentHandle *h, int i);
+SSP4C_DLLAPI ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h);
+
+SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getX1(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getY1(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getX2(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getY2(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getRotation(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_elementGeometry_getIconSource(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getIconRotation(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI bool ssp4c_ssd_elementGeometry_getIconFlip(ssdElementGeometryHandle *h);
+SSP4C_DLLAPI bool ssp4c_ssd_elementGeometry_getIconFixedAspectRatio(ssdElementGeometryHandle *h);
 
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterBinding_getType(ssdParameterBindingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterBinding_getSource(ssdParameterBindingHandle *h);

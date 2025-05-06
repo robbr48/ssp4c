@@ -210,51 +210,6 @@ ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *
     return &h->connectors[i];
 }
 
-double ssp4c_ssd_component_getGeometryX1(ssdComponentHandle *h)
-{
-    return h->geometry.x1;
-}
-
-double ssp4c_ssd_component_getGeometryY1(ssdComponentHandle *h)
-{
-    return h->geometry.y1;
-}
-
-double ssp4c_ssd_component_getGeometryX2(ssdComponentHandle *h)
-{
-    return h->geometry.x2;
-}
-
-double ssp4c_ssd_component_getGeometryY2(ssdComponentHandle *h)
-{
-    return h->geometry.y2;
-}
-
-double ssp4c_ssd_component_getGeometryRotation(ssdComponentHandle *h)
-{
-    return h->geometry.rotation;
-}
-
-const char* ssp4c_ssd_component_getGeometryIconSource(ssdComponentHandle *h)
-{
-    return h->geometry.iconSource;
-}
-
-double ssp4c_ssd_component_getGeometryIconRotation(ssdComponentHandle *h)
-{
-    return h->geometry.iconRotation;
-}
-
-bool ssp4c_ssd_component_getGeometryIconFlip(ssdComponentHandle *h)
-{
-    return h->geometry.iconFlip;
-}
-
-bool ssp4c_ssd_component_getGeometryIconFixedAspectRatio(ssdComponentHandle *h)
-{
-    return h->geometry.iconFixedAspectRatio;
-}
-
 int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *h)
 {
     return h->parameterBindingsCount;
@@ -263,6 +218,56 @@ int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *h)
 ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdComponentHandle *h, int i)
 {
     return &(h->parameterBindings[i]);
+}
+
+ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h)
+{
+    return &(h->geometry);
+}
+
+double ssp4c_ssd_elementGeometry_getX1(ssdElementGeometryHandle *h)
+{
+    return h->x1;
+}
+
+double ssp4c_ssd_elementGeometry_getY1(ssdElementGeometryHandle *h)
+{
+    return h->y1;
+}
+
+double ssp4c_ssd_elementGeometry_getX2(ssdElementGeometryHandle *h)
+{
+    return h->x2;
+}
+
+double ssp4c_ssd_elementGeometry_getY2(ssdElementGeometryHandle *h)
+{
+    return h->y2;
+}
+
+double ssp4c_ssd_elementGeometry_getRotation(ssdElementGeometryHandle *h)
+{
+    return h->rotation;
+}
+
+const char* ssp4c_ssd_elementGeometry_getIconSource(ssdElementGeometryHandle *h)
+{
+    return h->iconSource;
+}
+
+double ssp4c_ssd_elementGeometry_getIconRotation(ssdElementGeometryHandle *h)
+{
+    return h->iconRotation;
+}
+
+bool ssp4c_ssd_elementGeometry_getIconFlip(ssdElementGeometryHandle *h)
+{
+    return h->iconFlip;
+}
+
+bool ssp4c_ssd_elementGeometry_getIconFixedAspectRatio(ssdElementGeometryHandle *h)
+{
+    return h->iconFixedAspectRatio;
 }
 
 const char *ssp4c_ssd_parameterBinding_getType(ssdParameterBindingHandle *h)
