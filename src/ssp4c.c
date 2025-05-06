@@ -43,100 +43,100 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
 }
 
 //! @brief Returns FMI version of SSP
-//! @param ssp SSP handle
+//! @param h SSP handle
 //! @returns Version of the SSP
-sspVersion ssp4c_getSspVersion(sspHandle *ssp)
+sspVersion ssp4c_getSspVersion(sspHandle *h)
 {
-    return ssp->version;
+    return h->version;
 }
 
 
 
 //! @brief Free SSP dll
-//! @param ssp SSP handle
-void ssp4c_freeSsp(sspHandle *ssp)
+//! @param h SSP handle
+void ssp4c_freeSsp(sspHandle *h)
 {
-    if(ssp->unzippedLocation) {
-        removeDirectoryRecursively(ssp->unzippedLocation, "ssp4c_");
+    if(h->unzippedLocation) {
+        removeDirectoryRecursively(h->unzippedLocation, "ssp4c_");
     }
 
     //Free all allocated memory
-    for(int i=0; i<ssp->numAllocatedPointers; ++i) {
-        free(ssp->allocatedPointers[i]);
+    for(int i=0; i<h->numAllocatedPointers; ++i) {
+        free(h->allocatedPointers[i]);
     }
 
-    free(ssp->allocatedPointers);
-    free(ssp);
+    free(h->allocatedPointers);
+    free(h);
 }
 
-int ssp4c_getNumberOfSsds(sspHandle *ssp)
+int ssp4c_getNumberOfSsds(sspHandle *h)
 {
-    return ssp->ssdCount;
+    return h->ssdCount;
 }
 
-ssdHandle *ssp4c_getSsdByIndex(sspHandle *ssp, int i)
+ssdHandle *ssp4c_getSsdByIndex(sspHandle *h, int i)
 {
-    return &ssp->ssds[i];
+    return &h->ssds[i];
 }
 
-const char *ssp4c_getSsdFileName(ssdHandle *ssd)
+const char *ssp4c_getSsdFileName(ssdHandle *h)
 {
-    return ssd->filename;
+    return h->filename;
 }
 
-const char *ssp4c_getSsdName(ssdHandle *ssd)
+const char *ssp4c_getSsdName(ssdHandle *h)
 {
-    return ssd->name;
+    return h->name;
 }
 
-const char *ssp4c_getSsdVersion(ssdHandle *ssd)
+const char *ssp4c_getSsdVersion(ssdHandle *h)
 {
-    return ssd->version;
+    return h->version;
 }
 
-const char *ssp4c_getSsdId(ssdHandle *ssd)
+const char *ssp4c_getSsdId(ssdHandle *h)
 {
-    return ssd->id;
+    return h->id;
 }
 
-const char *ssp4c_getSsdDescription(ssdHandle *ssd)
+const char *ssp4c_getSsdDescription(ssdHandle *h)
 {
-    return ssd->description;
+    return h->description;
 }
 
-const char *ssp4c_getSsdAuthor(ssdHandle *ssd)
+const char *ssp4c_getSsdAuthor(ssdHandle *h)
 {
-    return ssd->author;
+    return h->author;
 }
 
-const char *ssp4c_getSsdFileversion(ssdHandle *ssd)
+const char *ssp4c_getSsdFileversion(ssdHandle *h)
 {
-    return ssd->fileversion;
+    return h->fileversion;
 }
 
-const char *ssp4c_getSsdCopyright(ssdHandle *ssd)
+const char *ssp4c_getSsdCopyright(ssdHandle *h)
 {
-    return ssd->copyright;
+    return h->copyright;
 }
 
-const char *ssp4c_getSsdLicense(ssdHandle *ssd)
+const char *ssp4c_getSsdLicense(ssdHandle *h)
 {
-    return ssd->license;
+    return h->license;
 }
 
-const char *ssp4c_getSsdGenerationTool(ssdHandle *ssd)
+const char *ssp4c_getSsdGenerationTool(ssdHandle *h)
 {
-    return ssd->generationTool;
+    return h->generationTool;
 }
 
-const char *ssp4c_getSsdGenerationDateAndTime(ssdHandle *ssd)
+const char *ssp4c_getSsdGenerationDateAndTime(ssdHandle *h)
 {
-    return ssd->generationDateAndTime;
+    return h->generationDateAndTime;
 }
 
-int ssp4c_getNumberOfSsdConnectors(ssdHandle *ssd)
+int ssp4c_getNumberOfSsdConnectors(ssdHandle *h)
 {
-    return ssd->connectorCount;
+    return h->connectorCount;
 }
 
 ssdConnectorHandle *ssp4c_getSsdConnectorByIndex(ssdHandle *ssd, int i)
@@ -144,463 +144,469 @@ ssdConnectorHandle *ssp4c_getSsdConnectorByIndex(ssdHandle *ssd, int i)
     return &ssd->connectors[i];
 }
 
-const char* ssp4c_getSsdConnectorName(ssdConnectorHandle *con)
+const char* ssp4c_getSsdConnectorName(ssdConnectorHandle *h)
 {
-    return con->name;
+    return h->name;
 }
 
-ssdConnectorKind ssp4c_getSsdConnectorKind(ssdConnectorHandle *con)
+ssdConnectorKind ssp4c_getSsdConnectorKind(ssdConnectorHandle *h)
 {
-    return con->kind;
+    return h->kind;
 }
 
-const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *con)
+const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *h)
 {
-    return con->description;
+    return h->description;
 }
 
-sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *con)
+sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *h)
 {
-    return con->datatype;
+    return h->datatype;
 }
 
-const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *con)
+const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *h)
 {
-    return con->unit;
+    return h->unit;
 }
 
 
-int ssp4c_getNumberOfSsdComponents(ssdHandle* ssd)
+int ssp4c_getNumberOfSsdComponents(ssdHandle* h)
 {
-    return ssd->componentCount;
+    return h->componentCount;
 }
 
-ssdComponentHandle* ssp4c_getSsdComponentByIndex(ssdHandle* ssd, int i)
+ssdComponentHandle* ssp4c_ssd_getComponentByIndex(ssdHandle* h, int i)
 {
-    return &ssd->components[i];
+    return &h->components[i];
 }
 
-const char* ssp4c_getSsdComponentName(ssdComponentHandle* comp)
+const char* ssp4c_ssd_component_getName(ssdComponentHandle *h)
 {
-    return comp->name;
+    return h->name;
 }
 
-const char* ssp4c_getSsdComponentType(ssdComponentHandle* comp)
+const char* ssp4c_ssd_component_getType(ssdComponentHandle *h)
 {
-    return comp->type;
+    return h->type;
 }
 
-const char* ssp4c_getSsdComponentSource(ssdComponentHandle* comp)
+const char* ssp4c_ssd_component_getSource(ssdComponentHandle *h)
 {
-    return comp->source;
+    return h->source;
 }
 
-ssdComponentImplementation ssp4c_getSsdComponentImplementation(ssdComponentHandle *comp)
+ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHandle *h)
 {
-    return comp->implementation;
+    return h->implementation;
 }
 
-int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle* comp)
+int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle *h)
 {
-    return comp->connectorCount;
+    return h->connectorCount;
 }
 
-ssdConnectorHandle *ssp4c_getSsdComponentConnectorByIndex(ssdComponentHandle *comp, int i)
+ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *h, int i)
 {
-    return &comp->connectors[i];
+    return &h->connectors[i];
 }
 
-double ssp4c_getSsdComponentGeometryX1(ssdComponentHandle *comp)
+double ssp4c_ssd_component_getGeometryX1(ssdComponentHandle *h)
 {
-    return comp->geometry.x1;
+    return h->geometry.x1;
 }
 
-double ssp4c_getSsdComponentGeometryY1(ssdComponentHandle *comp)
+double ssp4c_ssd_component_getGeometryY1(ssdComponentHandle *h)
 {
-    return comp->geometry.y1;
+    return h->geometry.y1;
 }
 
-double ssp4c_getSsdComponentGeometryX2(ssdComponentHandle *comp)
+double ssp4c_ssd_component_getGeometryX2(ssdComponentHandle *h)
 {
-    return comp->geometry.x2;
+    return h->geometry.x2;
 }
 
-double ssp4c_getSsdComponentGeometryY2(ssdComponentHandle *comp)
+double ssp4c_ssd_component_getGeometryY2(ssdComponentHandle *h)
 {
-    return comp->geometry.y2;
+    return h->geometry.y2;
 }
 
-double ssp4c_getSsdComponentGeometryRotation(ssdComponentHandle *comp)
+double ssp4c_ssd_component_getGeometryRotation(ssdComponentHandle *h)
 {
-    return comp->geometry.rotation;
+    return h->geometry.rotation;
 }
 
-const char* ssp4c_getSsdComponentGeometryIconSource(ssdComponentHandle *comp)
+const char* ssp4c_ssd_component_getGeometryIconSource(ssdComponentHandle *h)
 {
-    return comp->geometry.iconSource;
+    return h->geometry.iconSource;
 }
 
-double ssp4c_getSsdComponentGeometryIconRotation(ssdComponentHandle *comp)
+double ssp4c_ssd_component_getGeometryIconRotation(ssdComponentHandle *h)
 {
-    return comp->geometry.iconRotation;
+    return h->geometry.iconRotation;
 }
 
-bool ssp4c_getSsdComponentGeometryIconFlip(ssdComponentHandle *comp)
+bool ssp4c_ssd_component_getGeometryIconFlip(ssdComponentHandle *h)
 {
-    return comp->geometry.iconFlip;
+    return h->geometry.iconFlip;
 }
 
-bool ssp4c_getSsdComponentGeometryIconFixedAspectRatio(ssdComponentHandle *comp)
+bool ssp4c_ssd_component_getGeometryIconFixedAspectRatio(ssdComponentHandle *h)
 {
-    return comp->geometry.iconFixedAspectRatio;
+    return h->geometry.iconFixedAspectRatio;
 }
 
-int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *comp)
+int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *h)
 {
-    return comp->parameterBindingsCount;
+    return h->parameterBindingsCount;
 }
 
-ssdParameterBindingHandle *ssp4c_getSsdComponentParameterBindingByIndex(ssdComponentHandle *comp, int i)
+ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdComponentHandle *h, int i)
 {
-    return &(comp->parameterBindings[i]);
+    return &(h->parameterBindings[i]);
 }
 
-const char *ssp4c_getSsdComponentParameterBindingType(ssdParameterBindingHandle *binding)
+const char *ssp4c_ssd_parameterBinding_getType(ssdParameterBindingHandle *h)
 {
-    return binding->type;
+    return h->type;
 }
 
-const char *ssp4c_getSsdComponentParameterBindingSource(ssdParameterBindingHandle *binding)
+const char *ssp4c_ssd_parameterBinding_getSource(ssdParameterBindingHandle *h)
 {
-    return binding->source;
+    return h->source;
 }
 
-ssdParameterSourceBase ssp4c_getSsdComponentParameterBindingSourceBase(ssdParameterBindingHandle *binding)
+ssdParameterSourceBase ssp4c_ssd_parameterBinding_getSourceBase(ssdParameterBindingHandle *h)
 {
-    return binding->sourceBase;
+    return h->sourceBase;
 }
 
-const char *ssp4c_getSsdComponentParameterBindingPrefix(ssdParameterBindingHandle *binding)
+const char *ssp4c_ssd_parameterBinding_getPrefix(ssdParameterBindingHandle *h)
 {
-    return binding->prefix;
+    return h->prefix;
 }
 
-ssdParameterSetHandle *ssp4c_getParameterSet(ssdParameterBindingHandle *binding)
+
+ssdParameterValuesHandle *ssp4c_ssd_parameterBinding_getParameterValues(ssdParameterBindingHandle *h)
+{
+    return h->parameterValues;
+}
+
+ssdParameterMappingHandle *ssp4c_ssd_parameterSet_getParameterMapping(ssdParameterBindingHandle *h)
 {
-    return binding->parameterSet;
+    return h->parameterMapping;
 }
 
-ssdParameterMappingHandle *ssp4c_getParameterMapping(ssdParameterBindingHandle *binding)
+ssvParameterSetHandle *ssp4c_ssd_parameterValues_getParameterSet(ssdParameterValuesHandle *h)
 {
-    return binding->parameterMapping;
+    return h->parameterSet;
 }
 
-const char *ssp4c_getParameterSetVersion(ssdParameterSetHandle *set)
+const char *ssp4c_ssd_parameterSet_getVersion(ssvParameterSetHandle *h)
 {
-    return set->version;
+    return h->version;
 }
 
-const char *ssp4c_getParameterSetName(ssdParameterSetHandle *set)
+const char *ssp4c_ssd_parameterSet_getName(ssvParameterSetHandle *h)
 {
-    return set->name;
+    return h->name;
 }
 
-const char *ssp4c_getParameterSetId(ssdParameterSetHandle *set)
+const char *ssp4c_ssd_parameterSet_getId(ssvParameterSetHandle *h)
 {
-    return set->id;
+    return h->id;
 }
 
-const char *ssp4c_getParameterSetDescription(ssdParameterSetHandle *set)
+const char *ssp4c_ssd_parameterSet_getDescription(ssvParameterSetHandle *h)
 {
-    return set->description;
+    return h->description;
 }
 
-int ssp4c_getNumberOfParameterSetParameters(ssdParameterSetHandle *set)
+int ssp4c_ssd_parameterSet_getNumberOfParameters(ssvParameterSetHandle *h)
 {
-    return set->parameterCount;
+    return h->parameterCount;
 }
 
-ssvParameterHandle *ssp4c_getParameterSetParameterByIndex(ssdParameterSetHandle *set, int i)
+ssvParameterHandle *ssp4c_ssd_parameterSet_getParameterByIndex(ssvParameterSetHandle *h, int i)
 {
-    return &(set->parameters[i]);
+    return &(h->parameters[i]);
 }
 
-const char *ssp4c_getParameterName(ssvParameterHandle *parameter)
+const char *ssp4c_ssv_parameter_getName(ssvParameterHandle *h)
 {
-    return parameter->name;
+    return h->name;
 }
 
-const char *ssp4c_getParameterDescription(ssvParameterHandle *parameter)
+const char *ssp4c_ssv_parameter_getDescription(ssvParameterHandle *h)
 {
-    return parameter->description;
+    return h->description;
 }
 
-const char *ssp4c_getParameterId(ssvParameterHandle *parameter)
+const char *ssp4c_ssv_parameter_getId(ssvParameterHandle *h)
 {
-    return parameter->id;
+    return h->id;
 }
 
-sspDataType ssp4c_getParameterDatatype(ssvParameterHandle *parameter)
+sspDataType ssp4c_ssv_parameter_getDatatype(ssvParameterHandle *h)
 {
-    return parameter->datatype;
+    return h->datatype;
 }
 
-const char *ssp4c_getParameterUnit(ssvParameterHandle *parameter)
+const char *ssp4c_ssv_parameter_getUnit(ssvParameterHandle *h)
 {
-    return parameter->unit;
+    return h->unit;
 }
 
-double ssp4c_getParameterRealValue(ssvParameterHandle *parameter)
+double ssp4c_ssv_parameter_getRealValue(ssvParameterHandle *h)
 {
-    return parameter->realValue;
+    return h->realValue;
 }
 
-double ssp4c_getParameterFloat64Value(ssvParameterHandle *parameter)
+double ssp4c_ssv_parameter_getFloat64Value(ssvParameterHandle *h)
 {
-    return parameter->float64Value;
+    return h->float64Value;
 }
 
-float ssp4c_getParameterFloat32Value(ssvParameterHandle *parameter)
+float ssp4c_ssv_parameter_getFloat32Value(ssvParameterHandle *h)
 {
-    return parameter->float32Value;
+    return h->float32Value;
 }
 
-int ssp4c_getParameterIntValue(ssvParameterHandle *parameter)
+int ssp4c_ssv_parameter_getIntValue(ssvParameterHandle *h)
 {
-    return parameter->intValue;
+    return h->intValue;
 }
 
-int64_t ssp4c_getParameterInt64Value(ssvParameterHandle *parameter)
+int64_t ssp4c_ssv_parameter_getInt64Value(ssvParameterHandle *h)
 {
-    return parameter->int64Value;
+    return h->int64Value;
 }
 
-int32_t ssp4c_getParameterInt32Value(ssvParameterHandle *parameter)
+int32_t ssp4c_ssv_parameter_getInt32Value(ssvParameterHandle *h)
 {
-    return parameter->int32Value;
+    return h->int32Value;
 }
 
-int16_t ssp4c_getParameterInt16Value(ssvParameterHandle *parameter)
+int16_t ssp4c_ssv_parameter_getInt16Value(ssvParameterHandle *h)
 {
-    return parameter->int16Value;
+    return h->int16Value;
 }
 
-int8_t ssp4c_getParameterInt8Value(ssvParameterHandle *parameter)
+int8_t ssp4c_ssv_parameter_getInt8Value(ssvParameterHandle *h)
 {
-    return parameter->int8Value;
+    return h->int8Value;
 }
 
-uint64_t ssp4c_getParameterUInt64Value(ssvParameterHandle *parameter)
+uint64_t ssp4c_ssv_parameter_getUInt64Value(ssvParameterHandle *h)
 {
-    return parameter->uint64Value;
+    return h->uint64Value;
 }
 
-uint32_t ssp4c_getParameterUInt32Value(ssvParameterHandle *parameter)
+uint32_t ssp4c_ssv_parameter_getUInt32Value(ssvParameterHandle *h)
 {
-    return parameter->uint32Value;
+    return h->uint32Value;
 }
 
-uint16_t ssp4c_getParameterUInt16Value(ssvParameterHandle *parameter)
+uint16_t ssp4c_ssv_parameter_getUInt16Value(ssvParameterHandle *h)
 {
-    return parameter->uint16Value;
+    return h->uint16Value;
 }
 
-uint8_t ssp4c_getParameterUInt8Value(ssvParameterHandle *parameter)
+uint8_t ssp4c_ssv_parameter_getUInt8Value(ssvParameterHandle *h)
 {
-    return parameter->uint8Value;
+    return h->uint8Value;
 }
 
-bool ssp4c_getParameterBooleanValue(ssvParameterHandle *parameter)
+bool ssp4c_ssv_parameter_getBooleanValue(ssvParameterHandle *h)
 {
-    return parameter->booleanValue;
+    return h->booleanValue;
 }
 
-const char *ssp4c_getParameterStringValue(ssvParameterHandle *parameter)
+const char *ssp4c_ssv_parameter_getStringValue(ssvParameterHandle *h)
 {
-    return parameter->stringValue;
+    return h->stringValue;
 }
 
-const char *ssp4c_getParameterEnumValue(ssvParameterHandle *parameter)
+const char *ssp4c_ssv_parameter_getEnumValue(ssvParameterHandle *h)
 {
-    return parameter->enumValue;
+    return h->enumValue;
 }
 
-int ssp4c_getNumberOfEnumerableParameterValues(ssvParameterHandle *parameter)
+int ssp4c_ssv_parameter_getNumberOfEnumerationValues(ssvParameterHandle *h)
 {
-    return parameter->enumValuesCount;
+    return h->enumValuesCount;
 }
 
-const char *ssp4c_getEnumerableParameterValueByIndex(ssvParameterHandle *parameter, int i)
+const char *ssp4c_ssv_parameter_getEnumerationValueByIndex(ssvParameterHandle *h, int i)
 {
-    return (parameter->enumValues)[i];
+    return (h->enumValues)[i];
 }
 
-const char *ssp4c_getParameterMappingDescription(ssdParameterMappingHandle *mapping)
+const char *ssp4c_ssd_parameterMapping_getDescription(ssdParameterMappingHandle *h)
 {
-    return mapping->description;
+    return h->description;
 }
 
-const char *ssp4c_getParameterMappingId(ssdParameterMappingHandle *mapping)
+const char *ssp4c_ssd_parameterMapping_getId(ssdParameterMappingHandle *h)
 {
-    return mapping->id;
+    return h->id;
 }
 
-const char *ssp4c_getParameterMappingType(ssdParameterMappingHandle *mapping)
+const char *ssp4c_ssd_parameterMapping_getType(ssdParameterMappingHandle *h)
 {
-    return mapping->type;
+    return h->type;
 }
 
-const char *ssp4c_getParameterMappingSource(ssdParameterMappingHandle *mapping)
+const char *ssp4c_ssd_parameterMapping_getSource(ssdParameterMappingHandle *h)
 {
-    return mapping->source;
+    return h->source;
 }
 
-ssdParameterSourceBase ssp4c_getParameterMappingSourceBase(ssdParameterMappingHandle *mapping)
+ssdParameterSourceBase ssp4c_ssd_parameterMapping_getSourceBase(ssdParameterMappingHandle *h)
 {
-    return mapping->sourceBase;
+    return h->sourceBase;
 }
 
-ssmParameterMappingHandle *ssp4c_getSsmParameterMapping(ssdParameterMappingHandle *mapping)
+ssmParameterMappingHandle *ssp4c_ssd_parameterMapping_getSsmParameterMapping(ssdParameterMappingHandle *h)
 {
-    return mapping->parameterMapping;
+    return h->parameterMapping;
 }
 
-const char *ssp4c_getSsmParameterMappingVersion(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getVersion(ssmParameterMappingHandle *h)
 {
-    return mapping->version;
+    return h->version;
 }
 
-const char *ssp4c_getSsmParameterMappingId(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getId(ssmParameterMappingHandle *h)
 {
-    return mapping->id;
+    return h->id;
 }
 
-const char *ssp4c_getSsmParameterMappingDescription(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getDescription(ssmParameterMappingHandle *h)
 {
-    return mapping->description;
+    return h->description;
 }
 
-const char *ssp4c_getSsmParameterMappingAuthor(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getAuthor(ssmParameterMappingHandle *h)
 {
-    return mapping->author;
+    return h->author;
 }
 
-const char *ssp4c_getSsmParameterMappingFileversion(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getFileversion(ssmParameterMappingHandle *h)
 {
-    return mapping->fileversion;
+    return h->fileversion;
 }
 
-const char *ssp4c_getSsmParameterMappingCopyright(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getCopyright(ssmParameterMappingHandle *h)
 {
-    return mapping->copyright;
+    return h->copyright;
 }
 
-const char *ssp4c_getSsmParameterMappingLicense(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getLicense(ssmParameterMappingHandle *h)
 {
-    return mapping->license;
+    return h->license;
 }
 
-const char *ssp4c_getSsmParameterMappingGenerationTool(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getGenerationTool(ssmParameterMappingHandle *h)
 {
-    return mapping->generationTool;
+    return h->generationTool;
 }
 
-const char *ssp4c_getSsmParameterMappingGenerationDateAndTime(ssmParameterMappingHandle *mapping)
+const char *ssp4c_ssm_parameterMapping_getGenerationDateAndTime(ssmParameterMappingHandle *h)
 {
-    return mapping->generationDateAndTime;
+    return h->generationDateAndTime;
 }
 
-int ssp4c_getNumberOfParameterMappingEntries(ssmParameterMappingHandle *mapping)
+int ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmParameterMappingHandle *h)
 {
-    return mapping->mappingEntryCount;
+    return h->mappingEntryCount;
 }
 
-ssmParameterMappingEntryHandle *ssp4c_getSsmParameterMappingEntryByIndex(ssmParameterMappingHandle *mapping, int i)
+ssmParameterMappingEntryHandle *ssp4c_ssm_parameterMapping_getMappingEntryByIndex(ssmParameterMappingHandle *h, int i)
 {
-    return &(mapping->mappingEntries[i]);
+    return &(h->mappingEntries[i]);
 }
 
-const char *ssp4c_getId(ssmParameterMappingEntryHandle *entry)
+const char *ssp4c_ssm_mappingEntry_getId(ssmParameterMappingEntryHandle *h)
 {
-    return entry->id;
+    return h->id;
 }
 
-const char *ssp4c_getDescription(ssmParameterMappingEntryHandle *entry)
+const char *ssp4c_ssm_mappingEntry_getDescription(ssmParameterMappingEntryHandle *h)
 {
-    return entry->description;
+    return h->description;
 }
 
-const char *ssp4c_getSource(ssmParameterMappingEntryHandle *entry)
+const char *ssp4c_ssm_mappingEntry_getSource(ssmParameterMappingEntryHandle *h)
 {
-    return entry->source;
+    return h->source;
 }
 
-const char *ssp4c_getTarget(ssmParameterMappingEntryHandle *entry)
+const char *ssp4c_ssm_mappingEntry_getTarget(ssmParameterMappingEntryHandle *h)
 {
-    return entry->target;
+    return h->target;
 }
 
-bool ssp4c_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *entry)
+bool ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *h)
 {
-    return entry->suppressUnitConveresion;
+    return h->suppressUnitConveresion;
 }
 
-sscMappingTransformHandle *getMappingTransform(ssmParameterMappingEntryHandle *entry)
+sscMappingTransformHandle *_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h)
 {
-    return entry->transform;
+    return h->transform;
 }
 
-sscMappingTransform ssp4c_getMappingTransformType(sscMappingTransformHandle *transform)
+sscMappingTransform ssp4c_ssc_mapEntry_getType(sscMappingTransformHandle *h)
 {
-    return transform->type;
+    return h->type;
 }
 
-double ssp4c_getMappingTransformFactor(sscMappingTransformHandle *transform)
+double ssp4c_ssc_mapEntry_getFactor(sscMappingTransformHandle *h)
 {
-    return transform->factor;
+    return h->factor;
 }
 
-double ssp4c_getMappingTransformOffset(sscMappingTransformHandle *transform)
+double ssp4c_ssc_mapEntry_getOffset(sscMappingTransformHandle *h)
 {
-    return transform->offset;
+    return h->offset;
 }
 
-int ssp4c_getNumberOfMapEntries(sscMappingTransformHandle *transform)
+int ssp4c_getNumberOfMapEntries(sscMappingTransformHandle *h)
 {
-    return transform->mapEntryCount;
+    return h->mapEntryCount;
 }
 
-sscMapEntryHandle *ssp4c_getMapEntryByIndex(sscMappingTransformHandle *transform, int i)
+sscMapEntryHandle *ssp4c_getMapEntryByIndex(sscMappingTransformHandle *h, int i)
 {
-    return &(transform->mapEntries[i]);
+    return &(h->mapEntries[i]);
 }
 
-bool ssp4c_getMappingTransformBoolSource(sscMapEntryHandle *entry)
+bool ssp4c_ssc_mapEntry_getBoolSource(sscMapEntryHandle *h)
 {
-    return entry->boolSource;
+    return h->boolSource;
 }
 
-bool ssp4c_getMappingTransformBoolTarget(sscMapEntryHandle *entry)
+bool ssp4c_ssc_mapEntry_getBoolTarget(sscMapEntryHandle *h)
 {
-    return entry->boolTarget;
+    return h->boolTarget;
 }
 
-int ssp4c_getMappingTransformIntSource(sscMapEntryHandle *entry)
+int ssp4c_ssc_mapEntry_getIntSource(sscMapEntryHandle *h)
 {
-    return entry->intSource;
+    return h->intSource;
 }
 
-int ssp4c_getMappingTransformIntTarget(sscMapEntryHandle *entry)
+int ssp4c_ssc_mapEntry_getIntTarget(sscMapEntryHandle *h)
 {
-    return entry->intTarget;
+    return h->intTarget;
 }
 
-const char *ssp4c_getMappingTransformEnumSource(sscMapEntryHandle *entry)
+const char *ssp4c_ssc_mapEntry_getEnumSource(sscMapEntryHandle *h)
 {
-    return entry->enumSource;
+    return h->enumSource;
 }
 
-const char *ssp4c_getMappingTransformEnumTarget(sscMapEntryHandle *entry)
+const char *ssp4c_ssc_mapEntry_getEnumTarget(sscMapEntryHandle *h)
 {
-    return entry->enumTarget;
+    return h->enumTarget;
 }

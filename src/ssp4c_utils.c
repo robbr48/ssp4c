@@ -799,7 +799,7 @@ bool parseParameterElement(ezxml_t element, ssvParameterHandle* parameterHandle,
     return true;
 }
 
-bool parseParameterSetElement(ezxml_t element, ssdParameterSetHandle* parameterSetHandle, sspHandle *ssp)
+bool parseParameterSetElement(ezxml_t element, ssvParameterSetHandle* parameterSetHandle, sspHandle *ssp)
 {
     parameterSetHandle->version = NULL;
     parameterSetHandle->name = NULL;
@@ -992,6 +992,16 @@ bool parseParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* han
     }
 }
 
+bool parseSsdParameterValuesElement(ezxml_t element, ssdParameterValuesHandle* handle, sspHandle *ssp)
+{
+    handle->parameterSet = NULL;
+    ezxml_t parameterSetElement = ezxml_child(element, "ssv:ParameterSet");
+    if(parameterSetElement) {
+        handle->parameterSet = mallocAndRememberPointer(ssp, sizeof(ssvParameterSetHandle));
+        parseParameterSetElement(parameterSetElement, handle->parameterSet, ssp);
+    }
+}
+
 bool parseParameterBindingsElement(ezxml_t element, int *count, ssdParameterBindingHandle** parameterBindings, sspHandle *ssp)
 {
     (*count) = 0;
@@ -1029,12 +1039,11 @@ bool parseParameterBindingsElement(ezxml_t element, int *count, ssdParameterBind
             }
 
             //Parse parameter sets
-            (*parameterBindings)[i].parameterSet = NULL;
+            (*parameterBindings)[i].parameterValues = NULL;
             ezxml_t parameterValuesElement = ezxml_child(parameterBindingsElement, "ssd:ParameterValues");
             if(parameterValuesElement) {
-                ezxml_t parameterSetElement = ezxml_child(parameterValuesElement, "ssd:ParameterSet");
-                (*parameterBindings)[i].parameterSet = mallocAndRememberPointer(ssp, sizeof(ssdParameterSetHandle));
-                parseParameterSetElement(parameterSetElement, (*parameterBindings)[i].parameterSet, ssp);
+                (*parameterBindings)[i].parameterValues = mallocAndRememberPointer(ssp, sizeof(ssdParameterValuesHandle));
+                 parseSsdParameterValuesElement(parameterValuesElement, (*parameterBindings)[i].parameterValues, ssp);
             }
 
             //Parse parameter mappings
