@@ -83,7 +83,37 @@
                         </ssv:Units>
                      </ssd:ParameterSet>
                   </ssd:ParameterValues>
-                  <ssd:ParameterMapping description="parameter mapping" type="application/x-ssp-parameter-mapping"/>
+                  <ssd:ParameterMapping description="parameter mapping" type="application/x-ssp-parameter-mapping">
+                    <ssm:ParameterMapping version="2.0">
+                      <ssm:MappingEntry source="a" target="b">
+                        <ssc:TransformationChoice>
+                          <ssc:LinearTransformation factor="42", offset="1.23"/>
+                        </ssc:TransformationChoice>
+                      </ssm:MappingEntry>
+                      <ssm:MappingEntry source="b" target="c">
+                        <ssc:TransformationChoice>
+                          <ssc:BooleanMappingTransformation>
+                            <ssc:MapEntry source="false", target="true"/>
+                          </ssc:BooleanMappingTransformation> 
+                        </ssc:TransformationChoice>
+                      </ssm:MappingEntry>
+                       <ssm:MappingEntry source="c" target="d">
+                        <ssc:TransformationChoice>
+                          <ssc:IntegerMappingTransformation>
+                            <ssc:MapEntry source="1", target="1.2"/>
+                            <ssc:MapEntry source="8", target="42"/>
+                          </ssc:IntegerMappingTransformation>
+                        </ssc:TransformationChoice>
+                      </ssm:MappingEntry>
+                      <ssm:MappingEntry source="d" target="e">
+                        <ssc:TransformationChoice>
+                          <ssc:EnumerationMappingTransformation>
+                            <ssc:MapEntry source="x" target="y"/>
+                          </ssc:EnumerationMappingTransformation> 
+                        </ssc:TransformationChoice>
+                      </ssm:MappingEntry>
+                    </ssm:ParameterMapping>
+                  </ssd:ParameterMapping>
                </ssd:ParameterBinding>
             </ssd:ParameterBindings>
          </ssd:Component>

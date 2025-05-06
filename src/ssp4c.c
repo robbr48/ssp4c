@@ -459,3 +459,148 @@ ssdParameterSourceBase ssp4c_getParameterMappingSourceBase(ssdParameterMappingHa
 {
     return mapping->sourceBase;
 }
+
+ssmParameterMappingHandle *ssp4c_getSsmParameterMapping(ssdParameterMappingHandle *mapping)
+{
+    return mapping->parameterMapping;
+}
+
+const char *ssp4c_getSsmParameterMappingVersion(ssmParameterMappingHandle *mapping)
+{
+    return mapping->version;
+}
+
+const char *ssp4c_getSsmParameterMappingId(ssmParameterMappingHandle *mapping)
+{
+    return mapping->id;
+}
+
+const char *ssp4c_getSsmParameterMappingDescription(ssmParameterMappingHandle *mapping)
+{
+    return mapping->description;
+}
+
+const char *ssp4c_getSsmParameterMappingAuthor(ssmParameterMappingHandle *mapping)
+{
+    return mapping->author;
+}
+
+const char *ssp4c_getSsmParameterMappingFileversion(ssmParameterMappingHandle *mapping)
+{
+    return mapping->fileversion;
+}
+
+const char *ssp4c_getSsmParameterMappingCopyright(ssmParameterMappingHandle *mapping)
+{
+    return mapping->copyright;
+}
+
+const char *ssp4c_getSsmParameterMappingLicense(ssmParameterMappingHandle *mapping)
+{
+    return mapping->license;
+}
+
+const char *ssp4c_getSsmParameterMappingGenerationTool(ssmParameterMappingHandle *mapping)
+{
+    return mapping->generationTool;
+}
+
+const char *ssp4c_getSsmParameterMappingGenerationDateAndTime(ssmParameterMappingHandle *mapping)
+{
+    return mapping->generationDateAndTime;
+}
+
+int ssp4c_getNumberOfParameterMappingEntries(ssmParameterMappingHandle *mapping)
+{
+    return mapping->mappingEntryCount;
+}
+
+ssmParameterMappingEntryHandle *ssp4c_getSsmParameterMappingEntryByIndex(ssmParameterMappingHandle *mapping, int i)
+{
+    return &(mapping->mappingEntries[i]);
+}
+
+const char *ssp4c_getId(ssmParameterMappingEntryHandle *entry)
+{
+    return entry->id;
+}
+
+const char *ssp4c_getDescription(ssmParameterMappingEntryHandle *entry)
+{
+    return entry->description;
+}
+
+const char *ssp4c_getSource(ssmParameterMappingEntryHandle *entry)
+{
+    return entry->source;
+}
+
+const char *ssp4c_getTarget(ssmParameterMappingEntryHandle *entry)
+{
+    return entry->target;
+}
+
+bool ssp4c_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *entry)
+{
+    return entry->suppressUnitConveresion;
+}
+
+sscMappingTransformHandle *getMappingTransform(ssmParameterMappingEntryHandle *entry)
+{
+    return entry->transform;
+}
+
+sscMappingTransform ssp4c_getMappingTransformType(sscMappingTransformHandle *transform)
+{
+    return transform->type;
+}
+
+double ssp4c_getMappingTransformFactor(sscMappingTransformHandle *transform)
+{
+    return transform->factor;
+}
+
+double ssp4c_getMappingTransformOffset(sscMappingTransformHandle *transform)
+{
+    return transform->offset;
+}
+
+int ssp4c_getNumberOfMapEntries(sscMappingTransformHandle *transform)
+{
+    return transform->mapEntryCount;
+}
+
+sscMapEntryHandle *ssp4c_getMapEntryByIndex(sscMappingTransformHandle *transform, int i)
+{
+    return &(transform->mapEntries[i]);
+}
+
+bool ssp4c_getMappingTransformBoolSource(sscMapEntryHandle *entry)
+{
+    return entry->boolSource;
+}
+
+bool ssp4c_getMappingTransformBoolTarget(sscMapEntryHandle *entry)
+{
+    return entry->boolTarget;
+}
+
+int ssp4c_getMappingTransformIntSource(sscMapEntryHandle *entry)
+{
+    return entry->intSource;
+}
+
+int ssp4c_getMappingTransformIntTarget(sscMapEntryHandle *entry)
+{
+    return entry->intTarget;
+}
+
+const char *ssp4c_getMappingTransformEnumSource(sscMapEntryHandle *entry)
+{
+    return entry->enumSource;
+}
+
+const char *ssp4c_getMappingTransformEnumTarget(sscMapEntryHandle *entry)
+{
+    return entry->enumTarget;
+}

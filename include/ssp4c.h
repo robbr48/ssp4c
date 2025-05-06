@@ -119,6 +119,38 @@ SSP4C_DLLAPI const char* ssp4c_getParameterMappingType(ssdParameterMappingHandle
 SSP4C_DLLAPI const char* ssp4c_getParameterMappingSource(ssdParameterMappingHandle *mapping);
 SSP4C_DLLAPI ssdParameterSourceBase ssp4c_getParameterMappingSourceBase(ssdParameterMappingHandle *mapping);
 
+SSP4C_DLLAPI ssmParameterMappingHandle *ssp4c_getSsmParameterMapping(ssdParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingVersion(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingId(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingDescription(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingAuthor(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingFileversion(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingCopyright(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingLicense(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingGenerationTool(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI const char* ssp4c_getSsmParameterMappingGenerationDateAndTime(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI int ssp4c_getNumberOfParameterMappingEntries(ssmParameterMappingHandle *mapping);
+SSP4C_DLLAPI ssmParameterMappingEntryHandle *ssp4c_getSsmParameterMappingEntryByIndex(ssmParameterMappingHandle *mapping, int i);
+
+SSP4C_DLLAPI const char* ssp4c_getId(ssmParameterMappingEntryHandle *entry);
+SSP4C_DLLAPI const char* ssp4c_getDescription(ssmParameterMappingEntryHandle *entry);
+SSP4C_DLLAPI const char* ssp4c_getSource(ssmParameterMappingEntryHandle *entry);
+SSP4C_DLLAPI const char* ssp4c_getTarget(ssmParameterMappingEntryHandle *entry);
+SSP4C_DLLAPI bool ssp4c_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *entry);
+SSP4C_DLLAPI sscMappingTransformHandle *getMappingTransform(ssmParameterMappingEntryHandle *entry);
+
+SSP4C_DLLAPI sscMappingTransform ssp4c_getMappingTransformType(sscMappingTransformHandle *transform);
+SSP4C_DLLAPI double ssp4c_getMappingTransformFactor(sscMappingTransformHandle *transform);
+SSP4C_DLLAPI double ssp4c_getMappingTransformOffset(sscMappingTransformHandle *transform);
+SSP4C_DLLAPI int ssp4c_getNumberOfMapEntries(sscMappingTransformHandle *transform);
+SSP4C_DLLAPI sscMapEntryHandle *ssp4c_getMapEntryByIndex(sscMappingTransformHandle *transform, int i);
+SSP4C_DLLAPI bool ssp4c_getMappingTransformBoolSource(sscMapEntryHandle *entry);
+SSP4C_DLLAPI bool ssp4c_getMappingTransformBoolTarget(sscMapEntryHandle *entry);
+SSP4C_DLLAPI int ssp4c_getMappingTransformIntSource(sscMapEntryHandle *entry);
+SSP4C_DLLAPI int ssp4c_getMappingTransformIntTarget(sscMapEntryHandle *entry);
+SSP4C_DLLAPI const char* ssp4c_getMappingTransformEnumSource(sscMapEntryHandle *entry);
+SSP4C_DLLAPI const char* ssp4c_getMappingTransformEnumTarget(sscMapEntryHandle *entry);
+
 #ifdef __cplusplus
 }
 #endif

@@ -206,6 +206,50 @@ int main(int argc, char *argv[])
                     printf("        type: %s\n", ssp4c_getParameterMappingType(mapping));
                     printf("        source: %s\n", ssp4c_getParameterMappingSource(mapping));
                     printf("        sourceBase: %d\n", ssp4c_getParameterMappingSourceBase(mapping));
+
+                    ssmParameterMappingHandle *ssmMapping = ssp4c_getSsmParameterMapping(mapping);
+                    if(ssmMapping) {
+                        printf("        ssm parameter mapping:\n");
+                        printf("          version: %s\n", ssp4c_getSsmParameterMappingVersion(ssmMapping));
+                        printf("          id: %s\n", ssp4c_getSsmParameterMappingId(ssmMapping));
+                        printf("          description: %s\n", ssp4c_getSsmParameterMappingDescription(ssmMapping));
+                        printf("          author: %s\n", ssp4c_getSsmParameterMappingAuthor(ssmMapping));
+                        printf("          fileversion: %s\n", ssp4c_getSsmParameterMappingFileversion(ssmMapping));
+                        printf("          copyright: %s\n", ssp4c_getSsmParameterMappingCopyright(ssmMapping));
+                        printf("          license: %s\n", ssp4c_getSsmParameterMappingLicense(ssmMapping));
+                        printf("          generationTool: %s\n", ssp4c_getSsmParameterMappingGenerationTool(ssmMapping));
+                        printf("          generationDateAndTime: %s\n", ssp4c_getSsmParameterMappingGenerationDateAndTime(ssmMapping));
+                        printf("          number of entries: %d\n", ssp4c_getNumberOfParameterMappingEntries(ssmMapping));
+
+                        for(int k=0; k<ssp4c_getNumberOfParameterMappingEntries(ssmMapping); ++k) {
+                            ssmParameterMappingEntryHandle *entry = ssp4c_getSsmParameterMappingEntryByIndex(ssmMapping, k);
+                            printf("          parameter mapping entry:\n");
+                            printf("            id: %s\n", ssp4c_getId(entry));
+                            printf("            description: %s\n", ssp4c_getDescription(entry));
+                            printf("            source: %s\n", ssp4c_getSource(entry));
+                            printf("            target: %s\n", ssp4c_getTarget(entry));
+                            printf("            suppressUnitConversion: %d\n", ssp4c_getSuppressUnitConveresion(entry));
+                            sscMappingTransformHandle *transform = getMappingTransform(entry);
+                            if(transform) {
+                                printf("            transform:\n");
+                                printf("              type: %d\n", ssp4c_getMappingTransformType(transform));
+                                printf("              factor: %f\n", ssp4c_getMappingTransformFactor(transform));
+                                printf("              offset: %f\n", ssp4c_getMappingTransformOffset(transform));
+                                printf("              number of map entries: %d\n", ssp4c_getNumberOfMapEntries(transform));
+
+                                for(int l=0; l<ssp4c_getNumberOfMapEntries(transform); ++l) {
+                                    sscMapEntryHandle *entry = ssp4c_getMapEntryByIndex(transform, l);
+                                    printf("              map entry:\n");
+                                    printf("                boolSource: %d\n", ssp4c_getMappingTransformBoolSource(entry));
+                                    printf("                boolTarget: %d\n", ssp4c_getMappingTransformBoolTarget(entry));
+                                    printf("                intSource: %d\n", ssp4c_getMappingTransformIntSource(entry));
+                                    printf("                intTarget: %d\n", ssp4c_getMappingTransformIntTarget(entry));
+                                    printf("                enumSource: %s\n", ssp4c_getMappingTransformEnumSource(entry));
+                                    printf("                enumTarget: %s\n", ssp4c_getMappingTransformEnumTarget(entry));
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
