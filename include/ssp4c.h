@@ -139,7 +139,7 @@ SSP4C_DLLAPI const char* ssp4c_ssm_mappingEntry_getDescription(ssmParameterMappi
 SSP4C_DLLAPI const char* ssp4c_ssm_mappingEntry_getSource(ssmParameterMappingEntryHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssm_mappingEntry_getTarget(ssmParameterMappingEntryHandle *h);
 SSP4C_DLLAPI bool ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *h);
-SSP4C_DLLAPI sscMappingTransformHandle *_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h);
+SSP4C_DLLAPI sscMappingTransformHandle *ssp4c_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h);
 
 SSP4C_DLLAPI sscMappingTransform ssp4c_ssc_mapEntry_getType(sscMappingTransformHandle *h);
 SSP4C_DLLAPI double ssp4c_ssc_mapEntry_getFactor(sscMappingTransformHandle *h);

@@ -551,7 +551,7 @@ bool ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(ssmParameterMappingEntryH
     return h->suppressUnitConveresion;
 }
 
-sscMappingTransformHandle *_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h)
+sscMappingTransformHandle *ssp4c_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h)
 {
     return h->transform;
 }

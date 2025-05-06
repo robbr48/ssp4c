@@ -27,6 +27,253 @@ void printUsage() {
     printf("-t, --tlm                Run a TLM test (requires two FMUs)\n");
 }
 
+void print_ssc_mapEntry(sscMapEntryHandle *entry, int indentation)
+{
+    printf("%*cmap entry:\n", indentation, ' ');
+    printf("%*c  boolSource: %d\n", indentation, ' ', ssp4c_ssc_mapEntry_getBoolSource(entry));
+    printf("%*c  boolTarget: %d\n", indentation, ' ', ssp4c_ssc_mapEntry_getBoolTarget(entry));
+    printf("%*c  intSource: %d\n", indentation, ' ', ssp4c_ssc_mapEntry_getIntSource(entry));
+    printf("%*c  intTarget: %d\n", indentation, ' ', ssp4c_ssc_mapEntry_getIntTarget(entry));
+    printf("%*c  enumSource: %s\n", indentation, ' ', ssp4c_ssc_mapEntry_getEnumSource(entry));
+    printf("%*c  enumTarget: %s\n", indentation, ' ', ssp4c_ssc_mapEntry_getEnumTarget(entry));
+}
+
+void print_ssc_mappingTransform(sscMappingTransformHandle *h, int indentation)
+{
+    if(h) {
+        printf("%*ctransform:\n", indentation, ' ');
+        printf("%*c  type: %d\n", indentation, ' ', ssp4c_ssc_mapEntry_getType(h));
+        printf("%*c  factor: %f\n", indentation, ' ', ssp4c_ssc_mapEntry_getFactor(h));
+        printf("%*c  offset: %f\n", indentation, ' ', ssp4c_ssc_mapEntry_getOffset(h));
+        printf("%*c  number of map entries: %d\n", indentation, ' ', ssp4c_getNumberOfMapEntries(h));
+
+        for(int l=0; l<ssp4c_getNumberOfMapEntries(h); ++l) {
+            print_ssc_mapEntry(ssp4c_getMapEntryByIndex(h, l), indentation+2);
+        }
+    }
+}
+
+void print_ssm_parameterMappingEntry(ssmParameterMappingEntryHandle *entry, int indentation)
+{
+    printf("%*cparameter mapping entry:\n", indentation, ' ');
+    printf("%*c  id: %s\n", indentation, ' ', ssp4c_ssm_mappingEntry_getId(entry));
+    printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssm_mappingEntry_getDescription(entry));
+    printf("%*c  source: %s\n", indentation, ' ', ssp4c_ssm_mappingEntry_getSource(entry));
+    printf("%*c  target: %s\n", indentation, ' ', ssp4c_ssm_mappingEntry_getTarget(entry));
+    printf("%*c  suppressUnitConversion: %d\n", indentation, ' ', ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(entry));
+
+    print_ssc_mappingTransform(ssp4c_ssm_mappingEntry_getSsmMappingTransform(entry),indentation+2);
+}
+
+void print_ssm_parameterMapping(ssmParameterMappingHandle *ssmMapping, int indentation)
+{
+    if(ssmMapping) {
+        printf("%*cssm parameter mapping:\n", indentation, ' ');
+        printf("%*c  version: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getVersion(ssmMapping));
+        printf("%*c  id: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getId(ssmMapping));
+        printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getDescription(ssmMapping));
+        printf("%*c  author: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getAuthor(ssmMapping));
+        printf("%*c  fileversion: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getFileversion(ssmMapping));
+        printf("%*c  copyright: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getCopyright(ssmMapping));
+        printf("%*c  license: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getLicense(ssmMapping));
+        printf("%*c  generationTool: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getGenerationTool(ssmMapping));
+        printf("%*c  generationDateAndTime: %s\n", indentation, ' ', ssp4c_ssm_parameterMapping_getGenerationDateAndTime(ssmMapping));
+        printf("%*c  number of entries: %d\n", indentation, ' ', ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmMapping));
+
+        for(int k=0; k<ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmMapping); ++k) {
+            print_ssm_parameterMappingEntry(ssp4c_ssm_parameterMapping_getMappingEntryByIndex(ssmMapping, k), indentation+2);
+        }
+    }
+}
+
+void print_ssd_parameterMapping(ssdParameterMappingHandle *mapping, int indentation)
+{
+    if(mapping) {
+        printf("%*cparameter mapping:\n", indentation, ' ');
+        printf("%*c  desciption: %s\n", indentation, ' ', ssp4c_ssd_parameterMapping_getDescription(mapping));
+        printf("%*c  id: %s\n", indentation, ' ', ssp4c_ssd_parameterMapping_getId(mapping));
+        printf("%*c  type: %s\n", indentation, ' ', ssp4c_ssd_parameterMapping_getType(mapping));
+        printf("%*c  source: %s\n", indentation, ' ', ssp4c_ssd_parameterMapping_getSource(mapping));
+        printf("%*c  sourceBase: %d\n", indentation, ' ', ssp4c_ssd_parameterMapping_getSourceBase(mapping));
+
+        print_ssm_parameterMapping(ssp4c_ssd_parameterMapping_getSsmParameterMapping(mapping), indentation+2);
+    }
+}
+
+void print_ssd_connector(ssdConnectorHandle *h, int indentation) {
+    printf("%*cconnector:\n", indentation, ' ');
+    printf("%*c  name: %s\n", indentation, ' ', ssp4c_getSsdConnectorName(h));
+    printf("%*c  kind: %i\n", indentation, ' ', ssp4c_getSsdConnectorKind(h));
+    printf("%*c  description: %s\n", indentation, ' ', ssp4c_getSsdConnectorDescription(h));
+    printf("%*c  datatype: %i\n", indentation, ' ', ssp4c_getSsdConnectorDatatype(h));
+    printf("%*c  unit: %s\n", indentation, ' ', ssp4c_getSsdConnectorUnit(h));
+}
+
+void print_ssv_parameter(ssvParameterHandle *h, int indentation)
+{
+    printf("%*cparameter:\n", indentation, ' ');
+    printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssv_parameter_getName(h));
+    printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssv_parameter_getDescription(h));
+    printf("%*c  id: %s\n", indentation, ' ', ssp4c_ssv_parameter_getId(h));
+    if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeReal) {
+        printf("%*c  data type: ssv:Real\n", indentation, ' ');
+        printf("%*c  value: %f\n", indentation, ' ', ssp4c_ssv_parameter_getRealValue(h));
+        printf("%*c  unit: %s\n", indentation, ' ', ssp4c_ssv_parameter_getUnit(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeFloat64) {
+        printf("%*c  data type: ssv:Float64\n", indentation, ' ');
+        printf("%*c  value: %f\n", indentation, ' ', ssp4c_ssv_parameter_getFloat64Value(h));
+        printf("%*c  unit: %s\n", indentation, ' ', ssp4c_ssv_parameter_getUnit(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeFloat32) {
+        printf("%*c  data type: ssv:Float32\n", indentation, ' ');
+        printf("%*c  value: %f\n", indentation, ' ', ssp4c_ssv_parameter_getFloat32Value(h));
+        printf("%*c  unit: %s\n", indentation, ' ', ssp4c_ssv_parameter_getUnit(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeInteger) {
+        printf("%*c  data type: ssv:Integer\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getIntValue(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeInt64) {
+        printf("%*c  data type: ssv:Int64\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getInt64Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeInt32) {
+        printf("%*c  data type: ssv:Int32\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getInt32Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeInt16) {
+        printf("%*c  data type: ssv:Int16\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getInt16Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeInt8) {
+        printf("%*c  data type: ssv:Int8\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getInt8Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeUInt64) {
+        printf("%*c  data type: ssv:UInt64\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getUInt64Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeUInt32) {
+        printf("%*c  data type: ssv:UInt32\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getUInt32Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeUInt16) {
+        printf("%*c  data type: ssv:UInt16\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getUInt16Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeUInt8) {
+        printf("%*c  data type: ssv:UInt8\n", indentation, ' ');
+        printf("%*c  value: %d\n", indentation, ' ', ssp4c_ssv_parameter_getUInt8Value(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeBoolean) {
+        printf("%*c  data type: ssv:Boolean\n", indentation, ' ');
+        printf("%*c  value: %i\n", indentation, ' ', ssp4c_ssv_parameter_getBooleanValue(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeString) {
+        printf("%*c  data type: ssv:String\n", indentation, ' ');
+        printf("%*c  value: %s\n", indentation, ' ', ssp4c_ssv_parameter_getStringValue(h));
+    }
+    else if(ssp4c_ssv_parameter_getDatatype(h) == sspDataTypeEnumeration) {
+        printf("%*c  data type: ssv:Enumeration\n", indentation, ' ');
+        printf("%*c  value: %s\n", indentation, ' ', ssp4c_ssv_parameter_getEnumValue(h));
+        for(int l=0; l<ssp4c_ssv_parameter_getNumberOfEnumerationValues(h); ++l) {
+            printf("%*c  alternative value: %s\n", indentation, ' ', ssp4c_ssv_parameter_getEnumerationValueByIndex(h, l));
+        }
+    }
+}
+
+void print_ssv_parameterSet(ssvParameterSetHandle *h, int indentation)
+{
+    if(h) {
+        printf("%*cparameter set:\n", indentation, ' ');
+        printf("%*c  version: %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getVersion(h));
+        printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getName(h));
+        printf("%*c  id %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getId(h));
+        printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getDescription(h));
+        int parameterSetParameterCount = ssp4c_ssd_parameterSet_getNumberOfParameters(h);
+        printf("        number of parameters: %i\n", parameterSetParameterCount);
+        for(int k=0; k<parameterSetParameterCount; ++k) {
+            print_ssv_parameter(ssp4c_ssd_parameterSet_getParameterByIndex(h, k), indentation+2);
+        }
+    }
+}
+
+void print_ssd_parameterBinding(ssdParameterBindingHandle *h, int indentation)
+{
+    printf("%*cparameter binding:\n", indentation, ' ');
+    printf("%*c  type: %s\n", indentation, ' ', ssp4c_ssd_parameterBinding_getType(h));
+    printf("%*c  prefix: %s\n", indentation, ' ', ssp4c_ssd_parameterBinding_getPrefix(h));
+    printf("%*c  source: %s\n", indentation, ' ', ssp4c_ssd_parameterBinding_getSource(h));
+    printf("%*c  sourceBase: %d\n", indentation, ' ', ssp4c_ssd_parameterBinding_getSourceBase(h));
+
+    ssdParameterValuesHandle *values = ssp4c_ssd_parameterBinding_getParameterValues(h);
+
+    print_ssv_parameterSet(ssp4c_ssd_parameterValues_getParameterSet(values), indentation+2);
+
+    print_ssd_parameterMapping(ssp4c_ssd_parameterSet_getParameterMapping(h), indentation+2);
+}
+
+void print_ssd_component(ssdComponentHandle *h, int indentation)
+{
+    printf("%*ccomponent:\n", indentation, ' ');
+    printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssd_component_getName(h));
+    printf("%*c  source: %s\n", indentation, ' ', ssp4c_ssd_component_getSource(h));
+    printf("%*c  type: %s\n", indentation, ' ', ssp4c_ssd_component_getType(h));
+    printf("%*c  implementation: %i\n", indentation, ' ', ssp4c_ssd_component_getImplementation(h));
+    int ssdConnectorCount = ssp4c_getNumberOfSsdComponentConnectors(h);
+    printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
+    int ssdParameterBindingsCount = ssp4c_getNumberOfSsdComponentParameterBindings(h);
+    printf("%*c  number of parameter bindings: %i\n", indentation, ' ', ssdParameterBindingsCount);
+
+    for(int j=0; j<ssdConnectorCount; ++j) {
+        print_ssd_connector(ssp4c_ssd_component_getConnectorByIndex(h, j),4);
+    }
+
+    printf("%*c  geometry:\n", indentation, ' ');
+    printf("%*c    x1: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryX1(h));
+    printf("%*c    y1: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryY1(h));
+    printf("%*c    x2: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryX2(h));
+    printf("%*c    y2: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryY2(h));
+    printf("%*c    rotation: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryRotation(h));
+    printf("%*c    iconSource: %s\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconSource(h));
+    printf("%*c    iconRotation: %f\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconRotation(h));
+    printf("%*c    iconFlip: %i\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconFlip(h));
+    printf("%*c    iconFixedAspectRatio: %i\n", indentation, ' ', ssp4c_ssd_component_getGeometryIconFixedAspectRatio(h));
+
+    for(int j=0; j<ssdParameterBindingsCount; ++j) {
+        print_ssd_parameterBinding(ssp4c_ssd_component_getParameterBindingByIndex(h, j), 4);
+    }
+}
+
+void print_ssd(ssdHandle *h, int indentation)
+{
+    printf("%*cSSD file: %s\n", indentation, ' ', ssp4c_getSsdFileName(h));
+    printf("%*c  name: %s\n", indentation, ' ', ssp4c_getSsdName(h));
+    printf("%*c  version: %s\n", indentation, ' ', ssp4c_getSsdVersion(h));
+    printf("%*c  id: %s\n", indentation, ' ', ssp4c_getSsdId(h));
+    printf("%*c  description: %s\n", indentation, ' ', ssp4c_getSsdDescription(h));
+    printf("%*c  author: %s\n", indentation, ' ', ssp4c_getSsdAuthor(h));
+    printf("%*c  fileversion: %s\n", indentation, ' ', ssp4c_getSsdFileversion(h));
+    printf("%*c  copyright: %s\n", indentation, ' ', ssp4c_getSsdCopyright(h));
+    printf("%*c  license: %s\n", indentation, ' ', ssp4c_getSsdLicense(h));
+    printf("%*c  generationTool: %s\n", indentation, ' ', ssp4c_getSsdGenerationTool(h));
+    printf("%*c  generationDateAndTime: %s\n", indentation, ' ', ssp4c_getSsdGenerationDateAndTime(h));
+
+    int ssdConnectorCount = ssp4c_getNumberOfSsdConnectors(h);
+    printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
+    int ssdComponentCount = ssp4c_getNumberOfSsdComponents(h);
+    printf("%*c  number of components: %i\n", indentation, ' ', ssdComponentCount);
+
+    for(int j=0; j<ssdConnectorCount; ++j) {
+        print_ssd_connector(ssp4c_getSsdConnectorByIndex(h, j), indentation+2);
+    }
+
+    for(int j=0; j<ssdComponentCount; ++j) {
+        print_ssd_component(ssp4c_ssd_getComponentByIndex(h, j), indentation+2);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     if(argc == 1) {
@@ -44,217 +291,7 @@ int main(int argc, char *argv[])
     printf("Number of SSDs: %i\n", ssdCount);
 
     for(int i=0; i<ssdCount; ++i) {
-        ssdHandle *ssd = ssp4c_getSsdByIndex(ssp,i);
-        printf("---------------------------------------\n");
-        printf("SSD file: %s\n", ssp4c_getSsdFileName(ssd));
-        printf("  name: %s\n", ssp4c_getSsdName(ssd));
-        printf("  version: %s\n", ssp4c_getSsdVersion(ssd));
-        printf("  id: %s\n", ssp4c_getSsdId(ssd));
-        printf("  description: %s\n", ssp4c_getSsdDescription(ssd));
-        printf("  author: %s\n", ssp4c_getSsdAuthor(ssd));
-        printf("  fileversion: %s\n", ssp4c_getSsdFileversion(ssd));
-        printf("  copyright: %s\n", ssp4c_getSsdCopyright(ssd));
-        printf("  license: %s\n", ssp4c_getSsdLicense(ssd));
-        printf("  generationTool: %s\n", ssp4c_getSsdGenerationTool(ssd));
-        printf("  generationDateAndTime: %s\n", ssp4c_getSsdGenerationDateAndTime(ssd));
-
-        int ssdConnectorCount = ssp4c_getNumberOfSsdConnectors(ssd);
-        printf("  number of connectors: %i\n", ssdConnectorCount);
-        int ssdComponentCount = ssp4c_getNumberOfSsdComponents(ssd);
-        printf("  number of components: %i\n", ssdComponentCount);
-
-        for(int j=0; j<ssdConnectorCount; ++j) {
-            ssdConnectorHandle *con = ssp4c_getSsdConnectorByIndex(ssd, j);
-            printf("  connector:\n");
-            printf("    name: %s\n", ssp4c_getSsdConnectorName(con));
-            printf("    kind: %i\n", ssp4c_getSsdConnectorKind(con));
-            printf("    description: %s\n", ssp4c_getSsdConnectorDescription(con));
-            printf("    datatype: %i\n", ssp4c_getSsdConnectorDatatype(con));
-            printf("    unit: %s\n", ssp4c_getSsdConnectorUnit(con));
-        }
-
-        for(int j=0; j<ssdComponentCount; ++j) {
-            ssdComponentHandle *comp = ssp4c_ssd_getComponentByIndex(ssd, j);
-            printf("  component:\n");
-            printf("    name: %s\n", ssp4c_ssd_component_getName(comp));
-            printf("    source: %s\n", ssp4c_ssd_component_getSource(comp));
-            printf("    type: %s\n", ssp4c_ssd_component_getType(comp));
-            printf("    implementation: %i\n", ssp4c_ssd_component_getImplementation(comp));
-            int ssdConnectorCount = ssp4c_getNumberOfSsdComponentConnectors(comp);
-            printf("    number of connectors: %i\n", ssdConnectorCount);
-            int ssdParameterBindingsCount = ssp4c_getNumberOfSsdComponentParameterBindings(comp);
-            printf("    number of parameter bindings: %i\n", ssdParameterBindingsCount);
-
-            for(int j=0; j<ssdConnectorCount; ++j) {
-                ssdConnectorHandle *con = ssp4c_ssd_component_getConnectorByIndex(comp, j);
-                printf("    connector:\n");
-                printf("      name: %s\n", ssp4c_getSsdConnectorName(con));
-                printf("      kind: %i\n", ssp4c_getSsdConnectorKind(con));
-                printf("      description: %s\n", ssp4c_getSsdConnectorDescription(con));
-                printf("      datatype: %i\n", ssp4c_getSsdConnectorDatatype(con));
-                printf("      unit: %s\n", ssp4c_getSsdConnectorUnit(con));
-            }
-
-            printf("    geometry:\n");
-            printf("      x1: %f\n", ssp4c_ssd_component_getGeometryX1(comp));
-            printf("      y1: %f\n", ssp4c_ssd_component_getGeometryY1(comp));
-            printf("      x2: %f\n", ssp4c_ssd_component_getGeometryX2(comp));
-            printf("      y2: %f\n", ssp4c_ssd_component_getGeometryY2(comp));
-            printf("      rotation: %f\n", ssp4c_ssd_component_getGeometryRotation(comp));
-            printf("      iconSource: %s\n", ssp4c_ssd_component_getGeometryIconSource(comp));
-            printf("      iconRotation: %f\n", ssp4c_ssd_component_getGeometryIconRotation(comp));
-            printf("      iconFlip: %i\n", ssp4c_ssd_component_getGeometryIconFlip(comp));
-            printf("      iconFixedAspectRatio: %i\n", ssp4c_ssd_component_getGeometryIconFixedAspectRatio(comp));
-
-            for(int j=0; j<ssdParameterBindingsCount; ++j) {
-                ssdParameterBindingHandle *binding = ssp4c_ssd_component_getParameterBindingByIndex(comp, j);
-                printf("    parameter binding:\n");
-                printf("      type: %s\n", ssp4c_ssd_parameterBinding_getType(binding));
-                printf("      prefix: %s\n", ssp4c_ssd_parameterBinding_getPrefix(binding));
-                printf("      source: %s\n", ssp4c_ssd_parameterBinding_getSource(binding));
-                printf("      sourceBase: %d\n", ssp4c_ssd_parameterBinding_getSourceBase(binding));
-
-                ssdParameterValuesHandle *values = ssp4c_ssd_parameterBinding_getParameterValues(binding);
-
-                ssvParameterSetHandle *set = ssp4c_ssd_parameterValues_getParameterSet(values);
-                if(set) {
-                    printf("      parameter set:\n");
-                    printf("        version: %s\n", ssp4c_ssd_parameterSet_getVersion(set));
-                    printf("        name: %s\n", ssp4c_ssd_parameterSet_getName(set));
-                    printf("        id %s\n", ssp4c_ssd_parameterSet_getId(set));
-                    printf("        description: %s\n", ssp4c_ssd_parameterSet_getDescription(set));
-                    int parameterSetParameterCount = ssp4c_ssd_parameterSet_getNumberOfParameters(set);
-                    printf("        number of parameters: %i\n", parameterSetParameterCount);
-                    for(int k=0; k<parameterSetParameterCount; ++k) {
-                        ssvParameterHandle *par = ssp4c_ssd_parameterSet_getParameterByIndex(set, k);
-                        printf("        parameter:\n");
-                        printf("          name: %s\n", ssp4c_ssv_parameter_getName(par));
-                        printf("          description: %s\n", ssp4c_ssv_parameter_getDescription(par));
-                        printf("          id: %s\n", ssp4c_ssv_parameter_getId(par));
-                        if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeReal) {
-                            printf("          data type: ssv:Real\n");
-                            printf("          value: %f\n", ssp4c_ssv_parameter_getRealValue(par));
-                            printf("          unit: %s\n", ssp4c_ssv_parameter_getUnit(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeFloat64) {
-                            printf("          data type: ssv:Float64\n");
-                            printf("          value: %f\n", ssp4c_ssv_parameter_getFloat64Value(par));
-                            printf("          unit: %s\n", ssp4c_ssv_parameter_getUnit(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeFloat32) {
-                            printf("          data type: ssv:Float32\n");
-                            printf("          value: %f\n", ssp4c_ssv_parameter_getFloat32Value(par));
-                            printf("          unit: %s\n", ssp4c_ssv_parameter_getUnit(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeInteger) {
-                            printf("          data type: ssv:Integer\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getIntValue(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeInt64) {
-                            printf("          data type: ssv:Int64\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getInt64Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeInt32) {
-                            printf("          data type: ssv:Int32\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getInt32Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeInt16) {
-                            printf("          data type: ssv:Int16\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getInt16Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeInt8) {
-                            printf("          data type: ssv:Int8\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getInt8Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeUInt64) {
-                            printf("          data type: ssv:UInt64\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getUInt64Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeUInt32) {
-                            printf("          data type: ssv:UInt32\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getUInt32Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeUInt16) {
-                            printf("          data type: ssv:UInt16\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getUInt16Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeUInt8) {
-                            printf("          data type: ssv:UInt8\n");
-                            printf("          value: %d\n", ssp4c_ssv_parameter_getUInt8Value(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeBoolean) {
-                            printf("          data type: ssv:Boolean\n");
-                            printf("          value: %i\n", ssp4c_ssv_parameter_getBooleanValue(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeString) {
-                            printf("          data type: ssv:String\n");
-                            printf("          value: %s\n", ssp4c_ssv_parameter_getStringValue(par));
-                        }
-                        else if(ssp4c_ssv_parameter_getDatatype(par) == sspDataTypeEnumeration) {
-                            printf("          data type: ssv:Enumeration\n");
-                            printf("          value: %s\n", ssp4c_ssv_parameter_getEnumValue(par));
-                            for(int l=0; l<ssp4c_ssv_parameter_getNumberOfEnumerationValues(par); ++l) {
-                                printf("          alternative value: %s\n", ssp4c_ssv_parameter_getEnumerationValueByIndex(par, l));
-                            }
-                        }
-                    }
-                }
-
-                ssdParameterMappingHandle *mapping = ssp4c_ssd_parameterSet_getParameterMapping(binding);
-                if(mapping) {
-                    printf("      parameter mapping:\n");
-                    printf("        desciption: %s\n", ssp4c_ssd_parameterMapping_getDescription(mapping));
-                    printf("        id: %s\n", ssp4c_ssd_parameterMapping_getId(mapping));
-                    printf("        type: %s\n", ssp4c_ssd_parameterMapping_getType(mapping));
-                    printf("        source: %s\n", ssp4c_ssd_parameterMapping_getSource(mapping));
-                    printf("        sourceBase: %d\n", ssp4c_ssd_parameterMapping_getSourceBase(mapping));
-
-                    ssmParameterMappingHandle *ssmMapping = ssp4c_ssd_parameterMapping_getSsmParameterMapping(mapping);
-                    if(ssmMapping) {
-                        printf("        ssm parameter mapping:\n");
-                        printf("          version: %s\n", ssp4c_ssm_parameterMapping_getVersion(ssmMapping));
-                        printf("          id: %s\n", ssp4c_ssm_parameterMapping_getId(ssmMapping));
-                        printf("          description: %s\n", ssp4c_ssm_parameterMapping_getDescription(ssmMapping));
-                        printf("          author: %s\n", ssp4c_ssm_parameterMapping_getAuthor(ssmMapping));
-                        printf("          fileversion: %s\n", ssp4c_ssm_parameterMapping_getFileversion(ssmMapping));
-                        printf("          copyright: %s\n", ssp4c_ssm_parameterMapping_getCopyright(ssmMapping));
-                        printf("          license: %s\n", ssp4c_ssm_parameterMapping_getLicense(ssmMapping));
-                        printf("          generationTool: %s\n", ssp4c_ssm_parameterMapping_getGenerationTool(ssmMapping));
-                        printf("          generationDateAndTime: %s\n", ssp4c_ssm_parameterMapping_getGenerationDateAndTime(ssmMapping));
-                        printf("          number of entries: %d\n", ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmMapping));
-
-                        for(int k=0; k<ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmMapping); ++k) {
-                            ssmParameterMappingEntryHandle *entry = ssp4c_ssm_parameterMapping_getMappingEntryByIndex(ssmMapping, k);
-                            printf("          parameter mapping entry:\n");
-                            printf("            id: %s\n", ssp4c_ssm_mappingEntry_getId(entry));
-                            printf("            description: %s\n", ssp4c_ssm_mappingEntry_getDescription(entry));
-                            printf("            source: %s\n", ssp4c_ssm_mappingEntry_getSource(entry));
-                            printf("            target: %s\n", ssp4c_ssm_mappingEntry_getTarget(entry));
-                            printf("            suppressUnitConversion: %d\n", ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(entry));
-                            sscMappingTransformHandle *transform = _ssm_mappingEntry_getSsmMappingTransform(entry);
-                            if(transform) {
-                                printf("            transform:\n");
-                                printf("              type: %d\n", ssp4c_ssc_mapEntry_getType(transform));
-                                printf("              factor: %f\n", ssp4c_ssc_mapEntry_getFactor(transform));
-                                printf("              offset: %f\n", ssp4c_ssc_mapEntry_getOffset(transform));
-                                printf("              number of map entries: %d\n", ssp4c_getNumberOfMapEntries(transform));
-
-                                for(int l=0; l<ssp4c_getNumberOfMapEntries(transform); ++l) {
-                                    sscMapEntryHandle *entry = ssp4c_getMapEntryByIndex(transform, l);
-                                    printf("              map entry:\n");
-                                    printf("                boolSource: %d\n", ssp4c_ssc_mapEntry_getBoolSource(entry));
-                                    printf("                boolTarget: %d\n", ssp4c_ssc_mapEntry_getBoolTarget(entry));
-                                    printf("                intSource: %d\n", ssp4c_ssc_mapEntry_getIntSource(entry));
-                                    printf("                intTarget: %d\n", ssp4c_ssc_mapEntry_getIntTarget(entry));
-                                    printf("                enumSource: %s\n", ssp4c_ssc_mapEntry_getEnumSource(entry));
-                                    printf("                enumTarget: %s\n", ssp4c_ssc_mapEntry_getEnumTarget(entry));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        print_ssd(ssp4c_getSsdByIndex(ssp,i), 0);
     }
 
     ssp4c_freeSsp(ssp);
