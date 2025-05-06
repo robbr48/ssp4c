@@ -46,7 +46,7 @@ struct ssvParameterHandle {
 
 };
 
-struct ssdParameterSetHandle {
+struct ssvParameterSetHandle {
     const char* version;
     const char* name;
     const char* id;
@@ -54,6 +54,10 @@ struct ssdParameterSetHandle {
 
     int parameterCount;
     ssvParameterHandle *parameters;
+};
+
+struct ssdParameterValuesHandle {
+    ssvParameterSetHandle *parameterSet;
 };
 
 struct sscMapEntryHandle {
@@ -115,8 +119,7 @@ struct ssdParameterBindingHandle {
     ssdParameterSourceBase sourceBase;
     const char* prefix;
 
-    ssdParameterSetHandle *parameterSet;
-
+    ssdParameterValuesHandle *parameterValues;
     ssdParameterMappingHandle *parameterMapping;
 };
 
