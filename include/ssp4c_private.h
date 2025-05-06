@@ -6,11 +6,6 @@
 
 #include "ssp4c_public.h"
 
-typedef enum { ssmMappingTransformLinear,
-               ssmMappingTransformBoolean,
-               ssmMappingTransformInteger,
-               ssmMappingTransformEnumeration} ssmMappingTransform;
-
 struct ssdElementGeometryHandle {
     double x1;
     double y1;
@@ -61,16 +56,21 @@ struct ssdParameterSetHandle {
     ssvParameterHandle *parameters;
 };
 
-struct ssmMappingTransformHandle {
-    ssmMappingTransform type;
-    double factor;
-    double offset;
+struct sscMapEntryHandle {
     bool boolSource;
-    bool booltarget;
+    bool boolTarget;
     int intSource;
     int intTarget;
     const char* enumSource;
     const char* enumTarget;
+};
+
+struct sscMappingTransformHandle {
+    sscMappingTransform type;
+    double factor;
+    double offset;
+    int mapEntryCount;
+    sscMapEntryHandle *mapEntries;
 };
 
 struct ssmParameterMappingEntryHandle {
@@ -80,6 +80,7 @@ struct ssmParameterMappingEntryHandle {
     const char* target;
     bool suppressUnitConveresion;
 
+    sscMappingTransformHandle *transform;
 
 };
 
@@ -94,17 +95,18 @@ struct ssmParameterMappingHandle {
     const char* generationTool;
     const char* generationDateAndTime;
 
-
+    int mappingEntryCount;
+    ssmParameterMappingEntryHandle *mappingEntries;
 };
 
-struct ssdComponentParameterMappingHandle {
+struct ssdParameterMappingHandle {
     const char* id;
     const char* description;
     const char* type;
     const char* source;
     ssdParameterSourceBase sourceBase;
 
-    ssmParameterMappingHandle parameterMapping; //! @todo parse and access functions
+    ssmParameterMappingHandle *parameterMapping; //! @todo parse and access functions
 };
 
 struct ssdParameterBindingHandle {
