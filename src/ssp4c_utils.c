@@ -295,12 +295,44 @@ bool parseUInt8AttributeEzXml(ezxml_t element, const char *attributeName, uint8_
     return false;
 }
 
+int changeToParentDirectory(const char *path) {
+    char parent[MAX_PATH];
+    strncpy(parent, path, MAX_PATH);
+    parent[MAX_PATH - 1] = '\0';
+
+    // Find the last backslash or slash
+    char *lastSlash = strrchr(parent, '\\');
+    if (!lastSlash) lastSlash = strrchr(parent, '/');
+
+    if (lastSlash) {
+        *lastSlash = '\0'; // Truncate path at the last slash
+        if (SetCurrentDirectoryA(parent)) {
+            return 0; // Success
+        } else {
+            DWORD err = GetLastError();
+            printf("Failed to set current directory to '%s' (error %lu)\n", parent, err);
+            return 1;
+        }
+    } else {
+        printf("Could not determine parent directory of '%s'\n", path);
+        return 1;
+    }
+}
+
 
 //! @brief Remove a directory (including all files and sub directories)
 //! @param rootDirPath The path to the directory to remove
 //! @param expectedDirNamePrefix Optional directory name prefix to avoid removing unintended root dir. Set to Null to ignore.
 //! @returns 0 if removed OK else a system error code or -1
-int removeDirectoryRecursively(const char* rootDirPath, const char *expectedDirNamePrefix) {
+int removeDirectoryRecursively(const char* rootDirPath, const char *expectedDirNamePrefix)
+{
+    char mainTempPath[FILENAME_MAX] = {0};
+    DWORD len = GetTempPathA(FILENAME_MAX, mainTempPath);
+    if (len > 0) {
+        SetCurrentDirectoryA(mainTempPath);
+    }
+
+
     // If expectedDirNamePrefix is set, ensure that the name of the directory being removed starts with this prefix
     // This is just an optional sanity check to prevent unexpected removal of the wrong directory
     if (expectedDirNamePrefix != NULL) {
