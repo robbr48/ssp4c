@@ -36,6 +36,7 @@ bool parseUInt8AttributeEzXml(ezxml_t element, const char *attributeName, uint8_
 
 const char* generateTempPath();
 bool unzipSsp(const char* sspfile, const char* unzipLocation);
+bool zipSsp(const char* sspfile, const char* zipLocation);
 
 void freeDuplicatedConstChar(const char* ptr);
 

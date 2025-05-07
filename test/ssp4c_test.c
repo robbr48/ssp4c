@@ -299,6 +299,8 @@ int main(int argc, char *argv[])
         print_ssd(ssp4c_getSsdByIndex(ssp,i), 0);
     }
 
+    ssp4c_saveSsp(ssp, sspfile);
+
     ssp4c_freeSsp(ssp);
 
     return 0;
