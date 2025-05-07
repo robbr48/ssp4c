@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "ezxml/ezxml.h"
 #include "ssp4c_public.h"
 
 struct ssdElementGeometryHandle {
@@ -147,6 +148,8 @@ struct ssdComponentHandle {
 };
 
 struct ssdHandle {
+    ezxml_t xml;
+
     const char* filename;
     const char* name;
     const char* version;

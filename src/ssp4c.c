@@ -42,6 +42,39 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
     return ssp;
 }
 
+bool ssp4c_saveSsp(sspHandle *h, const char *sspfile)
+{
+
+    char cwd[MAX_PATH];
+#ifdef _WIN32
+    _getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#else
+    getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#endif
+    chdir(h->unzippedLocation);
+    for(int i=0; i<h->ssdCount; ++i) {
+        FILE* fp = fopen(h->ssds[i].filename, "w");
+        if (fp == NULL)
+        {
+            printf("Could not open file for writing: %s\n", h->ssds[i].filename);
+            return false;
+        }
+        else
+        {
+            fprintf(fp, ezxml_toxml(h->ssds[i].xml));
+            fclose(fp);
+        }
+    }
+    chdir(cwd);
+
+    if(!zipSsp(sspfile, h->unzippedLocation)) {
+        printf("Zip failed\n");
+        return false;
+    }
+
+    return true;
+}
+
 //! @brief Returns FMI version of SSP
 //! @param h SSP handle
 //! @returns Version of the SSP
@@ -56,6 +89,12 @@ sspVersion ssp4c_getSspVersion(sspHandle *h)
 //! @param h SSP handle
 void ssp4c_freeSsp(sspHandle *h)
 {
+    //Free all loaded XML objects
+    for(int i=0; i<h->ssdCount; ++i) {
+        ezxml_free(h->ssds[i].xml);
+    }
+
+    //Remove temporary unzipped location
     if(h->unzippedLocation) {
         removeDirectoryRecursively(h->unzippedLocation, "ssp4c_");
     }

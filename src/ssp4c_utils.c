@@ -418,6 +418,13 @@ int removeDirectoryRecursively(const char* rootDirPath, const char *expectedDirN
             rc = RemoveDirectoryA(rootDirPath);
             // RemoveDirectoryA returns non-zero on success so we swap it so that rest of the code works as expected (return code 0 = OK)
             rc = (rc == 0) ? 1 : 0;
+            if(rc != 0) {
+                DWORD err = GetLastError();
+                printf("RemoveDirectoryA failed with error: %lu\n", err);
+                char cwd[MAX_PATH];
+                GetCurrentDirectoryA(MAX_PATH, cwd);
+                printf("Current working directory: %s\n", cwd);
+            }
 #else
             rc = rmdir(rootDirPath);
 #endif
@@ -564,6 +571,69 @@ bool unzipSsp(const char* sspfile, const char* unzipLocation)
     return true;
 }
 
+bool zipSsp(const char* sspfile, const char* zipLocation)
+{
+    char cwd[FILENAME_MAX];
+#ifdef _WIN32
+    _getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#else
+    getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#endif
+
+#ifdef SSP4C_WITH_MINIZIP
+    // int argc = 6;
+    // const char *argv[6];
+    // argv[0] = "miniunz";
+    // argv[1] = "-x";
+    // argv[2] = "-o";
+    // argv[3] = sspfile;
+    // argv[4] = "-d";
+    // argv[5] = unzipLocation;
+
+    // int status = miniunz(argc, (char**)argv);
+    // if (status != 0) {
+    //     printf("Failed to unzip SSP: status = %i, to location %s\n",status, unzipLocation);
+    //     return NULL;
+    // }
+    // // miniunzip will change dir to unzipLocation, lets change back
+    // chdir(cwd);
+#else
+#ifdef _WIN32
+    const int commandLength = strlen("tar -cf \"") + strlen(sspfile) + strlen("\" -C \" *") + strlen(zipLocation) + 2;
+
+    // Allocate memory for the command
+    char *command = malloc(commandLength * sizeof(char));
+    if (command == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return false;
+    }
+    // Build the command string
+    //tar -cf test.ssp -C C:\users\robbr48\git\ssp4c\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\test *
+    snprintf(command, commandLength, "tar -cf \"%s\" -C \"%s\" *", sspfile, zipLocation);
+#else
+    // const int commandLength = strlen("unzip -o \"") + strlen(sspfile) + strlen("\" -d \"") + strlen(unzipLocation) + 2;
+
+    // // Allocate memory for the command
+    // char *command = malloc(commandLength * sizeof(char));
+    // if (command == NULL) {
+    //     fprintf(stderr, "Memory allocation failed\n");
+    //     return NULL;
+    // }
+    // // Build the command string
+    // snprintf(command, commandLength, "unzip -o \"%s\" -d \"%s\"", sspfile, unzipLocation);
+#endif
+    const int status = system(command);
+    free(command);
+    if (status != 0) {
+        printf("Failed to zip SSP: status = %i, from location %s\n",status, zipLocation);
+        return false;
+    }
+#endif
+
+    return true;
+}
+
+
 
 sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzippedLocationIsTemporary)
 {
@@ -592,6 +662,8 @@ sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzipp
 
     int nfiles;
     char** files = listFiles(ssp,ssp->unzippedLocation,&nfiles);
+
+    chdir(cwd);
 
     return ssp;
 }
@@ -1176,9 +1248,9 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
 #endif
     chdir(ssp->unzippedLocation);
 
-    ezxml_t rootElement = ezxml_parse_file(path);
-    if(strcmp(rootElement->name, "ssd:SystemStructureDescription")) {
-        printf("Wrong root tag name: %s\n", rootElement->name);
+    ssd->xml = ezxml_parse_file(path);
+    if(strcmp(ssd->xml ->name, "ssd:SystemStructureDescription")) {
+        printf("Wrong root tag name: %s\n", ssd->xml ->name);
         return false;
     }
 
@@ -1196,18 +1268,18 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
     ssd->connectorCount = 0;
     ssd->componentCount = 0;
 
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "name", &ssd->name, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "version", &ssd->version, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "id", &ssd->id, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "description", &ssd->description, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "author", &ssd->author, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "fileversion", &ssd->fileversion, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "copyright", &ssd->copyright, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "license", &ssd->license, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "generationTool", &ssd->generationTool, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(rootElement, "generationDateAndTime", &ssd->generationDateAndTime, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "name", &ssd->name, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "version", &ssd->version, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "id", &ssd->id, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "description", &ssd->description, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "author", &ssd->author, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "fileversion", &ssd->fileversion, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "copyright", &ssd->copyright, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "license", &ssd->license, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "generationTool", &ssd->generationTool, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "generationDateAndTime", &ssd->generationDateAndTime, ssp);
 
-    ezxml_t systemElement = ezxml_child(rootElement, "ssd:System");
+    ezxml_t systemElement = ezxml_child(ssd->xml , "ssd:System");
     if(systemElement) {
 
         //Parse connectors
@@ -1222,8 +1294,6 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
             parseComponentsElement(componentsElement, &ssd->componentCount, &ssd->components, ssp);
         }
     }
-
-    ezxml_free(rootElement);
 
     chdir(cwd);
 

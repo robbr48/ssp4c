@@ -29,6 +29,7 @@ extern "C" {
 //Public functions
 SSP4C_DLLAPI sspVersion ssp4c_getSspVersion(sspHandle *h);
 SSP4C_DLLAPI sspHandle* ssp4c_loadSsp(const char *sspfile);
+SSP4C_DLLAPI bool ssp4c_saveSsp(sspHandle *h, const char *sspfile);
 SSP4C_DLLAPI void ssp4c_freeSsp(sspHandle* h);
 SSP4C_DLLAPI const char* ssp4c_getErrorMessages();
 
