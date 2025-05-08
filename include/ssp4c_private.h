@@ -8,6 +8,7 @@
 #include "ssp4c_public.h"
 
 struct ssdElementGeometryHandle {
+    ezxml_t xml;
     double x1;
     double y1;
     double x2;
@@ -133,6 +134,7 @@ struct ssdConnectorHandle {
 };
 
 struct ssdComponentHandle {
+    ezxml_t xml;
     const char* name;
     const char* type;
     const char* source;

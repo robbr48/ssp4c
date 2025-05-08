@@ -581,22 +581,74 @@ bool zipSsp(const char* sspfile, const char* zipLocation)
 #endif
 
 #ifdef SSP4C_WITH_MINIZIP
-    // int argc = 6;
-    // const char *argv[6];
-    // argv[0] = "miniunz";
-    // argv[1] = "-x";
-    // argv[2] = "-o";
-    // argv[3] = sspfile;
-    // argv[4] = "-d";
-    // argv[5] = unzipLocation;
+#ifdef _WIN32
+    //Windows does not expand wildcards, so we need to manually list all files in the folder before passing it to Minizip
+    WIN32_FIND_DATAA findData;
+    HANDLE hFind;
+    char searchPath[MAX_PATH];
 
-    // int status = miniunz(argc, (char**)argv);
-    // if (status != 0) {
-    //     printf("Failed to unzip SSP: status = %i, to location %s\n",status, unzipLocation);
-    //     return NULL;
-    // }
-    // // miniunzip will change dir to unzipLocation, lets change back
-    // chdir(cwd);
+    snprintf(searchPath, MAX_PATH, "%s\\*.*", zipLocation);
+    hFind = FindFirstFileA(searchPath, &findData);
+
+    if (hFind == INVALID_HANDLE_VALUE) {
+        printf("Could not list directory: %s\n", zipLocation);
+        return 1;
+    }
+
+    // Prepare args for minizip
+    const char *argv[512];
+    int argc = 0;
+    argv[argc++] = "minizip";
+    argv[argc++] = "-o"; // overwrite
+    argv[argc++] = "-0"; // no compression
+    argv[argc++] = "-j"; // junk path
+    argv[argc++] = sspfile;
+
+    do {
+        //Do not include . and ..
+        if(strcmp(findData.cFileName, ".") == 0 || strcmp(findData.cFileName, "..") == 0) {
+            continue;
+        }
+
+        //Foudn a file, append it to arguments
+        char fullPath[MAX_PATH];
+        snprintf(fullPath, MAX_PATH, "%s\\%s", zipLocation, findData.cFileName);
+        argv[argc++] = _strdup(fullPath);
+    } while(FindNextFileA(hFind, &findData));
+
+    FindClose(hFind);
+
+    int result = minizip(argc, (char **)argv);
+
+    // If you strdup'd paths, you should free them here
+    for (int i = 5; i < argc; ++i) {
+        freeDuplicatedConstChar(argv[i]);
+    }
+#else
+
+    char filesToZip[FILENAME_MAX] = {0};
+    strncat(filesToZip, zipLocation, FILENAME_MAX-strlen(filesToZip)-1);
+    strncat(filesToZip, "/*", FILENAME_MAX-strlen(filesToZip)-1);
+    printf("filesToZip: %s\n", filesToZip);
+
+    int argc = 6;
+    const char *argv[6];
+    argv[0] = "minizip";
+    argv[1] = "-o";
+    argv[2] = "-0";
+    argv[3] = "-j";
+    argv[4] = sspfile;
+    argv[5] = filesToZip;
+    //argv[6] = unzipLocation;
+
+    int status = minizip(argc, (char**)argv);
+    if (status != 0) {
+         printf("Failed to zip SSP: status = %i, to file %s\n",status, sspfile);
+         return NULL;
+     }
+     // miniunzip will change dir to unzipLocation, lets change back
+     chdir(cwd);
+#endif
 #else
 #ifdef _WIN32
     const int commandLength = strlen("tar -cf \"") + strlen(sspfile) + strlen("\" -C \" *") + strlen(zipLocation) + 2;
@@ -611,16 +663,16 @@ bool zipSsp(const char* sspfile, const char* zipLocation)
     //tar -cf test.ssp -C C:\users\robbr48\git\ssp4c\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\test *
     snprintf(command, commandLength, "tar -cf \"%s\" -C \"%s\" *", sspfile, zipLocation);
 #else
-    // const int commandLength = strlen("unzip -o \"") + strlen(sspfile) + strlen("\" -d \"") + strlen(unzipLocation) + 2;
+    const int commandLength = strlen("zip -FS -r -0 \"") + strlen(sspfile) + strlen("\" \"") + strlen(zipLocation) + strlen("\"/*") + 2;
 
-    // // Allocate memory for the command
-    // char *command = malloc(commandLength * sizeof(char));
-    // if (command == NULL) {
-    //     fprintf(stderr, "Memory allocation failed\n");
-    //     return NULL;
-    // }
-    // // Build the command string
-    // snprintf(command, commandLength, "unzip -o \"%s\" -d \"%s\"", sspfile, unzipLocation);
+     // Allocate memory for the command
+     char *command = malloc(commandLength * sizeof(char));
+     if (command == NULL) {
+         fprintf(stderr, "Memory allocation failed\n");
+         return NULL;
+     }
+     // Build the command string
+    snprintf(command, commandLength, "zip -FS -r -0 \"%s\" \"%s\"/*", sspfile, zipLocation);
 #endif
     const int status = system(command);
     free(command);
@@ -1176,6 +1228,7 @@ bool parseComponentsElement(ezxml_t element, int *count, ssdComponentHandle** co
     int i = 0;
     for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
         if (!strcmp(componentElement->name, "ssd:Component")) {
+            (*components[i]).xml = ezxml_idx(ezxml_child(element, "ssd:Component"),i);
             parseStringAttributeEzXmlAndRememberPointer(componentElement, "name", &(*components)[i].name, ssp);
             parseStringAttributeEzXmlAndRememberPointer(componentElement, "type", &(*components)[i].type, ssp);
             parseStringAttributeEzXmlAndRememberPointer(componentElement, "source", &(*components)[i].source, ssp);
