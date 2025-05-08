@@ -311,12 +311,12 @@ bool ssp4c_ssd_elementGeometry_getIconFixedAspectRatio(ssdElementGeometryHandle 
     return h->iconFixedAspectRatio;
 }
 
-void ezxml_set_attr_copy(ezxml_t xml, const char *key, const char *value) {
-    char *key_copy = strdup(key);
-    char *val_copy = strdup(value);
+void ezxml_set_attr_copy(ezxml_t xml, const char *key, const char *value, sspHandle *ssp) {
+
+    char *key_copy = duplicateAndRememberString(ssp, key);
+    char *val_copy = duplicateAndRememberString(ssp, value);
     ezxml_set_attr(xml, key_copy, val_copy);
-    freeDuplicatedConstChar(key_copy);
-    freeDuplicatedConstChar(val_copy);
+
 }
 
 void ssp4c_ssd_elementGeometry_setX1(ssdElementGeometryHandle *h, double value)
@@ -324,7 +324,7 @@ void ssp4c_ssd_elementGeometry_setX1(ssdElementGeometryHandle *h, double value)
     h->x1 = value;
     char buf[255];
     sprintf(buf, "%f", value);
-    ezxml_set_attr_copy(h->xml, "x1", buf);
+    ezxml_set_attr_copy(h->xml, "x1", buf, h->ssp);
 }
 
 const char *ssp4c_ssd_parameterBinding_getType(ssdParameterBindingHandle *h)

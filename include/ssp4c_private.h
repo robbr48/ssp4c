@@ -9,6 +9,7 @@
 
 struct ssdElementGeometryHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     double x1;
     double y1;
     double x2;

@@ -1268,6 +1268,7 @@ bool parseComponentsElement(ezxml_t element, int *count, ssdComponentHandle** co
                 parseBooleanAttributeEzXml(geometryElement, "iconFlip", &(*components)[i].geometry.iconFlip);
                 parseBooleanAttributeEzXml(geometryElement, "iconFixedAspectRatio", &(*components)[i].geometry.iconFixedAspectRatio);
             }
+            (*components)[i].geometry.ssp = ssp;
 
             ezxml_t parameterBindingsElement = ezxml_child(componentElement, "ssd:ParameterBindings");
             if(parameterBindingsElement) {
