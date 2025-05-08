@@ -296,9 +296,9 @@ bool parseUInt8AttributeEzXml(ezxml_t element, const char *attributeName, uint8_
 }
 
 int changeToParentDirectory(const char *path) {
-    char parent[MAX_PATH];
-    strncpy(parent, path, MAX_PATH);
-    parent[MAX_PATH - 1] = '\0';
+    char parent[FILENAME_MAX];
+    strncpy(parent, path, FILENAME_MAX);
+    parent[FILENAME_MAX - 1] = '\0';
 
     // Find the last backslash or slash
     char *lastSlash = strrchr(parent, '\\');
@@ -306,13 +306,7 @@ int changeToParentDirectory(const char *path) {
 
     if (lastSlash) {
         *lastSlash = '\0'; // Truncate path at the last slash
-        if (SetCurrentDirectoryA(parent)) {
-            return 0; // Success
-        } else {
-            DWORD err = GetLastError();
-            printf("Failed to set current directory to '%s' (error %lu)\n", parent, err);
-            return 1;
-        }
+        chdir(parent);
     } else {
         printf("Could not determine parent directory of '%s'\n", path);
         return 1;
@@ -326,13 +320,6 @@ int changeToParentDirectory(const char *path) {
 //! @returns 0 if removed OK else a system error code or -1
 int removeDirectoryRecursively(const char* rootDirPath, const char *expectedDirNamePrefix)
 {
-    char mainTempPath[FILENAME_MAX] = {0};
-    DWORD len = GetTempPathA(FILENAME_MAX, mainTempPath);
-    if (len > 0) {
-        SetCurrentDirectoryA(mainTempPath);
-    }
-
-
     // If expectedDirNamePrefix is set, ensure that the name of the directory being removed starts with this prefix
     // This is just an optional sanity check to prevent unexpected removal of the wrong directory
     if (expectedDirNamePrefix != NULL) {
@@ -410,7 +397,7 @@ int removeDirectoryRecursively(const char* rootDirPath, const char *expectedDirN
         }
         closedir(dir);
         if (rc == 0) {
-            // --- For debug ---
+            // --- For debug ---git
             //printf("Debug: Would rmdir: %s\n", rootDirPath);
             //rc = 0;
             // -----------------
@@ -663,7 +650,7 @@ bool zipSsp(const char* sspfile, const char* zipLocation)
     //tar -cf test.ssp -C C:\users\robbr48\git\ssp4c\build\Desktop_Qt_6_7_2_MinGW_64_bit-Debug\test *
     snprintf(command, commandLength, "tar -cf \"%s\" -C \"%s\" *", sspfile, zipLocation);
 #else
-    const int commandLength = strlen("zip -FS -r -0 \"") + strlen(sspfile) + strlen("\" \"") + strlen(zipLocation) + strlen("\"/*") + 2;
+    const int commandLength = strlen("zip -FS -r -j -0 \"") + strlen(sspfile) + strlen("\" \"") + strlen(zipLocation) + strlen("\"/*") + 2;
 
      // Allocate memory for the command
      char *command = malloc(commandLength * sizeof(char));
@@ -672,7 +659,7 @@ bool zipSsp(const char* sspfile, const char* zipLocation)
          return NULL;
      }
      // Build the command string
-    snprintf(command, commandLength, "zip -FS -r -0 \"%s\" \"%s\"/*", sspfile, zipLocation);
+    snprintf(command, commandLength, "zip -FS -r -j -0 \"%s\" \"%s\"/*", sspfile, zipLocation);
 #endif
     const int status = system(command);
     free(command);
