@@ -61,7 +61,9 @@ bool ssp4c_saveSsp(sspHandle *h, const char *sspfile)
         }
         else
         {
-            fprintf(fp, ezxml_toxml(h->ssds[i].xml));
+            const char* xmlText = ezxml_toxml(h->ssds[i].xml);
+            fprintf(fp, xmlText);
+            freeDuplicatedConstChar(xmlText);
             fclose(fp);
         }
     }
@@ -313,7 +315,8 @@ void ezxml_set_attr_copy(ezxml_t xml, const char *key, const char *value) {
     char *key_copy = strdup(key);
     char *val_copy = strdup(value);
     ezxml_set_attr(xml, key_copy, val_copy);
-    //Not a memory leak, pointers will be freed later by ezxml_free()
+    freeDuplicatedConstChar(key_copy);
+    freeDuplicatedConstChar(val_copy);
 }
 
 void ssp4c_ssd_elementGeometry_setX1(ssdElementGeometryHandle *h, double value)
