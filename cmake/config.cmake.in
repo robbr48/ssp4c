@@ -1,0 +1,32 @@
+@PACKAGE_INIT@
+
+include(${CMAKE_CURRENT_LIST_DIR}/ssp4c-targets.cmake)
+
+set(SSP4C_BUILT_SHARED @SSP4C_BUILD_SHARED@)
+set(SSP4C_INCLUDES_ZLIB @SSP4C_USE_INCLUDED_ZLIB@)
+set(SSP4C_USES_SYSTEM_ZIP @SSP4C_USE_SYSTEM_ZIP@)
+
+if (NOT ${SSP4C_USES_SYSTEM_ZIP})
+
+    # ssp4c needs to find system zlib in the following cases
+    #   Built shared but does not include zlib (Target ssp4c::zlibstatic missing)
+    #   Built static but does not include zlib (Target ssp4c::zlibstatic missing)
+
+    # ssp4c should not look for system zlib in the following cases
+    #   Built shared and includes zlib         (Target ssp4c::zlibstatic missing)
+    #   Built static and includes zlib         (Target ssp4c::zlibstatic exists)
+
+    if (NOT TARGET ssp4c::zlibstatic)
+        if(NOT (${SSP4C_BUILT_SHARED} AND ${SSP4C_INCLUDES_ZLIB}))
+            message(STATUS "Looking for ZLIB for ssp4c")
+            find_package(ZLIB MODULE)
+            message(STATUS "ZLIB_FOUND: ${ZLIB_FOUND}")
+            message(STATUS "ZLIB_INCLUDE_DIRS: ${ZLIB_INCLUDE_DIRS}")
+            message(STATUS "ZLIB_VERSION: ${ZLIB_VERSION} ${ZLIB_VERSION_STRING}")
+            message(STATUS "ZLIB_LIBRARIES: ${ZLIB_LIBRARIES}")
+        endif()
+    endif()
+
+endif()
+
+check_required_components(ssp4c)
