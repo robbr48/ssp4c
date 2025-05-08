@@ -19,6 +19,8 @@
                   <ssc:Real unit="V"/>
                </ssd:Connector>
             </ssd:Connectors>
+            <ssd:ElementGeometry x1="0" x2="0" y1="1" y2="1" rotation="90" iconSource="" iconRotation="0" iconFlip="true" iconFixedAspectRatio="false">
+            </ssd:ElementGeometry>
             <ssd:ParameterBindings>
                <ssd:ParameterBinding type="application/x-ssp-parameter-set">
                   <ssd:ParameterValues>

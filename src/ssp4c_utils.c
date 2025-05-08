@@ -1268,7 +1268,8 @@ bool parseComponentsElement(ezxml_t element, int *count, ssdComponentHandle** co
             (*components)[i].geometry.iconSource = NULL;
             (*components)[i].geometry.iconFlip = false;
             (*components)[i].geometry.iconFixedAspectRatio = false;
-            ezxml_t geometryElement = ezxml_child(componentElement, "ssd:Geometry");
+            ezxml_t geometryElement = ezxml_child(componentElement, "ssd:ElementGeometry");
+            (*components)[i].geometry.xml = geometryElement;
             if(geometryElement) {
                 parseFloat64AttributeEzXml(geometryElement, "x1", &(*components)[i].geometry.x1);
                 parseFloat64AttributeEzXml(geometryElement, "y1", &(*components)[i].geometry.y1);
