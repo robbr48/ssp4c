@@ -64,9 +64,9 @@ set(SRCFILES
     include/ssp4c_public.h
     3rdparty/ezxml/ezxml.c
     3rdparty/ezxml/ezxml.h)
-if (WIN32)
-    SET(SRCFILES ${SRCFILES} 3rdparty/minizip/iowin32.c)
-endif()
+#if (WIN32)
+#    SET(SRCFILES ${SRCFILES} 3rdparty/minizip/iowin32.c)
+#endif()
 if (MSVC)
     SET(SRCFILES ${SRCFILES} 3rdparty/dirent/dirent.h)
 endif()
@@ -135,6 +135,8 @@ else()
         message(STATUS "NOT using system zip")
         target_link_libraries(ssp4c PRIVATE ZLIB::ZLIB)
         target_compile_definitions(ssp4c PRIVATE SSP4C_WITH_MINIZIP)
+    else()
+        message(STATUS "Using esystem zip")
     endif()
 endif()
 
