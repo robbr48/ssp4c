@@ -45,7 +45,7 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
 bool ssp4c_saveSsp(sspHandle *h, const char *sspfile)
 {
 
-    char cwd[MAX_PATH];
+    char cwd[FILENAME_MAX];
 #ifdef _WIN32
     _getcwd(cwd, sizeof(char)*FILENAME_MAX);
 #else
