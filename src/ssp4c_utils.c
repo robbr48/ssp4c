@@ -801,6 +801,10 @@ bool parseConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ss
         else if(!strcmp(subElement->name, "ssc:Binary")) {
             h->datatype = sspDataTypeBinary;
         }
+        else {
+            printf("Illegal data type for connector!\n");
+            return false;
+        }
 
         //Read unit
         if(h->datatype == sspDataTypeReal ||
@@ -1044,12 +1048,12 @@ bool parseSscTransformationChoiceElement(ezxml_t element, sscMappingTransformHan
     handle->mapEntries = NULL;
     if (handle->mapEntryCount > 0) {
         handle->mapEntries = mallocAndRememberPointer(ssp, sizeof(sscMapEntryHandle)*handle->mapEntryCount);
-    }
 
-    int i=0;
-    for(ezxml_t entryElement = transformationElement->child; entryElement; entryElement = entryElement->ordered) {
-        parseSscMapEntryElement(entryElement, &(handle->mapEntries[i]), ssp);
-        ++i;
+        int i=0;
+        for(ezxml_t entryElement = transformationElement->child; entryElement; entryElement = entryElement->ordered) {
+            parseSscMapEntryElement(entryElement, &(handle->mapEntries[i]), ssp);
+            ++i;
+        }
     }
     return true;
 }
