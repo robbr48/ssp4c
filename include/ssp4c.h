@@ -49,8 +49,6 @@ SSP4C_DLLAPI const char* ssp4c_ssd_getGenerationTool(ssdHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_getGenerationDateAndTime(ssdHandle *h);
 SSP4C_DLLAPI int ssp4c_ssd_getNumberOfConnectors(ssdHandle *h);
 SSP4C_DLLAPI ssdConnectorHandle *ssp4c_ssd_getConnectorByIndex(ssdHandle *h, int i);
-SSP4C_DLLAPI ssdComponentsHandle *ssp4c_ssd_getComponents(ssdHandle* h);
-
 SSP4C_DLLAPI int ssp4c_ssd_getNumberOfComponents(ssdHandle* h);
 SSP4C_DLLAPI ssdComponentHandle *ssp4c_ssd_getComponentByIndex(ssdHandle *h, int i);
 
@@ -66,11 +64,9 @@ SSP4C_DLLAPI const char* ssp4c_ssd_component_getSource(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHandle *h);
 SSP4C_DLLAPI int ssp4c_ssd_component_getNumberOfConnectors(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *h, int i);
-SSP4C_DLLAPI ssdParameterBindingsHandle *ssp4c_ssd_component_getParameterBindings(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h);
-
-SSP4C_DLLAPI int ssp4c_ssd_parameterBindings_getNumberOfParameterBindings(ssdParameterBindingsHandle *h);
-SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_ssd_parameterBindings_getParameterBindingByIndex(ssdParameterBindingsHandle *h, int i);
+SSP4C_DLLAPI int ssp4c_ssd_component_getNumberOfParameterBindings(ssdComponentHandle *h);
+SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdComponentHandle *h, int i);
 
 SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getX1(ssdElementGeometryHandle *h);
 SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getY1(ssdElementGeometryHandle *h);
@@ -91,7 +87,6 @@ SSP4C_DLLAPI ssdParameterValuesHandle *ssp4c_ssd_parameterBinding_getParameterVa
 SSP4C_DLLAPI ssdParameterMappingHandle *ssp4c_ssd_parameterSet_getParameterMapping(ssdParameterBindingHandle *h);
 
 SSP4C_DLLAPI ssvParameterSetHandle *ssp4c_ssd_parameterValues_getParameterSet(ssdParameterValuesHandle *h);
-
 
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getVersion(ssvParameterSetHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getName(ssvParameterSetHandle *h);

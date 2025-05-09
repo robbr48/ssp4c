@@ -246,8 +246,7 @@ void print_ssd_component(ssdComponentHandle *h, int indentation)
     printf("%*c  implementation: %i\n", indentation, ' ', ssp4c_ssd_component_getImplementation(h));
     int ssdConnectorCount = ssp4c_ssd_component_getNumberOfConnectors(h);
     printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
-    ssdParameterBindingsHandle *bindings = ssp4c_ssd_component_getParameterBindings(h);
-    int ssdParameterBindingsCount = ssp4c_ssd_parameterBindings_getNumberOfParameterBindings(bindings);
+    int ssdParameterBindingsCount = ssp4c_ssd_component_getNumberOfParameterBindings(h);
     printf("%*c  number of parameter bindings: %i\n", indentation, ' ', ssdParameterBindingsCount);
 
     for(int j=0; j<ssdConnectorCount; ++j) {
@@ -257,7 +256,7 @@ void print_ssd_component(ssdComponentHandle *h, int indentation)
     print_ssd_elementGeometry(ssp4c_ssd_component_getElementGeometry(h), indentation+2);
 
     for(int j=0; j<ssdParameterBindingsCount; ++j) {
-        print_ssd_parameterBinding(ssp4c_ssd_parameterBindings_getParameterBindingByIndex(bindings, j), indentation+2);
+        print_ssd_parameterBinding(ssp4c_ssd_component_getParameterBindingByIndex(h, j), indentation+2);
     }
 }
 
