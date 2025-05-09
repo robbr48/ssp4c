@@ -1,10 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #ifndef _WIN32
 #include <unistd.h>
 #endif
 
 #include "ssp4c.h"
+
+bool fuzzyEquals(double a, double b, double relTol, double absTol) {
+    if(a == b) {
+        return true;
+    }
+
+    return fabs(a-b) <= fmax(relTol * fmax(fabs(a), fabs(b)), absTol);
+}
 
 void printUsage() {
     printf("Usage: ssp4ctest <options> <fmu_file(s)>\n");
@@ -281,6 +290,8 @@ void print_ssd(ssdHandle *h, int indentation)
 
 int main(int argc, char *argv[])
 {
+    int retCode = 0;
+
     if(argc == 1) {
         printUsage();
         exit(0);
@@ -299,13 +310,27 @@ int main(int argc, char *argv[])
         print_ssd(ssp4c_getSsdByIndex(ssp,i), 0);
     }
 
+    //Make changes to SSP
     ssp4c_ssd_elementGeometry_setX1(ssp4c_ssd_component_getElementGeometry(ssp4c_ssd_getComponentByIndex(ssp4c_getSsdByIndex(ssp,0),0)),42);
 
+    //Save and close SSP
     ssp4c_saveSsp(ssp, sspfile);
+    ssp4c_freeSsp(ssp);
+
+    //Load SSP again to check if modifications were saved
+    ssp = ssp4c_loadSsp(sspfile);
+    ssdHandle *ssd = ssp4c_getSsdByIndex(ssp, 0);
+    ssdComponentHandle* comp = ssp4c_ssd_getComponentByIndex(ssd, 0);
+    ssdElementGeometryHandle *geometry = ssp4c_ssd_component_getElementGeometry(comp);
+    double x1 = ssp4c_ssd_elementGeometry_getX1(geometry);
+    if(!fuzzyEquals(42, x1, 1e-3,1e-5)) {
+        printf("Incorrect value in SSP after saving and reloading!\n");
+        retCode = 1;
+    }
 
     ssp4c_freeSsp(ssp);
 
-    return 0;
+    return retCode;
 }
 
 
