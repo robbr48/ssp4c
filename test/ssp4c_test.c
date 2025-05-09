@@ -111,11 +111,11 @@ void print_ssd_parameterMapping(ssdParameterMappingHandle *mapping, int indentat
 
 void print_ssd_connector(ssdConnectorHandle *h, int indentation) {
     printf("%*cconnector:\n", indentation, ' ');
-    printf("%*c  name: %s\n", indentation, ' ', ssp4c_getSsdConnectorName(h));
-    printf("%*c  kind: %i\n", indentation, ' ', ssp4c_getSsdConnectorKind(h));
-    printf("%*c  description: %s\n", indentation, ' ', ssp4c_getSsdConnectorDescription(h));
-    printf("%*c  datatype: %i\n", indentation, ' ', ssp4c_getSsdConnectorDatatype(h));
-    printf("%*c  unit: %s\n", indentation, ' ', ssp4c_getSsdConnectorUnit(h));
+    printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssd_connector_getName(h));
+    printf("%*c  kind: %i\n", indentation, ' ', ssp4c_ssd_connector_getKind(h));
+    printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssd_connector_getDescription(h));
+    printf("%*c  datatype: %i\n", indentation, ' ', ssp4c_ssd_connector_getDatatype(h));
+    printf("%*c  unit: %s\n", indentation, ' ', ssp4c_ssd_connector_getUnit(h));
 }
 
 void print_ssv_parameter(ssvParameterHandle *h, int indentation)
@@ -244,9 +244,10 @@ void print_ssd_component(ssdComponentHandle *h, int indentation)
     printf("%*c  source: %s\n", indentation, ' ', ssp4c_ssd_component_getSource(h));
     printf("%*c  type: %s\n", indentation, ' ', ssp4c_ssd_component_getType(h));
     printf("%*c  implementation: %i\n", indentation, ' ', ssp4c_ssd_component_getImplementation(h));
-    int ssdConnectorCount = ssp4c_getNumberOfSsdComponentConnectors(h);
+    int ssdConnectorCount = ssp4c_ssd_component_getNumberOfConnectors(h);
     printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
-    int ssdParameterBindingsCount = ssp4c_getNumberOfSsdComponentParameterBindings(h);
+    ssdParameterBindingsHandle *bindings = ssp4c_ssd_component_getParameterBindings(h);
+    int ssdParameterBindingsCount = ssp4c_ssd_parameterBindings_getNumberOfParameterBindings(bindings);
     printf("%*c  number of parameter bindings: %i\n", indentation, ' ', ssdParameterBindingsCount);
 
     for(int j=0; j<ssdConnectorCount; ++j) {
@@ -256,35 +257,34 @@ void print_ssd_component(ssdComponentHandle *h, int indentation)
     print_ssd_elementGeometry(ssp4c_ssd_component_getElementGeometry(h), indentation+2);
 
     for(int j=0; j<ssdParameterBindingsCount; ++j) {
-        print_ssd_parameterBinding(ssp4c_ssd_component_getParameterBindingByIndex(h, j), indentation+2);
+        print_ssd_parameterBinding(ssp4c_ssd_parameterBindings_getParameterBindingByIndex(bindings, j), indentation+2);
     }
 }
 
+
 void print_ssd(ssdHandle *h, int indentation)
 {
-    printf("%*cSSD file: %s\n", indentation, ' ', ssp4c_getSsdFileName(h));
-    printf("%*c  name: %s\n", indentation, ' ', ssp4c_getSsdName(h));
-    printf("%*c  version: %s\n", indentation, ' ', ssp4c_getSsdVersion(h));
-    printf("%*c  id: %s\n", indentation, ' ', ssp4c_getSsdId(h));
-    printf("%*c  description: %s\n", indentation, ' ', ssp4c_getSsdDescription(h));
-    printf("%*c  author: %s\n", indentation, ' ', ssp4c_getSsdAuthor(h));
-    printf("%*c  fileversion: %s\n", indentation, ' ', ssp4c_getSsdFileversion(h));
-    printf("%*c  copyright: %s\n", indentation, ' ', ssp4c_getSsdCopyright(h));
-    printf("%*c  license: %s\n", indentation, ' ', ssp4c_getSsdLicense(h));
-    printf("%*c  generationTool: %s\n", indentation, ' ', ssp4c_getSsdGenerationTool(h));
-    printf("%*c  generationDateAndTime: %s\n", indentation, ' ', ssp4c_getSsdGenerationDateAndTime(h));
+    printf("%*cSSD file: %s\n", indentation, ' ', ssp4c_ssd_getFileName(h));
+    printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssd_getName(h));
+    printf("%*c  version: %s\n", indentation, ' ', ssp4c_ssd_getVersion(h));
+    printf("%*c  id: %s\n", indentation, ' ', ssp4c_ssd_getId(h));
+    printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssd_getDescription(h));
+    printf("%*c  author: %s\n", indentation, ' ', ssp4c_ssd_getAuthor(h));
+    printf("%*c  fileversion: %s\n", indentation, ' ', ssp4c_ssd_getFileversion(h));
+    printf("%*c  copyright: %s\n", indentation, ' ', ssp4c_ssd_getCopyright(h));
+    printf("%*c  license: %s\n", indentation, ' ', ssp4c_ssd_getLicense(h));
+    printf("%*c  generationTool: %s\n", indentation, ' ', ssp4c_ssd_getGenerationTool(h));
+    printf("%*c  generationDateAndTime: %s\n", indentation, ' ', ssp4c_ssd_getGenerationDateAndTime(h));
 
-    int ssdConnectorCount = ssp4c_getNumberOfSsdConnectors(h);
+    int ssdConnectorCount = ssp4c_ssd_getNumberOfConnectors(h);
     printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
-    int ssdComponentCount = ssp4c_getNumberOfSsdComponents(h);
-    printf("%*c  number of components: %i\n", indentation, ' ', ssdComponentCount);
 
     for(int j=0; j<ssdConnectorCount; ++j) {
-        print_ssd_connector(ssp4c_getSsdConnectorByIndex(h, j), indentation+2);
+        print_ssd_connector(ssp4c_ssd_getConnectorByIndex(h, j), indentation+2);
     }
 
-    for(int j=0; j<ssdComponentCount; ++j) {
-        print_ssd_component(ssp4c_ssd_getComponentByIndex(h, j), indentation+2);
+    for(int i=0; i<ssp4c_ssd_getNumberOfComponents(h); ++i) {
+        print_ssd_component(ssp4c_ssd_getComponentByIndex(h, i),indentation+2);
     }
 }
 
@@ -311,7 +311,10 @@ int main(int argc, char *argv[])
     }
 
     //Make changes to SSP
-    ssp4c_ssd_elementGeometry_setX1(ssp4c_ssd_component_getElementGeometry(ssp4c_ssd_getComponentByIndex(ssp4c_getSsdByIndex(ssp,0),0)),42);
+    ssdHandle *ssd = ssp4c_getSsdByIndex(ssp,0);
+    ssdComponentHandle *comp = ssp4c_ssd_getComponentByIndex(ssd, 0);
+    ssdElementGeometryHandle *geometry = ssp4c_ssd_component_getElementGeometry(comp);
+    ssp4c_ssd_elementGeometry_setX1(geometry,42);
 
     //Save and close SSP
     ssp4c_saveSsp(ssp, sspfile);
@@ -319,9 +322,9 @@ int main(int argc, char *argv[])
 
     //Load SSP again to check if modifications were saved
     ssp = ssp4c_loadSsp(sspfile);
-    ssdHandle *ssd = ssp4c_getSsdByIndex(ssp, 0);
-    ssdComponentHandle* comp = ssp4c_ssd_getComponentByIndex(ssd, 0);
-    ssdElementGeometryHandle *geometry = ssp4c_ssd_component_getElementGeometry(comp);
+    ssd = ssp4c_getSsdByIndex(ssp, 0);
+    comp = ssp4c_ssd_getComponentByIndex(ssd, 0);
+    geometry = ssp4c_ssd_component_getElementGeometry(comp);
     double x1 = ssp4c_ssd_elementGeometry_getX1(geometry);
     if(!fuzzyEquals(42, x1, 1e-3,1e-5)) {
         printf("Incorrect value in SSP after saving and reloading!\n");

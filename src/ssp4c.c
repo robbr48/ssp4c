@@ -120,105 +120,105 @@ ssdHandle *ssp4c_getSsdByIndex(sspHandle *h, int i)
     return &h->ssds[i];
 }
 
-const char *ssp4c_getSsdFileName(ssdHandle *h)
+const char *ssp4c_ssd_getFileName(ssdHandle *h)
 {
     return h->filename;
 }
 
-const char *ssp4c_getSsdName(ssdHandle *h)
+const char *ssp4c_ssd_getName(ssdHandle *h)
 {
     return h->name;
 }
 
-const char *ssp4c_getSsdVersion(ssdHandle *h)
+const char *ssp4c_ssd_getVersion(ssdHandle *h)
 {
     return h->version;
 }
 
-const char *ssp4c_getSsdId(ssdHandle *h)
+const char *ssp4c_ssd_getId(ssdHandle *h)
 {
     return h->id;
 }
 
-const char *ssp4c_getSsdDescription(ssdHandle *h)
+const char *ssp4c_ssd_getDescription(ssdHandle *h)
 {
     return h->description;
 }
 
-const char *ssp4c_getSsdAuthor(ssdHandle *h)
+const char *ssp4c_ssd_getAuthor(ssdHandle *h)
 {
     return h->author;
 }
 
-const char *ssp4c_getSsdFileversion(ssdHandle *h)
+const char *ssp4c_ssd_getFileversion(ssdHandle *h)
 {
     return h->fileversion;
 }
 
-const char *ssp4c_getSsdCopyright(ssdHandle *h)
+const char *ssp4c_ssd_getCopyright(ssdHandle *h)
 {
     return h->copyright;
 }
 
-const char *ssp4c_getSsdLicense(ssdHandle *h)
+const char *ssp4c_ssd_getLicense(ssdHandle *h)
 {
     return h->license;
 }
 
-const char *ssp4c_getSsdGenerationTool(ssdHandle *h)
+const char *ssp4c_ssd_getGenerationTool(ssdHandle *h)
 {
     return h->generationTool;
 }
 
-const char *ssp4c_getSsdGenerationDateAndTime(ssdHandle *h)
+const char *ssp4c_ssd_getGenerationDateAndTime(ssdHandle *h)
 {
     return h->generationDateAndTime;
 }
 
-int ssp4c_getNumberOfSsdConnectors(ssdHandle *h)
+int ssp4c_ssd_getNumberOfConnectors(ssdHandle *h)
 {
-    return h->connectorCount;
+    return h->connectors->connectorsCount;
 }
 
-ssdConnectorHandle *ssp4c_getSsdConnectorByIndex(ssdHandle *ssd, int i)
+ssdConnectorHandle *ssp4c_ssd_getConnectorByIndex(ssdHandle *ssd, int i)
 {
-    return &ssd->connectors[i];
+    return &ssd->connectors->connectors[i];
 }
 
-const char* ssp4c_getSsdConnectorName(ssdConnectorHandle *h)
+const char* ssp4c_ssd_connector_getName(ssdConnectorHandle *h)
 {
     return h->name;
 }
 
-ssdConnectorKind ssp4c_getSsdConnectorKind(ssdConnectorHandle *h)
+ssdConnectorKind ssp4c_ssd_connector_getKind(ssdConnectorHandle *h)
 {
     return h->kind;
 }
 
-const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *h)
+const char* ssp4c_ssd_connector_getDescription(ssdConnectorHandle *h)
 {
     return h->description;
 }
 
-sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *h)
+sspDataType ssp4c_ssd_connector_getDatatype(ssdConnectorHandle *h)
 {
     return h->datatype;
 }
 
-const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *h)
+const char* ssp4c_ssd_connector_getUnit(ssdConnectorHandle *h)
 {
     return h->unit;
 }
 
 
-int ssp4c_getNumberOfSsdComponents(ssdHandle* h)
+int ssp4c_ssd_getNumberOfComponents(ssdHandle* h)
 {
-    return h->componentCount;
+    return h->components->componentsCount;
 }
 
-ssdComponentHandle* ssp4c_ssd_getComponentByIndex(ssdHandle* h, int i)
+ssdComponentHandle *ssp4c_ssd_getComponentByIndex(ssdHandle *h, int i)
 {
-    return &h->components[i];
+    return &(h->components->components[i]);
 }
 
 const char* ssp4c_ssd_component_getName(ssdComponentHandle *h)
@@ -241,29 +241,34 @@ ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHan
     return h->implementation;
 }
 
-int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle *h)
+int ssp4c_ssd_component_getNumberOfConnectors(ssdComponentHandle *h)
 {
-    return h->connectorCount;
+    return h->connectors->connectorsCount;
 }
 
 ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *h, int i)
 {
-    return &h->connectors[i];
+    return &h->connectors->connectors[i];
 }
 
-int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *h)
+ssdParameterBindingsHandle *ssp4c_ssd_component_getParameterBindings(ssdComponentHandle *h)
 {
-    return h->parameterBindingsCount;
-}
-
-ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdComponentHandle *h, int i)
-{
-    return &(h->parameterBindings[i]);
+    return h->parameterBindings;
 }
 
 ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h)
 {
     return &(h->geometry);
+}
+
+int ssp4c_ssd_parameterBindings_getNumberOfParameterBindings(ssdParameterBindingsHandle *h)
+{
+    return h->parameterBindingsCount;
+}
+
+ssdParameterBindingHandle *ssp4c_ssd_parameterBindings_getParameterBindingByIndex(ssdParameterBindingsHandle *h, int i)
+{
+    return &(h->parameterBindings[i]);
 }
 
 double ssp4c_ssd_elementGeometry_getX1(ssdElementGeometryHandle *h)

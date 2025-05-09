@@ -36,37 +36,41 @@ SSP4C_DLLAPI const char* ssp4c_getErrorMessages();
 SSP4C_DLLAPI int ssp4c_getNumberOfSsds(sspHandle *h);
 SSP4C_DLLAPI ssdHandle *ssp4c_getSsdByIndex(sspHandle *h, int i);
 
-SSP4C_DLLAPI const char* ssp4c_getSsdFileName(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdName(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdVersion(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdId(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdDescription(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdAuthor(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdFileversion(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdCopyright(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdLicense(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdGenerationTool(ssdHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdGenerationDateAndTime(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getFileName(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getName(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getVersion(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getId(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getDescription(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getAuthor(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getFileversion(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getCopyright(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getLicense(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getGenerationTool(ssdHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_getGenerationDateAndTime(ssdHandle *h);
+SSP4C_DLLAPI int ssp4c_ssd_getNumberOfConnectors(ssdHandle *h);
+SSP4C_DLLAPI ssdConnectorHandle *ssp4c_ssd_getConnectorByIndex(ssdHandle *h, int i);
+SSP4C_DLLAPI ssdComponentsHandle *ssp4c_ssd_getComponents(ssdHandle* h);
 
-SSP4C_DLLAPI int ssp4c_getNumberOfSsdConnectors(ssdHandle *h);
-SSP4C_DLLAPI ssdConnectorHandle *ssp4c_getSsdConnectorByIndex(ssdHandle *h, int i);
-SSP4C_DLLAPI const char* ssp4c_getSsdConnectorName(ssdConnectorHandle *h);
-SSP4C_DLLAPI ssdConnectorKind ssp4c_getSsdConnectorKind(ssdConnectorHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdConnectorDescription(ssdConnectorHandle *h);
-SSP4C_DLLAPI sspDataType ssp4c_getSsdConnectorDatatype(ssdConnectorHandle *h);
-SSP4C_DLLAPI const char* ssp4c_getSsdConnectorUnit(ssdConnectorHandle *h);
-SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponents(ssdHandle* h);
-SSP4C_DLLAPI ssdComponentHandle* ssp4c_ssd_getComponentByIndex(ssdHandle* h, int i);
+SSP4C_DLLAPI int ssp4c_ssd_getNumberOfComponents(ssdHandle* h);
+SSP4C_DLLAPI ssdComponentHandle *ssp4c_ssd_getComponentByIndex(ssdHandle *h, int i);
+
+SSP4C_DLLAPI const char* ssp4c_ssd_connector_getName(ssdConnectorHandle *h);
+SSP4C_DLLAPI ssdConnectorKind ssp4c_ssd_connector_getKind(ssdConnectorHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_connector_getDescription(ssdConnectorHandle *h);
+SSP4C_DLLAPI sspDataType ssp4c_ssd_connector_getDatatype(ssdConnectorHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_connector_getUnit(ssdConnectorHandle *h);
 
 SSP4C_DLLAPI const char* ssp4c_ssd_component_getName(ssdComponentHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_component_getType(ssdComponentHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_component_getSource(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHandle *h);
-SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentConnectors(ssdComponentHandle *h);
+SSP4C_DLLAPI int ssp4c_ssd_component_getNumberOfConnectors(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *h, int i);
-SSP4C_DLLAPI int ssp4c_getNumberOfSsdComponentParameterBindings(ssdComponentHandle *h);
-SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdComponentHandle *h, int i);
+SSP4C_DLLAPI ssdParameterBindingsHandle *ssp4c_ssd_component_getParameterBindings(ssdComponentHandle *h);
 SSP4C_DLLAPI ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h);
+
+SSP4C_DLLAPI int ssp4c_ssd_parameterBindings_getNumberOfParameterBindings(ssdParameterBindingsHandle *h);
+SSP4C_DLLAPI ssdParameterBindingHandle *ssp4c_ssd_parameterBindings_getParameterBindingByIndex(ssdParameterBindingsHandle *h, int i);
 
 SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getX1(ssdElementGeometryHandle *h);
 SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getY1(ssdElementGeometryHandle *h);
