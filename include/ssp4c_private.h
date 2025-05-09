@@ -126,12 +126,22 @@ struct ssdParameterBindingHandle {
     ssdParameterMappingHandle *parameterMapping;
 };
 
+struct ssdParameterBindingsHandle {
+    int parameterBindingsCount;
+    ssdParameterBindingHandle *parameterBindings;
+};
+
 struct ssdConnectorHandle {
     const char* name;
     ssdConnectorKind kind;
     const char* description;
     sspDataType datatype;
     const char* unit;
+};
+
+struct ssdConnectorsHandle {
+    int connectorsCount;
+    ssdConnectorHandle *connectors;
 };
 
 struct ssdComponentHandle {
@@ -141,13 +151,14 @@ struct ssdComponentHandle {
     const char* source;
     ssdComponentImplementation implementation;
 
-    int connectorCount;
-    ssdConnectorHandle *connectors;
-
+    ssdConnectorsHandle *connectors;
     ssdElementGeometryHandle geometry;
+    ssdParameterBindingsHandle* parameterBindings;
+};
 
-    int parameterBindingsCount;
-    ssdParameterBindingHandle* parameterBindings;
+struct ssdComponentsHandle {
+    int componentsCount;
+    ssdComponentHandle *components;
 };
 
 struct ssdHandle {
@@ -165,11 +176,10 @@ struct ssdHandle {
     const char* generationTool;
     const char* generationDateAndTime;
 
-    int connectorCount;
-    ssdConnectorHandle *connectors;
+    ssdConnectorsHandle *connectors;
 
     int componentCount;
-    ssdComponentHandle* components;
+    ssdComponentsHandle* components;
 };
 
 struct sspHandle {

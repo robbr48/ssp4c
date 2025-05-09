@@ -1,7 +1,5 @@
 //#include "ssp4c.h"
 #include "ssp4c_utils.h"
-#include "ssp4c_common.h"
-#include "ssp4c_private.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -311,6 +309,7 @@ int changeToParentDirectory(const char *path) {
         printf("Could not determine parent directory of '%s'\n", path);
         return 1;
     }
+    return 0;
 }
 
 
@@ -354,7 +353,7 @@ int removeDirectoryRecursively(const char* rootDirPath, const char *expectedDirN
             snprintf(fullPath, fullPathLength, "%s/%s", rootDirPath, entry->d_name);
 
             // Figure out if entry represents a directory or not
-            bool entryIsDir;
+            bool entryIsDir = false;
             struct stat statbuf;
 #ifdef _DIRENT_HAVE_D_TYPE
             entryIsDir = (entry->d_type == DT_DIR);
@@ -700,128 +699,137 @@ sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzipp
     ssp->unzippedLocationIsTemporary = false;
 
     int nfiles;
-    char** files = listFiles(ssp,ssp->unzippedLocation,&nfiles);
+  //  char** files = listFiles(ssp,ssp->unzippedLocation,&nfiles);
 
     chdir(cwd);
 
     return ssp;
 }
 
-bool parseConnectorsElement(ezxml_t element, int *count, ssdConnectorHandle** connectors, sspHandle *ssp)
+bool parseConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ssp)
 {
-    (*count) = 0;
-    for(ezxml_t connectorElement = element->child; connectorElement; connectorElement = connectorElement->ordered) {
-        if(!strcmp(connectorElement->name, "ssd:Connector")) {
-            ++(*count);  //Just count them for now, so we can allocate memory before loading them
-        }
-    }
-    if((*count) > 0) {
-        (*connectors) = mallocAndRememberPointer(ssp, (*count)*sizeof(ssdConnectorHandle));
-    }
     int i=0;
+
+    parseStringAttributeEzXmlAndRememberPointer(element,  "name",      &h->name, ssp);
+
+    h->kind = ssdConnectorKindUnspecifed;
+    const char* kind = NULL;
+    if(parseStringAttributeEzXml(element, "kind", &kind)) {
+        if(!strcmp(kind, "input")) {
+            h->kind = ssdConnectorKindInput;
+        }
+        else if(!strcmp(kind, "output")) {
+            h->kind = ssdConnectorKindOutput;
+        }
+        else if(!strcmp(kind, "parameter")) {
+            h->kind = ssdConnectorKindParameter;
+        }
+        else if(!strcmp(kind, "calculatedParameter")) {
+            h->kind = ssdConnectorKindCalculatedParameter;
+        }
+        else if(!strcmp(kind, "calculatedParameter")) {
+            h->kind = ssdConnectorKindStructuralParameter;
+        }
+        else if(!strcmp(kind, "calculatedConstant")) {
+            h->kind = ssdConnectorKindConstant;
+        }
+        else if(!strcmp(kind, "local")) {
+            h->kind = ssdConnectorKindLocal;
+        }
+        else if(!strcmp(kind, "inout")) {
+            h->kind = ssdConnectorKindInout;
+        }
+        else if(!strcmp(kind, "unspecified")) {
+            h->kind = ssdConnectorKindUnspecifed;
+        }
+        else {
+            printf("Unknown causality: %s\n", kind);
+            freeDuplicatedConstChar(kind);
+            return false;
+        }
+        freeDuplicatedConstChar(kind);
+    }
+
+    parseStringAttributeEzXmlAndRememberPointer(element,  "description",      &h->description, ssp);
+
+    for(ezxml_t subElement = element->child; subElement; subElement = subElement->ordered) {
+        if(!strcmp(subElement->name, "ssc:Real")) {
+            h->datatype = sspDataTypeReal;
+        }
+        else if(!strcmp(subElement->name, "ssc:Float64")) {
+            h->datatype = sspDataTypeFloat64;
+        }
+        else if(!strcmp(subElement->name, "ssc:Float32")) {
+            h->datatype = sspDataTypeFloat32;
+        }
+        else if(!strcmp(subElement->name, "ssc:Integer")) {
+            h->datatype = sspDataTypeInteger;
+        }
+        else if(!strcmp(subElement->name, "ssc:Int8")) {
+            h->datatype = sspDataTypeInt8;
+        }
+        else if(!strcmp(subElement->name, "ssc:UInt8")) {
+            h->datatype = sspDataTypeUInt8;
+        }
+        else if(!strcmp(subElement->name, "ssc:Int16")) {
+            h->datatype = sspDataTypeInt16;
+        }
+        else if(!strcmp(subElement->name, "ssc:UInt16")) {
+            h->datatype = sspDataTypeUInt16;
+        }
+        else if(!strcmp(subElement->name, "ssc:Int32")) {
+            h->datatype = sspDataTypeInt32;
+        }
+        else if(!strcmp(subElement->name, "ssc:UInt32")) {
+            h->datatype = sspDataTypeUInt32;
+        }
+        else if(!strcmp(subElement->name, "ssc:Int64")) {
+            h->datatype = sspDataTypeInt64;
+        }
+        else if(!strcmp(subElement->name, "ssc:UInt64")) {
+            h->datatype = sspDataTypeUInt64;
+        }
+        else if(!strcmp(subElement->name, "ssc:Boolean")) {
+            h->datatype = sspDataTypeBoolean;
+        }
+        else if(!strcmp(subElement->name, "ssc:String")) {
+            h->datatype = sspDataTypeString;
+        }
+        else if(!strcmp(subElement->name, "ssc:Enumeration")) {
+            h->datatype = sspDataTypeEnumeration;
+        }
+        else if(!strcmp(subElement->name, "ssc:Binary")) {
+            h->datatype = sspDataTypeBinary;
+        }
+
+        //Read unit
+        if(h->datatype == sspDataTypeReal ||
+            h->datatype == sspDataTypeFloat64 ||
+            h->datatype == sspDataTypeFloat32) {
+            parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &h->unit, ssp);
+        }
+    }
+
+    return true;
+}
+
+bool parseConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *ssp)
+{
+    h->connectorsCount = 0;
     for(ezxml_t connectorElement = element->child; connectorElement; connectorElement = connectorElement->ordered) {
         if(!strcmp(connectorElement->name, "ssd:Connector")) {
-            parseStringAttributeEzXmlAndRememberPointer(connectorElement,  "name",      &(*connectors)[i].name, ssp);
-
-            (*connectors)[i].kind = ssdConnectorKindUnspecifed;
-            const char* kind = NULL;
-            if(parseStringAttributeEzXml(connectorElement, "kind", &kind)) {
-                if(!strcmp(kind, "input")) {
-                    (*connectors)[i].kind = ssdConnectorKindInput;
-                }
-                else if(!strcmp(kind, "output")) {
-                    (*connectors)[i].kind = ssdConnectorKindOutput;
-                }
-                else if(!strcmp(kind, "parameter")) {
-                    (*connectors)[i].kind = ssdConnectorKindParameter;
-                }
-                else if(!strcmp(kind, "calculatedParameter")) {
-                    (*connectors)[i].kind = ssdConnectorKindCalculatedParameter;
-                }
-                else if(!strcmp(kind, "calculatedParameter")) {
-                    (*connectors)[i].kind = ssdConnectorKindStructuralParameter;
-                }
-                else if(!strcmp(kind, "calculatedConstant")) {
-                    (*connectors)[i].kind = ssdConnectorKindConstant;
-                }
-                else if(!strcmp(kind, "local")) {
-                    (*connectors)[i].kind = ssdConnectorKindLocal;
-                }
-                else if(!strcmp(kind, "inout")) {
-                    (*connectors)[i].kind = ssdConnectorKindInout;
-                }
-                else if(!strcmp(kind, "unspecified")) {
-                    (*connectors)[i].kind = ssdConnectorKindUnspecifed;
-                }
-                else {
-                    printf("Unknown causality: %s\n", kind);
-                    freeDuplicatedConstChar(kind);
-                    return false;
-                }
-                freeDuplicatedConstChar(kind);
-            }
-
-            parseStringAttributeEzXmlAndRememberPointer(connectorElement,  "description",      &(*connectors)[i].description, ssp);
-
-            for(ezxml_t subElement = connectorElement->child; subElement; subElement = subElement->ordered) {
-                if(!strcmp(subElement->name, "ssc:Real")) {
-                    (*connectors)[i].datatype = sspDataTypeReal;
-                }
-                else if(!strcmp(subElement->name, "ssc:Float64")) {
-                    (*connectors)[i].datatype = sspDataTypeFloat64;
-                }
-                else if(!strcmp(subElement->name, "ssc:Float32")) {
-                    (*connectors)[i].datatype = sspDataTypeFloat32;
-                }
-                else if(!strcmp(subElement->name, "ssc:Integer")) {
-                    (*connectors)[i].datatype = sspDataTypeInteger;
-                }
-                else if(!strcmp(subElement->name, "ssc:Int8")) {
-                    (*connectors)[i].datatype = sspDataTypeInt8;
-                }
-                else if(!strcmp(subElement->name, "ssc:UInt8")) {
-                    (*connectors)[i].datatype = sspDataTypeUInt8;
-                }
-                else if(!strcmp(subElement->name, "ssc:Int16")) {
-                    (*connectors)[i].datatype = sspDataTypeInt16;
-                }
-                else if(!strcmp(subElement->name, "ssc:UInt16")) {
-                    (*connectors)[i].datatype = sspDataTypeUInt16;
-                }
-                else if(!strcmp(subElement->name, "ssc:Int32")) {
-                    (*connectors)[i].datatype = sspDataTypeInt32;
-                }
-                else if(!strcmp(subElement->name, "ssc:UInt32")) {
-                    (*connectors)[i].datatype = sspDataTypeUInt32;
-                }
-                else if(!strcmp(subElement->name, "ssc:Int64")) {
-                    (*connectors)[i].datatype = sspDataTypeInt64;
-                }
-                else if(!strcmp(subElement->name, "ssc:UInt64")) {
-                    (*connectors)[i].datatype = sspDataTypeUInt64;
-                }
-                else if(!strcmp(subElement->name, "ssc:Boolean")) {
-                    (*connectors)[i].datatype = sspDataTypeBoolean;
-                }
-                else if(!strcmp(subElement->name, "ssc:String")) {
-                    (*connectors)[i].datatype = sspDataTypeString;
-                }
-                else if(!strcmp(subElement->name, "ssc:Enumeration")) {
-                    (*connectors)[i].datatype = sspDataTypeEnumeration;
-                }
-                else if(!strcmp(subElement->name, "ssc:Binary")) {
-                    (*connectors)[i].datatype = sspDataTypeBinary;
-                }
-
-                //Read unit
-                if((*connectors)[i].datatype == sspDataTypeReal ||
-                    (*connectors)[i].datatype == sspDataTypeFloat64 ||
-                    (*connectors)[i].datatype == sspDataTypeFloat32) {
-                    parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &(*connectors)[i].unit, ssp);
-                }
+            ++(h->connectorsCount);  //Just count them for now, so we can allocate memory before loading them
+        }
+    }
+    if((h->connectorsCount) > 0) {
+        h->connectors = mallocAndRememberPointer(ssp, (h->connectorsCount)*sizeof(ssdConnectorHandle));
+        int i=0;
+        for(ezxml_t connectorElement = element->child; connectorElement; connectorElement = connectorElement->ordered) {
+            if(!strcmp(connectorElement->name, "ssd:Connector")) {
+                parseConnectorElement(connectorElement, &(h->connectors[i]), ssp);
+                ++i;
             }
         }
-        ++i;
     }
 
     return true;
@@ -922,14 +930,16 @@ bool parseParameterElement(ezxml_t element, ssvParameterHandle* parameterHandle,
                 valueElement = valueElement->next;
             }
 
-            parameterHandle->enumValues = mallocAndRememberPointer(ssp, sizeof(const char*)*parameterHandle->enumValuesCount);
+            if(parameterHandle->enumValuesCount > 0) {
+                parameterHandle->enumValues = mallocAndRememberPointer(ssp, sizeof(const char*)*parameterHandle->enumValuesCount);
 
-            int i=0;
-            valueElement = ezxml_child(subElement, "ssv:Value");
-            while(valueElement) {
-                parseStringAttributeEzXmlAndRememberPointer(valueElement, "value", &(parameterHandle->enumValues[i]), ssp);
-                valueElement = valueElement->next;
-                ++i;
+                int i=0;
+                valueElement = ezxml_child(subElement, "ssv:Value");
+                while(valueElement) {
+                    parseStringAttributeEzXmlAndRememberPointer(valueElement, "value", &(parameterHandle->enumValues[i]), ssp);
+                    valueElement = valueElement->next;
+                    ++i;
+                }
             }
         }
         else if(!strcmp(subElement->name, "ssc:Binary")) {
@@ -999,6 +1009,7 @@ bool parseSscMapEntryElement(ezxml_t element, sscMapEntryHandle *handle, sspHand
         parseStringAttributeEzXmlAndRememberPointer(element, "source", &(handle->enumSource), ssp);
         parseStringAttributeEzXmlAndRememberPointer(element, "target", &(handle->enumTarget), ssp);
     }
+    return true;
 }
 
 bool parseSscTransformationChoiceElement(ezxml_t element, sscMappingTransformHandle *handle, sspHandle *ssp)
@@ -1040,6 +1051,7 @@ bool parseSscTransformationChoiceElement(ezxml_t element, sscMappingTransformHan
         parseSscMapEntryElement(entryElement, &(handle->mapEntries[i]), ssp);
         ++i;
     }
+    return true;
 }
 
 bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle *handle, sspHandle *ssp)
@@ -1061,6 +1073,7 @@ bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle
         handle->transform = mallocAndRememberPointer(ssp, sizeof(sscMappingTransformHandle));
         parseSscTransformationChoiceElement(transformationChoiceElement, handle->transform, ssp);
     }
+    return true;
 }
 
 bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle *handle, sspHandle *ssp)
@@ -1092,14 +1105,15 @@ bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle 
     }
 
     if (handle->mappingEntryCount > 0) {
+        int i=0;
         handle->mappingEntries = mallocAndRememberPointer(ssp, sizeof(ssmParameterMappingEntryHandle)*handle->mappingEntryCount);
+        for(ezxml_t entryElement = element->child; entryElement; entryElement = entryElement->ordered) {
+            parseSsmMappingEntryElement(entryElement, &(handle->mappingEntries[i]), ssp);
+            ++i;
+        }
     }
 
-    int i=0;
-    for(ezxml_t entryElement = element->child; entryElement; entryElement = entryElement->ordered) {
-        parseSsmMappingEntryElement(entryElement, &(handle->mappingEntries[i]), ssp);
-        ++i;
-    }
+    return true;
 }
 
 bool parseParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* handle, sspHandle *ssp)
@@ -1133,6 +1147,8 @@ bool parseParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* han
         handle->parameterMapping = mallocAndRememberPointer(ssp, sizeof(ssmParameterMappingHandle));
         parseSsmParameterMappingElement(ssmParameterMappingElement, handle->parameterMapping, ssp);
     }
+
+    return true;
 }
 
 bool parseSsdParameterValuesElement(ezxml_t element, ssdParameterValuesHandle* handle, sspHandle *ssp)
@@ -1143,141 +1159,166 @@ bool parseSsdParameterValuesElement(ezxml_t element, ssdParameterValuesHandle* h
         handle->parameterSet = mallocAndRememberPointer(ssp, sizeof(ssvParameterSetHandle));
         parseParameterSetElement(parameterSetElement, handle->parameterSet, ssp);
     }
+
+    return true;
 }
 
-bool parseParameterBindingsElement(ezxml_t element, int *count, ssdParameterBindingHandle** parameterBindings, sspHandle *ssp)
+bool parseParameterBindingElement(ezxml_t element, ssdParameterBindingHandle *h, sspHandle *ssp)
 {
-    (*count) = 0;
 
-    for (ezxml_t parameterBindingsElement = element->child; parameterBindingsElement ; parameterBindingsElement  = parameterBindingsElement ->ordered) {
-        if (!strcmp(parameterBindingsElement ->name, "ssd:ParameterBinding")) {
-            ++(*count);
+    h->type = NULL;
+    h->source = NULL;
+    h->prefix = NULL;
+    parseStringAttributeEzXmlAndRememberPointer(element, "type", &(h->type), ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "source", &(h->source), ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "prefix", &(h->prefix), ssp);
+
+    h->sourceBase = ssdParameterSourceBaseSSD;
+    const char* sourceBase = NULL;
+    if(parseStringAttributeEzXml(element, "sourceBase", &sourceBase)) {
+        if(!strcmp(sourceBase, "SSD")) {
+            h->sourceBase = ssdParameterSourceBaseSSD;
         }
-    }
-
-    if ((*count) > 0) {
-        (*parameterBindings) = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingHandle) * (*count));
-    }
-
-    int i = 0;
-    for (ezxml_t parameterBindingsElement = element->child; parameterBindingsElement; parameterBindingsElement = parameterBindingsElement->ordered) {
-        if (!strcmp(parameterBindingsElement->name, "ssd:ParameterBinding")) {
-            (*parameterBindings[i]).type = NULL;
-            (*parameterBindings[i]).source = NULL;
-            (*parameterBindings[i]).prefix = NULL;
-            parseStringAttributeEzXmlAndRememberPointer(parameterBindingsElement, "type", &(*parameterBindings)[i].type, ssp);
-            parseStringAttributeEzXmlAndRememberPointer(parameterBindingsElement, "source", &(*parameterBindings)[i].source, ssp);
-            parseStringAttributeEzXmlAndRememberPointer(parameterBindingsElement, "prefix", &(*parameterBindings)[i].prefix, ssp);
-
-            (*parameterBindings)[i].sourceBase = ssdParameterSourceBaseSSD;
-            const char* sourceBase = NULL;
-            if(parseStringAttributeEzXml(parameterBindingsElement, "sourceBase", &sourceBase)) {
-                if(!strcmp(sourceBase, "SSD")) {
-                    (*parameterBindings)[i].sourceBase = ssdParameterSourceBaseSSD;
-                }
-                else if(!strcmp(sourceBase, "component")) {
-                    (*parameterBindings)[i].sourceBase = ssdParameterSourceBaseComponent;
-                }
-                freeDuplicatedConstChar(sourceBase);
-            }
-
-            //Parse parameter sets
-            (*parameterBindings)[i].parameterValues = NULL;
-            ezxml_t parameterValuesElement = ezxml_child(parameterBindingsElement, "ssd:ParameterValues");
-            if(parameterValuesElement) {
-                (*parameterBindings)[i].parameterValues = mallocAndRememberPointer(ssp, sizeof(ssdParameterValuesHandle));
-                 parseSsdParameterValuesElement(parameterValuesElement, (*parameterBindings)[i].parameterValues, ssp);
-            }
-
-            //Parse parameter mappings
-            (*parameterBindings)[i].parameterMapping = NULL;
-            ezxml_t parameterMappingElement = ezxml_child(parameterBindingsElement, "ssd:ParameterMapping");
-            if(parameterMappingElement) {
-                (*parameterBindings)[i].parameterMapping = mallocAndRememberPointer(ssp, sizeof(ssdParameterMappingHandle));
-                parseParameterMappingElement(parameterMappingElement, (*parameterBindings)[i].parameterMapping, ssp);
-            }
+        else if(!strcmp(sourceBase, "component")) {
+            h->sourceBase = ssdParameterSourceBaseComponent;
         }
+        freeDuplicatedConstChar(sourceBase);
     }
+
+    //Parse parameter sets
+    h->parameterValues = NULL;
+    ezxml_t parameterValuesElement = ezxml_child(element, "ssd:ParameterValues");
+    if(parameterValuesElement) {
+        h->parameterValues = mallocAndRememberPointer(ssp, sizeof(ssdParameterValuesHandle));
+        parseSsdParameterValuesElement(parameterValuesElement, h->parameterValues, ssp);
+    }
+
+    //Parse parameter mappings
+    h->parameterMapping = NULL;
+    ezxml_t parameterMappingElement = ezxml_child(element, "ssd:ParameterMapping");
+    if(parameterMappingElement) {
+        h->parameterMapping = mallocAndRememberPointer(ssp, sizeof(ssdParameterMappingHandle));
+        parseParameterMappingElement(parameterMappingElement, h->parameterMapping, ssp);
+    }
+
+    return true;
 }
 
-bool parseComponentsElement(ezxml_t element, int *count, ssdComponentHandle** components, sspHandle *ssp)
+bool parseParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* h, sspHandle *ssp)
 {
-    for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
-        if (!strcmp(componentElement->name, "ssd:Component")) {
-            ++(*count);
+    h->parameterBindingsCount = 0;
+
+    for (ezxml_t parameterBindingElement = element->child; parameterBindingElement ; parameterBindingElement  = parameterBindingElement ->ordered) {
+        if (!strcmp(parameterBindingElement ->name, "ssd:ParameterBinding")) {
+            ++h->parameterBindingsCount;
         }
     }
 
-    if ((*count) > 0) {
-        (*components) = mallocAndRememberPointer(ssp, sizeof(ssdComponentHandle) * (*count));
-    }
+    if (h->parameterBindingsCount > 0) {
+        h->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingHandle) * h->parameterBindingsCount);
 
-    int i = 0;
-    for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
-        if (!strcmp(componentElement->name, "ssd:Component")) {
-            (*components[i]).xml = ezxml_idx(ezxml_child(element, "ssd:Component"),i);
-            parseStringAttributeEzXmlAndRememberPointer(componentElement, "name", &(*components)[i].name, ssp);
-            parseStringAttributeEzXmlAndRememberPointer(componentElement, "type", &(*components)[i].type, ssp);
-            parseStringAttributeEzXmlAndRememberPointer(componentElement, "source", &(*components)[i].source, ssp);
 
-            (*components)[i].implementation = ssdComponentImplementationAny;
-            const char* implementation = NULL;
-            if(parseStringAttributeEzXml(componentElement, "implementation", &implementation)) {
-                if(!strcmp(implementation, "any")) {
-                    (*components)[i].implementation = ssdComponentImplementationAny;
-                }
-                else if(!strcmp(implementation, "ModelExchange")) {
-                    (*components)[i].implementation = ssdComponentImplementationModelExchange;
-                }
-                else if(!strcmp(implementation, "CoSimulation")) {
-                    (*components)[i].implementation = ssdComponentImplementationCoSimulation;
-                }
-                else if(!strcmp(implementation, "ScheduledExecution")) {
-                    (*components)[i].implementation = ssdComponentImplementationScheduledExecution;
-                }
-                freeDuplicatedConstChar(implementation);
+        int i = 0;
+        for (ezxml_t parameterBindingsElement = element->child; parameterBindingsElement; parameterBindingsElement = parameterBindingsElement->ordered) {
+            if (!strcmp(parameterBindingsElement->name, "ssd:ParameterBinding")) {
+                parseParameterBindingElement(parameterBindingsElement, &(h->parameterBindings[i]), ssp);
+                ++i;
             }
-
-            //Parse connectors
-            ezxml_t componentConnectorsElement = ezxml_child(componentElement, "ssd:Connectors");
-            if(componentConnectorsElement) {
-                parseConnectorsElement(componentConnectorsElement, &(*components)[i].connectorCount, &(*components)[i].connectors, ssp);
-            }
-
-            //Parse parameter bindings
-            // Parse geometry
-            (*components)[i].geometry.x1 = 0;
-            (*components)[i].geometry.y1 = 0;
-            (*components)[i].geometry.x2 = 0;
-            (*components)[i].geometry.y2= 0;
-            (*components)[i].geometry.rotation = 0;
-            (*components)[i].geometry.iconRotation = 0;
-            (*components)[i].geometry.iconSource = NULL;
-            (*components)[i].geometry.iconFlip = false;
-            (*components)[i].geometry.iconFixedAspectRatio = false;
-            ezxml_t geometryElement = ezxml_child(componentElement, "ssd:ElementGeometry");
-            (*components)[i].geometry.xml = geometryElement;
-            if(geometryElement) {
-                parseFloat64AttributeEzXml(geometryElement, "x1", &(*components)[i].geometry.x1);
-                parseFloat64AttributeEzXml(geometryElement, "y1", &(*components)[i].geometry.y1);
-                parseFloat64AttributeEzXml(geometryElement, "x2", &(*components)[i].geometry.x2);
-                parseFloat64AttributeEzXml(geometryElement, "y2", &(*components)[i].geometry.y2);
-                parseFloat64AttributeEzXml(geometryElement, "rotation", &(*components)[i].geometry.rotation);
-                parseFloat64AttributeEzXml(geometryElement, "iconRotation", &(*components)[i].geometry.iconRotation);
-                parseStringAttributeEzXmlAndRememberPointer(geometryElement, "iconSource", &(*components)[i].geometry.iconSource, ssp);
-                parseBooleanAttributeEzXml(geometryElement, "iconFlip", &(*components)[i].geometry.iconFlip);
-                parseBooleanAttributeEzXml(geometryElement, "iconFixedAspectRatio", &(*components)[i].geometry.iconFixedAspectRatio);
-            }
-            (*components)[i].geometry.ssp = ssp;
-
-            ezxml_t parameterBindingsElement = ezxml_child(componentElement, "ssd:ParameterBindings");
-            if(parameterBindingsElement) {
-                parseParameterBindingsElement(parameterBindingsElement, &(*components)[i].parameterBindingsCount, &(*components)[i].parameterBindings, ssp);
-            }
-
-            ++i;
         }
     }
+
+    return true;
+}
+
+bool parseComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ssp)
+{
+    h->xml = element;
+    parseStringAttributeEzXmlAndRememberPointer(element, "name", &h->name, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "type", &h->type, ssp);
+    parseStringAttributeEzXmlAndRememberPointer(element, "source", &h->source, ssp);
+
+    h->implementation = ssdComponentImplementationAny;
+    const char* implementation = NULL;
+    if(parseStringAttributeEzXml(element, "implementation", &implementation)) {
+        if(!strcmp(implementation, "any")) {
+            h->implementation = ssdComponentImplementationAny;
+        }
+        else if(!strcmp(implementation, "ModelExchange")) {
+            h->implementation = ssdComponentImplementationModelExchange;
+        }
+        else if(!strcmp(implementation, "CoSimulation")) {
+            h->implementation = ssdComponentImplementationCoSimulation;
+        }
+        else if(!strcmp(implementation, "ScheduledExecution")) {
+            h->implementation = ssdComponentImplementationScheduledExecution;
+        }
+        freeDuplicatedConstChar(implementation);
+    }
+
+    //Parse connectors
+    h->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
+    ezxml_t componentConnectorsElement = ezxml_child(element, "ssd:Connectors");
+    if(componentConnectorsElement) {
+        parseConnectorsElement(componentConnectorsElement, h->connectors, ssp);
+    }
+
+    //Parse parameter bindings
+    // Parse geometry
+    h->geometry.x1 = 0;
+    h->geometry.y1 = 0;
+    h->geometry.x2 = 0;
+    h->geometry.y2= 0;
+    h->geometry.rotation = 0;
+    h->geometry.iconRotation = 0;
+    h->geometry.iconSource = NULL;
+    h->geometry.iconFlip = false;
+    h->geometry.iconFixedAspectRatio = false;
+    ezxml_t geometryElement = ezxml_child(element, "ssd:ElementGeometry");
+    h->geometry.xml = geometryElement;
+    if(geometryElement) {
+        parseFloat64AttributeEzXml(geometryElement, "x1", &h->geometry.x1);
+        parseFloat64AttributeEzXml(geometryElement, "y1", &h->geometry.y1);
+        parseFloat64AttributeEzXml(geometryElement, "x2", &h->geometry.x2);
+        parseFloat64AttributeEzXml(geometryElement, "y2", &h->geometry.y2);
+        parseFloat64AttributeEzXml(geometryElement, "rotation", &h->geometry.rotation);
+        parseFloat64AttributeEzXml(geometryElement, "iconRotation", &h->geometry.iconRotation);
+        parseStringAttributeEzXmlAndRememberPointer(geometryElement, "iconSource", &h->geometry.iconSource, ssp);
+        parseBooleanAttributeEzXml(geometryElement, "iconFlip", &h->geometry.iconFlip);
+        parseBooleanAttributeEzXml(geometryElement, "iconFixedAspectRatio", &h->geometry.iconFixedAspectRatio);
+    }
+    h->geometry.ssp = ssp;
+
+    ezxml_t parameterBindingsElement = ezxml_child(element, "ssd:ParameterBindings");
+    if(parameterBindingsElement) {
+        h->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingsHandle));
+        parseParameterBindingsElement(parameterBindingsElement, h->parameterBindings, ssp);
+    }
+
+    return true;
+}
+
+
+bool parseComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *ssp)
+{
+    h->componentsCount = 0;
+    for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
+        if (!strcmp(componentElement->name, "ssd:Component")) {
+            ++h->componentsCount;
+        }
+    }
+
+    if (h->componentsCount > 0) {
+        h->components = mallocAndRememberPointer(ssp, sizeof(ssdComponentHandle) * h->componentsCount);
+
+        int i = 0;
+        for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
+            if (!strcmp(componentElement->name, "ssd:Component")) {
+                parseComponentElement(componentElement, &(h->components[i]), ssp);
+                ++i;
+            }
+        }
+    }
+    return true;
 }
 
 bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
@@ -1307,7 +1348,6 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
     ssd->license = "";
     ssd->generationTool = "";
     ssd->generationDateAndTime = "";
-    ssd->connectorCount = 0;
     ssd->componentCount = 0;
 
     parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "name", &ssd->name, ssp);
@@ -1327,13 +1367,16 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
         //Parse connectors
         ezxml_t connectorsElement = ezxml_child(systemElement, "ssd:Connectors");
         if(connectorsElement) {
-            parseConnectorsElement(connectorsElement, &ssd->connectorCount, &ssd->connectors, ssp);
+            ssd->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
+            parseConnectorsElement(connectorsElement, ssd->connectors, ssp);
         }
 
         // Parse components
+        ssd->components = NULL;
         ezxml_t componentsElement = ezxml_child(systemElement, "ssd:Elements");
         if (componentsElement) {
-            parseComponentsElement(componentsElement, &ssd->componentCount, &ssd->components, ssp);
+            ssd->components = mallocAndRememberPointer(ssp, sizeof(ssdComponentsHandle));
+            parseComponentsElement(componentsElement, ssd->components, ssp);
         }
     }
 
