@@ -6,6 +6,15 @@
 #endif
 
 #include "ssp4c.h"
+#include "ssp4c_ssd_element_geometry.h"
+#include "ssp4c_ssd_parameter_binding.h"
+#include "ssp4c_ssd_parameter_values.h"
+#include "ssp4c_ssd_parameter_set.h"
+#include "ssp4c_ssv_parameter.h"
+#include "ssp4c_ssd_parameter_mapping.h"
+#include "ssp4c_ssm_parameter_mapping.h"
+#include "ssp4c_ssm_mapping_entry.h"
+#include "ssp4c_ssc_mapping_transform.h"
 #include "ssp4c_ssc_map_entry.h"
 
 bool fuzzyEquals(double a, double b, double relTol, double absTol) {
