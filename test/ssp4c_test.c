@@ -51,13 +51,13 @@ void print_ssc_mappingTransform(sscMappingTransformHandle *h, int indentation)
 {
     if(h) {
         printf("%*ctransform:\n", indentation, ' ');
-        printf("%*c  type: %d\n", indentation, ' ', ssp4c_ssc_mapEntry_getType(h));
-        printf("%*c  factor: %f\n", indentation, ' ', ssp4c_ssc_mapEntry_getFactor(h));
-        printf("%*c  offset: %f\n", indentation, ' ', ssp4c_ssc_mapEntry_getOffset(h));
-        printf("%*c  number of map entries: %d\n", indentation, ' ', ssp4c_getNumberOfMapEntries(h));
+        printf("%*c  type: %d\n", indentation, ' ', ssp4c_ssc_mappingTransform_getType(h));
+        printf("%*c  factor: %f\n", indentation, ' ', ssp4c_ssc_mappingTransform_getFactor(h));
+        printf("%*c  offset: %f\n", indentation, ' ', ssp4c_ssc_mappingTransform_getOffset(h));
+        printf("%*c  number of map entries: %d\n", indentation, ' ', ssp4c_ssc_mappingTransform_getNumberOfMapEntries(h));
 
-        for(int l=0; l<ssp4c_getNumberOfMapEntries(h); ++l) {
-            print_ssc_mapEntry(ssp4c_getMapEntryByIndex(h, l), indentation+2);
+        for(int l=0; l<ssp4c_ssc_mappingTransform_getNumberOfMapEntries(h); ++l) {
+            print_ssc_mapEntry(ssp4c_ssc_mappingTransform_getMapEntryByIndex(h, l), indentation+2);
         }
     }
 }

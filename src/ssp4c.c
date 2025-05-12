@@ -633,27 +633,27 @@ sscMappingTransformHandle *ssp4c_ssm_mappingEntry_getSsmMappingTransform(ssmPara
     return h->transform;
 }
 
-sscMappingTransform ssp4c_ssc_mapEntry_getType(sscMappingTransformHandle *h)
+sscMappingTransform ssp4c_ssc_mappingTransform_getType(sscMappingTransformHandle *h)
 {
     return h->type;
 }
 
-double ssp4c_ssc_mapEntry_getFactor(sscMappingTransformHandle *h)
+double ssp4c_ssc_mappingTransform_getFactor(sscMappingTransformHandle *h)
 {
     return h->factor;
 }
 
-double ssp4c_ssc_mapEntry_getOffset(sscMappingTransformHandle *h)
+double ssp4c_ssc_mappingTransform_getOffset(sscMappingTransformHandle *h)
 {
     return h->offset;
 }
 
-int ssp4c_getNumberOfMapEntries(sscMappingTransformHandle *h)
+int ssp4c_ssc_mappingTransform_getNumberOfMapEntries(sscMappingTransformHandle *h)
 {
     return h->mapEntryCount;
 }
 
-sscMapEntryHandle *ssp4c_getMapEntryByIndex(sscMappingTransformHandle *h, int i)
+sscMapEntryHandle *ssp4c_ssc_mappingTransform_getMapEntryByIndex(sscMappingTransformHandle *h, int i)
 {
     return &(h->mapEntries[i]);
 }
