@@ -123,8 +123,8 @@ SSP4C_DLLAPI const char* ssp4c_ssd_parameterMapping_getId(ssdParameterMappingHan
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterMapping_getType(ssdParameterMappingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterMapping_getSource(ssdParameterMappingHandle *h);
 SSP4C_DLLAPI ssdParameterSourceBase ssp4c_ssd_parameterMapping_getSourceBase(ssdParameterMappingHandle *h);
-
 SSP4C_DLLAPI ssmParameterMappingHandle *ssp4c_ssd_parameterMapping_getSsmParameterMapping(ssdParameterMappingHandle *h);
+
 SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getVersion(ssmParameterMappingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getId(ssmParameterMappingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getDescription(ssmParameterMappingHandle *h);
@@ -144,11 +144,12 @@ SSP4C_DLLAPI const char* ssp4c_ssm_mappingEntry_getTarget(ssmParameterMappingEnt
 SSP4C_DLLAPI bool ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *h);
 SSP4C_DLLAPI sscMappingTransformHandle *ssp4c_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h);
 
-SSP4C_DLLAPI sscMappingTransform ssp4c_ssc_mapEntry_getType(sscMappingTransformHandle *h);
-SSP4C_DLLAPI double ssp4c_ssc_mapEntry_getFactor(sscMappingTransformHandle *h);
-SSP4C_DLLAPI double ssp4c_ssc_mapEntry_getOffset(sscMappingTransformHandle *h);
-SSP4C_DLLAPI int ssp4c_getNumberOfMapEntries(sscMappingTransformHandle *h);
-SSP4C_DLLAPI sscMapEntryHandle *ssp4c_getMapEntryByIndex(sscMappingTransformHandle *h, int i);
+SSP4C_DLLAPI sscMappingTransform ssp4c_ssc_mappingTransform_getType(sscMappingTransformHandle *h);
+SSP4C_DLLAPI double ssp4c_ssc_mappingTransform_getFactor(sscMappingTransformHandle *h);
+SSP4C_DLLAPI double ssp4c_ssc_mappingTransform_getOffset(sscMappingTransformHandle *h);
+SSP4C_DLLAPI int ssp4c_ssc_mappingTransform_getNumberOfMapEntries(sscMappingTransformHandle *h);
+SSP4C_DLLAPI sscMapEntryHandle *ssp4c_ssc_mappingTransform_getMapEntryByIndex(sscMappingTransformHandle *h, int i);
+
 SSP4C_DLLAPI bool ssp4c_ssc_mapEntry_getBoolSource(sscMapEntryHandle *h);
 SSP4C_DLLAPI bool ssp4c_ssc_mapEntry_getBoolTarget(sscMapEntryHandle *h);
 SSP4C_DLLAPI int ssp4c_ssc_mapEntry_getIntSource(sscMapEntryHandle *h);
