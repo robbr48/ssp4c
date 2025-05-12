@@ -1,5 +1,6 @@
 //#include "ssp4c.h"
 #include "ssp4c_utils.h"
+#include "ssp4c_common.h"
 
 #include <stdlib.h>
 #include <string.h>
