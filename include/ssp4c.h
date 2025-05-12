@@ -1,26 +1,8 @@
 #ifndef SSP4CC_H
 #define SSP4CC_H
 
-#ifndef SSP4C_H_INTERNAL_INCLUDE
 #include "ssp4c_public.h"
-#endif
-
-#ifdef _WIN32
-#include <direct.h>
-#include <windows.h>
-#endif
-
-#ifdef _WIN32
-#if defined(SSP4C_STATIC)
-#define SSP4C_DLLAPI
-#elif defined(SSP4C_DLLEXPORT)
-#define SSP4C_DLLAPI __declspec(dllexport)
-#else
-#define SSP4C_DLLAPI __declspec(dllimport)
-#endif
-#else
-#define SSP4C_DLLAPI
-#endif
+#include "ssp4c_common.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -149,13 +131,6 @@ SSP4C_DLLAPI double ssp4c_ssc_mappingTransform_getFactor(sscMappingTransformHand
 SSP4C_DLLAPI double ssp4c_ssc_mappingTransform_getOffset(sscMappingTransformHandle *h);
 SSP4C_DLLAPI int ssp4c_ssc_mappingTransform_getNumberOfMapEntries(sscMappingTransformHandle *h);
 SSP4C_DLLAPI sscMapEntryHandle *ssp4c_ssc_mappingTransform_getMapEntryByIndex(sscMappingTransformHandle *h, int i);
-
-SSP4C_DLLAPI bool ssp4c_ssc_mapEntry_getBoolSource(sscMapEntryHandle *h);
-SSP4C_DLLAPI bool ssp4c_ssc_mapEntry_getBoolTarget(sscMapEntryHandle *h);
-SSP4C_DLLAPI int ssp4c_ssc_mapEntry_getIntSource(sscMapEntryHandle *h);
-SSP4C_DLLAPI int ssp4c_ssc_mapEntry_getIntTarget(sscMapEntryHandle *h);
-SSP4C_DLLAPI const char* ssp4c_ssc_mapEntry_getEnumSource(sscMapEntryHandle *h);
-SSP4C_DLLAPI const char* ssp4c_ssc_mapEntry_getEnumTarget(sscMapEntryHandle *h);
 
 #ifdef __cplusplus
 }

@@ -57,8 +57,10 @@ endif()
 
 set(SRCFILES
     src/ssp4c.c
+    src/ssp4c_ssc_map_entry.c
     src/ssp4c_utils.c
     include/ssp4c.h
+    include/ssp4c_ssc_map_entry.h
     include/ssp4c_utils.h
     include/ssp4c_private.h
     include/ssp4c_public.h

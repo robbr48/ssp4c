@@ -6,6 +6,7 @@
 #endif
 
 #include "ssp4c.h"
+#include "ssp4c_ssc_map_entry.h"
 
 bool fuzzyEquals(double a, double b, double relTol, double absTol) {
     if(a == b) {
