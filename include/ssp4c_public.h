@@ -20,7 +20,8 @@ typedef enum { sspDataTypeReal,
                sspDataTypeBoolean,
                sspDataTypeString,
                sspDataTypeEnumeration,
-               sspDataTypeBinary } sspDataType;
+               sspDataTypeBinary,
+               sspDataTypeUnspecified } sspDataType;
 
 typedef enum { ssdConnectorKindInput,
                ssdConnectorKindOutput,
@@ -30,7 +31,7 @@ typedef enum { ssdConnectorKindInput,
                ssdConnectorKindConstant,
                ssdConnectorKindLocal,
                ssdConnectorKindInout,
-               ssdConnectorKindUnspecifed } ssdConnectorKind;
+               ssdConnectorKindUnspecified } ssdConnectorKind;
 
 typedef enum { sspVersionUnknown,
                sspVersion1,

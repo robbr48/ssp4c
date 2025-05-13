@@ -143,11 +143,6 @@ struct ssdParameterBindingsHandle {
 
 struct ssdConnectorHandle {
     ezxml_t xml;
-    const char* name;
-    ssdConnectorKind kind;
-    const char* description;
-    sspDataType datatype;
-    const char* unit;
 };
 
 struct ssdConnectorsHandle {
@@ -158,10 +153,6 @@ struct ssdConnectorsHandle {
 
 struct ssdComponentHandle {
     ezxml_t xml;
-    const char* name;
-    const char* type;
-    const char* source;
-    ssdComponentImplementation implementation;
 
     ssdConnectorsHandle *connectors;
     ssdElementGeometryHandle *geometry;
@@ -176,23 +167,9 @@ struct ssdComponentsHandle {
 
 struct ssdHandle {
     ezxml_t xml;
-
     const char* filename;
-    const char* name;
-    const char* version;
-    const char* id;
-    const char* description;
-    const char* author;
-    const char* fileversion;
-    const char* copyright;
-    const char* license;
-    const char* generationTool;
-    const char* generationDateAndTime;
-
     ssdConnectorsHandle *connectors;
-
-    int componentCount;
-    ssdComponentsHandle* components;
+    ssdComponentsHandle *components;
 };
 
 struct sspHandle {

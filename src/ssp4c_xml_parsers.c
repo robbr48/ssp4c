@@ -19,30 +19,6 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
         return false;
     }
 
-    //Parse root element attributes
-    ssd->name = "";
-    ssd->version = "";
-    ssd->id = "";
-    ssd->description = "";
-    ssd->author = "";
-    ssd->fileversion = "";
-    ssd->copyright = "";
-    ssd->license = "";
-    ssd->generationTool = "";
-    ssd->generationDateAndTime = "";
-    ssd->componentCount = 0;
-
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "name", &ssd->name, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "version", &ssd->version, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "id", &ssd->id, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "description", &ssd->description, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "author", &ssd->author, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "fileversion", &ssd->fileversion, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "copyright", &ssd->copyright, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "license", &ssd->license, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "generationTool", &ssd->generationTool, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(ssd->xml , "generationDateAndTime", &ssd->generationDateAndTime, ssp);
-
     ezxml_t systemElement = ezxml_child(ssd->xml , "ssd:System");
     if(systemElement) {
 
@@ -95,112 +71,6 @@ bool parseSsdConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle 
 {
     h->xml = element;
 
-    int i=0;
-
-    parseStringAttributeEzXmlAndRememberPointer(element,  "name",      &h->name, ssp);
-
-    h->kind = ssdConnectorKindUnspecifed;
-    const char* kind = NULL;
-    if(parseStringAttributeEzXml(element, "kind", &kind)) {
-        if(!strcmp(kind, "input")) {
-            h->kind = ssdConnectorKindInput;
-        }
-        else if(!strcmp(kind, "output")) {
-            h->kind = ssdConnectorKindOutput;
-        }
-        else if(!strcmp(kind, "parameter")) {
-            h->kind = ssdConnectorKindParameter;
-        }
-        else if(!strcmp(kind, "calculatedParameter")) {
-            h->kind = ssdConnectorKindCalculatedParameter;
-        }
-        else if(!strcmp(kind, "calculatedParameter")) {
-            h->kind = ssdConnectorKindStructuralParameter;
-        }
-        else if(!strcmp(kind, "calculatedConstant")) {
-            h->kind = ssdConnectorKindConstant;
-        }
-        else if(!strcmp(kind, "local")) {
-            h->kind = ssdConnectorKindLocal;
-        }
-        else if(!strcmp(kind, "inout")) {
-            h->kind = ssdConnectorKindInout;
-        }
-        else if(!strcmp(kind, "unspecified")) {
-            h->kind = ssdConnectorKindUnspecifed;
-        }
-        else {
-            printf("Unknown causality: %s\n", kind);
-            freeDuplicatedConstChar(kind);
-            return false;
-        }
-        freeDuplicatedConstChar(kind);
-    }
-
-    parseStringAttributeEzXmlAndRememberPointer(element,  "description",      &h->description, ssp);
-
-    for(ezxml_t subElement = element->child; subElement; subElement = subElement->ordered) {
-        if(!strcmp(subElement->name, "ssc:Real")) {
-            h->datatype = sspDataTypeReal;
-        }
-        else if(!strcmp(subElement->name, "ssc:Float64")) {
-            h->datatype = sspDataTypeFloat64;
-        }
-        else if(!strcmp(subElement->name, "ssc:Float32")) {
-            h->datatype = sspDataTypeFloat32;
-        }
-        else if(!strcmp(subElement->name, "ssc:Integer")) {
-            h->datatype = sspDataTypeInteger;
-        }
-        else if(!strcmp(subElement->name, "ssc:Int8")) {
-            h->datatype = sspDataTypeInt8;
-        }
-        else if(!strcmp(subElement->name, "ssc:UInt8")) {
-            h->datatype = sspDataTypeUInt8;
-        }
-        else if(!strcmp(subElement->name, "ssc:Int16")) {
-            h->datatype = sspDataTypeInt16;
-        }
-        else if(!strcmp(subElement->name, "ssc:UInt16")) {
-            h->datatype = sspDataTypeUInt16;
-        }
-        else if(!strcmp(subElement->name, "ssc:Int32")) {
-            h->datatype = sspDataTypeInt32;
-        }
-        else if(!strcmp(subElement->name, "ssc:UInt32")) {
-            h->datatype = sspDataTypeUInt32;
-        }
-        else if(!strcmp(subElement->name, "ssc:Int64")) {
-            h->datatype = sspDataTypeInt64;
-        }
-        else if(!strcmp(subElement->name, "ssc:UInt64")) {
-            h->datatype = sspDataTypeUInt64;
-        }
-        else if(!strcmp(subElement->name, "ssc:Boolean")) {
-            h->datatype = sspDataTypeBoolean;
-        }
-        else if(!strcmp(subElement->name, "ssc:String")) {
-            h->datatype = sspDataTypeString;
-        }
-        else if(!strcmp(subElement->name, "ssc:Enumeration")) {
-            h->datatype = sspDataTypeEnumeration;
-        }
-        else if(!strcmp(subElement->name, "ssc:Binary")) {
-            h->datatype = sspDataTypeBinary;
-        }
-        else {
-            printf("Illegal data type for connector!\n");
-            return false;
-        }
-
-        //Read unit
-        if(h->datatype == sspDataTypeReal ||
-            h->datatype == sspDataTypeFloat64 ||
-            h->datatype == sspDataTypeFloat32) {
-            parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &h->unit, ssp);
-        }
-    }
-
     return true;
 }
 
@@ -232,27 +102,6 @@ bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandl
 bool parseSsdComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ssp)
 {
     h->xml = element;
-    parseStringAttributeEzXmlAndRememberPointer(element, "name", &h->name, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "type", &h->type, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "source", &h->source, ssp);
-
-    h->implementation = ssdComponentImplementationAny;
-    const char* implementation = NULL;
-    if(parseStringAttributeEzXml(element, "implementation", &implementation)) {
-        if(!strcmp(implementation, "any")) {
-            h->implementation = ssdComponentImplementationAny;
-        }
-        else if(!strcmp(implementation, "ModelExchange")) {
-            h->implementation = ssdComponentImplementationModelExchange;
-        }
-        else if(!strcmp(implementation, "CoSimulation")) {
-            h->implementation = ssdComponentImplementationCoSimulation;
-        }
-        else if(!strcmp(implementation, "ScheduledExecution")) {
-            h->implementation = ssdComponentImplementationScheduledExecution;
-        }
-        freeDuplicatedConstChar(implementation);
-    }
 
     //Parse connectors
     h->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));

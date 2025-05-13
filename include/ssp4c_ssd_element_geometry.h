@@ -17,6 +17,7 @@ SSP4C_DLLAPI const char* ssp4c_ssd_elementGeometry_getIconSource(ssdElementGeome
 SSP4C_DLLAPI double ssp4c_ssd_elementGeometry_getIconRotation(ssdElementGeometryHandle *h);
 SSP4C_DLLAPI bool ssp4c_ssd_elementGeometry_getIconFlip(ssdElementGeometryHandle *h);
 SSP4C_DLLAPI bool ssp4c_ssd_elementGeometry_getIconFixedAspectRatio(ssdElementGeometryHandle *h);
+
 SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setX1(ssdElementGeometryHandle *h, double value);
 
 #ifdef __cplusplus

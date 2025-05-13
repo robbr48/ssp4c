@@ -1,24 +1,44 @@
 #include "ssp4c_private.h"
 #include "ssp4c_ssd_component.h"
 
+// XML attribute name constants
+const char* XML_ATTR_SSD_COMPONENT_NAME = "name";
+const char* XML_ATTR_SSD_COMPONENT_TYPE = "type";
+const char* XML_ATTR_SSD_COMPONENT_SOURCE = "source";
+const char* XML_ATTR_SSD_COMPONENT_IMPLEMENTATION = "implementation";
+
 const char* ssp4c_ssd_component_getName(ssdComponentHandle *h)
 {
-    return h->name;
+    return ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_NAME);
 }
 
 const char* ssp4c_ssd_component_getType(ssdComponentHandle *h)
 {
-    return h->type;
+    return ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_TYPE);
 }
 
 const char* ssp4c_ssd_component_getSource(ssdComponentHandle *h)
 {
-    return h->source;
+    return ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_SOURCE);
 }
 
 ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHandle *h)
 {
-    return h->implementation;
+    const char* implementation = ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_IMPLEMENTATION);
+    if(implementation && !strcmp(implementation, "any")) {
+        return ssdComponentImplementationAny;
+    }
+    else if(implementation && !strcmp(implementation, "ModelExchange")) {
+        return ssdComponentImplementationModelExchange;
+    }
+    else if(implementation && !strcmp(implementation, "CoSimulation")) {
+        return ssdComponentImplementationCoSimulation;
+    }
+    else if(implementation && !strcmp(implementation, "ScheduledExecution")) {
+        return ssdComponentImplementationScheduledExecution;
+    }
+
+    return ssdComponentImplementationAny;
 }
 
 int ssp4c_ssd_component_getNumberOfConnectors(ssdComponentHandle *h)
@@ -50,4 +70,3 @@ ssdParameterBindingHandle *ssp4c_ssd_component_getParameterBindingByIndex(ssdCom
 {
     return &(h->parameterBindings->parameterBindings[i]);
 }
-
