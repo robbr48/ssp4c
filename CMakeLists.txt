@@ -57,6 +57,9 @@ endif()
 
 set(SRCFILES
     src/ssp4c.c
+    src/ssp4c_ssd.c
+    src/ssp4c_ssd_component.c
+    src/ssp4c_ssd_connector.c
     src/ssp4c_ssd_element_geometry.c
     src/ssp4c_ssd_parameter_binding.c
     src/ssp4c_ssd_parameter_values.c
@@ -68,7 +71,11 @@ set(SRCFILES
     src/ssp4c_ssc_mapping_transform.c
     src/ssp4c_ssc_map_entry.c
     src/ssp4c_utils.c
+    src/ssp4c_xml_parsers.c
     include/ssp4c.h
+    include/ssp4c_ssd.h
+    include/ssp4c_ssd_connector.h
+    include/ssp4c_ssd_component.h
     include/ssp4c_ssd_element_geometry.h
     include/ssp4c_ssd_parameter_binding.h
     include/ssp4c_ssd_parameter_values.h
@@ -82,6 +89,8 @@ set(SRCFILES
     include/ssp4c_utils.h
     include/ssp4c_private.h
     include/ssp4c_public.h
+    include/ssp4c_common.h
+    include/ssp4c_xml_parsers.h
     3rdparty/ezxml/ezxml.c
     3rdparty/ezxml/ezxml.h)
 #if (WIN32)
@@ -111,8 +120,7 @@ if(NOT SSP4C_USE_EXTERNAL_MINIZIP)
 endif()
 
 if (SSP4C_BUILD_SHARED)
-    add_library(ssp4c SHARED ${SRCFILES}
-        include/ssp4c_common.h)
+    add_library(ssp4c SHARED ${SRCFILES})
 else()
     add_library(ssp4c STATIC ${SRCFILES})
 endif()

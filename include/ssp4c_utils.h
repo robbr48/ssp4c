@@ -5,8 +5,6 @@
 #include "ezxml/ezxml.h"
 
 
-bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path);
-
 const char* getFunctionName(const char* modelName, const char* functionName, char* concatBuffer);
 
 int removeDirectoryRecursively(const char* rootDirPath, const char* expectedDirNamePrefix);
@@ -22,6 +20,7 @@ char **listFiles(sspHandle *ssp, const char *path, int *nfiles);
 sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzippedLocationIsTemporary);
 
 bool parseStringAttributeEzXml(ezxml_t element, const char* attributeName, const char** target);
+bool parseStringAttributeEzXmlAndRememberPointer(ezxml_t element, const char *attributeName, const char **target, sspHandle *ssp);
 bool parseBooleanAttributeEzXml(ezxml_t element, const char* attributeName, bool* target);
 bool parseFloat64AttributeEzXml(ezxml_t element, const char* attributeName, double* target);
 bool parseFloat32AttributeEzXml(ezxml_t element, const char* attributeName, float *target);

@@ -6,6 +6,9 @@
 #endif
 
 #include "ssp4c.h"
+#include "ssp4c_ssd.h"
+#include "ssp4c_ssd_connector.h"
+#include "ssp4c_ssd_component.h"
 #include "ssp4c_ssd_element_geometry.h"
 #include "ssp4c_ssd_parameter_binding.h"
 #include "ssp4c_ssd_parameter_values.h"
