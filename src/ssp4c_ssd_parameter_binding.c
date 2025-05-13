@@ -1,6 +1,17 @@
 #include "ssp4c_private.h"
 #include "ssp4c_ssd_parameter_binding.h"
 
+
+int ssp4c_ssd_parameterBindings_getNumberOfParameterBindings(ssdParameterBindingsHandle *h)
+{
+    return h->parameterBindingsCount;
+}
+
+ssdParameterBindingHandle *ssp4c_ssd_parameterBindings_getParameterBindingByIndex(ssdParameterBindingsHandle *h, int i)
+{
+    return &(h->parameterBindings[i]);
+}
+
 const char *ssp4c_ssd_parameterBinding_getType(ssdParameterBindingHandle *h)
 {
     return h->type;
