@@ -132,27 +132,8 @@ bool parseSsdElementGeometryElement(ezxml_t element, ssdElementGeometryHandle *h
 {
     h->xml = element;
     h->ssp = ssp;
-    h->x1 = 0;
-    h->y1 = 0;
-    h->x2 = 0;
-    h->y2= 0;
-    h->rotation = 0;
-    h->iconRotation = 0;
-    h->iconSource = NULL;
-    h->iconFlip = false;
-    h->iconFixedAspectRatio = false;
-    parseFloat64AttributeEzXml(element, "x1", &h->x1);
-    parseFloat64AttributeEzXml(element, "y1", &h->y1);
-    parseFloat64AttributeEzXml(element, "x2", &h->x2);
-    parseFloat64AttributeEzXml(element, "y2", &h->y2);
-    parseFloat64AttributeEzXml(element, "rotation", &h->rotation);
-    parseFloat64AttributeEzXml(element, "iconRotation", &h->iconRotation);
-    parseStringAttributeEzXmlAndRememberPointer(element, "iconSource", &h->iconSource, ssp);
-    parseBooleanAttributeEzXml(element, "iconFlip", &h->iconFlip);
-    parseBooleanAttributeEzXml(element, "iconFixedAspectRatio", &h->iconFixedAspectRatio);
     return true;
 }
-
 
 bool parseSsdParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* h, sspHandle *ssp)
 {

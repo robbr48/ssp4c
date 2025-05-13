@@ -19,6 +19,14 @@ SSP4C_DLLAPI bool ssp4c_ssd_elementGeometry_getIconFlip(ssdElementGeometryHandle
 SSP4C_DLLAPI bool ssp4c_ssd_elementGeometry_getIconFixedAspectRatio(ssdElementGeometryHandle *h);
 
 SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setX1(ssdElementGeometryHandle *h, double value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setY1(ssdElementGeometryHandle *h, double value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setX2(ssdElementGeometryHandle *h, double value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setY2(ssdElementGeometryHandle *h, double value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setRotation(ssdElementGeometryHandle *h, double value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setIconSource(ssdElementGeometryHandle *h, const char* value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setIconRotation(ssdElementGeometryHandle *h, double value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setIconFlip(ssdElementGeometryHandle *h, bool value);
+SSP4C_DLLAPI void ssp4c_ssd_elementGeometry_setIconFixedAspectRatio(ssdElementGeometryHandle *h, bool value);
 
 #ifdef __cplusplus
 }

@@ -710,3 +710,30 @@ sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzipp
 void freeDuplicatedConstChar(const char* ptr) {
     free((void*)ptr);
 }
+
+
+void setAttributeAndRememberPointersEzxml(ezxml_t xml, const char *key, const char *value, sspHandle *ssp) {
+
+    char *key_copy = duplicateAndRememberString(ssp, key);
+    char *val_copy = duplicateAndRememberString(ssp, value);
+    ezxml_set_attr(xml, key_copy, val_copy);
+
+}
+
+void setFloat64AttributeEzxml(ezxml_t xml, const char *key, double value, sspHandle *ssp)
+{
+    char buf[255];
+    sprintf(buf, "%f", value);
+    ezxml_set_attr(xml, key, buf);
+    setAttributeAndRememberPointersEzxml(xml, key, buf, ssp);
+}
+
+void setBooleanAttributeEzxml(ezxml_t xml, const char *key, bool value)
+{
+    if(value) {
+        ezxml_set_attr(xml, key, "true");
+    }
+    else {
+        ezxml_set_attr(xml, key, "false");
+    }
+}
