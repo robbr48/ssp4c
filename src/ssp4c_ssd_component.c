@@ -38,7 +38,7 @@ ssdParameterBindingsHandle *ssp4c_ssd_component_getParameterBindings(ssdComponen
 
 ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h)
 {
-    return &(h->geometry);
+    return h->geometry;
 }
 
 int ssp4c_ssd_component_getNumberOfParameterBindings(ssdComponentHandle *h)
