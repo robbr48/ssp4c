@@ -50,7 +50,7 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
         ezxml_t connectorsElement = ezxml_child(systemElement, "ssd:Connectors");
         if(connectorsElement) {
             ssd->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
-            parseConnectorsElement(connectorsElement, ssd->connectors, ssp);
+            parseSsdConnectorsElement(connectorsElement, ssd->connectors, ssp);
         }
 
         // Parse components
@@ -58,7 +58,7 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
         ezxml_t componentsElement = ezxml_child(systemElement, "ssd:Elements");
         if (componentsElement) {
             ssd->components = mallocAndRememberPointer(ssp, sizeof(ssdComponentsHandle));
-            parseComponentsElement(componentsElement, ssd->components, ssp);
+            parseSsdComponentsElement(componentsElement, ssd->components, ssp);
         }
     }
 
@@ -67,7 +67,7 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
     return true;
 }
 
-bool parseConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *ssp)
+bool parseSsdConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *ssp)
 {
     h->connectorsCount = 0;
     for(ezxml_t connectorElement = element->child; connectorElement; connectorElement = connectorElement->ordered) {
@@ -80,7 +80,7 @@ bool parseConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *
         int i=0;
         for(ezxml_t connectorElement = element->child; connectorElement; connectorElement = connectorElement->ordered) {
             if(!strcmp(connectorElement->name, "ssd:Connector")) {
-                parseConnectorElement(connectorElement, &(h->connectors[i]), ssp);
+                parseSsdConnectorElement(connectorElement, &(h->connectors[i]), ssp);
                 ++i;
             }
         }
@@ -89,7 +89,7 @@ bool parseConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *
     return true;
 }
 
-bool parseConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ssp)
+bool parseSsdConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ssp)
 {
     int i=0;
 
@@ -200,7 +200,7 @@ bool parseConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ss
     return true;
 }
 
-bool parseComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *ssp)
+bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *ssp)
 {
     h->componentsCount = 0;
     for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
@@ -215,7 +215,7 @@ bool parseComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *
         int i = 0;
         for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
             if (!strcmp(componentElement->name, "ssd:Component")) {
-                parseComponentElement(componentElement, &(h->components[i]), ssp);
+                parseSsdComponentElement(componentElement, &(h->components[i]), ssp);
                 ++i;
             }
         }
@@ -223,7 +223,7 @@ bool parseComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *
     return true;
 }
 
-bool parseComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ssp)
+bool parseSsdComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ssp)
 {
     h->xml = element;
     parseStringAttributeEzXmlAndRememberPointer(element, "name", &h->name, ssp);
@@ -252,7 +252,7 @@ bool parseComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ss
     h->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
     ezxml_t componentConnectorsElement = ezxml_child(element, "ssd:Connectors");
     if(componentConnectorsElement) {
-        parseConnectorsElement(componentConnectorsElement, h->connectors, ssp);
+        parseSsdConnectorsElement(componentConnectorsElement, h->connectors, ssp);
     }
 
     //Parse parameter bindings
@@ -284,13 +284,13 @@ bool parseComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ss
     ezxml_t parameterBindingsElement = ezxml_child(element, "ssd:ParameterBindings");
     if(parameterBindingsElement) {
         h->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingsHandle));
-        parseParameterBindingsElement(parameterBindingsElement, h->parameterBindings, ssp);
+        parseSsdParameterBindingsElement(parameterBindingsElement, h->parameterBindings, ssp);
     }
 
     return true;
 }
 
-bool parseParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* h, sspHandle *ssp)
+bool parseSsdParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* h, sspHandle *ssp)
 {
     h->parameterBindingsCount = 0;
 
@@ -307,7 +307,7 @@ bool parseParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* 
         int i = 0;
         for (ezxml_t parameterBindingsElement = element->child; parameterBindingsElement; parameterBindingsElement = parameterBindingsElement->ordered) {
             if (!strcmp(parameterBindingsElement->name, "ssd:ParameterBinding")) {
-                parseParameterBindingElement(parameterBindingsElement, &(h->parameterBindings[i]), ssp);
+                parseSsdParameterBindingElement(parameterBindingsElement, &(h->parameterBindings[i]), ssp);
                 ++i;
             }
         }
@@ -316,7 +316,7 @@ bool parseParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* 
     return true;
 }
 
-bool parseParameterBindingElement(ezxml_t element, ssdParameterBindingHandle *h, sspHandle *ssp)
+bool parseSsdParameterBindingElement(ezxml_t element, ssdParameterBindingHandle *h, sspHandle *ssp)
 {
 
     h->type = NULL;
@@ -351,7 +351,7 @@ bool parseParameterBindingElement(ezxml_t element, ssdParameterBindingHandle *h,
     ezxml_t parameterMappingElement = ezxml_child(element, "ssd:ParameterMapping");
     if(parameterMappingElement) {
         h->parameterMapping = mallocAndRememberPointer(ssp, sizeof(ssdParameterMappingHandle));
-        parseParameterMappingElement(parameterMappingElement, h->parameterMapping, ssp);
+        parseSsdParameterMappingElement(parameterMappingElement, h->parameterMapping, ssp);
     }
 
     return true;
@@ -363,13 +363,13 @@ bool parseSsdParameterValuesElement(ezxml_t element, ssdParameterValuesHandle* h
     ezxml_t parameterSetElement = ezxml_child(element, "ssv:ParameterSet");
     if(parameterSetElement) {
         handle->parameterSet = mallocAndRememberPointer(ssp, sizeof(ssvParameterSetHandle));
-        parseParameterSetElement(parameterSetElement, handle->parameterSet, ssp);
+        parseSsvParameterSetElement(parameterSetElement, handle->parameterSet, ssp);
     }
 
     return true;
 }
 
-bool parseParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* handle, sspHandle *ssp)
+bool parseSsdParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* handle, sspHandle *ssp)
 {
     handle->id = NULL;
     handle->description = NULL;
@@ -531,7 +531,7 @@ bool parseSscMapEntryElement(ezxml_t element, sscMapEntryHandle *handle, sspHand
     return true;
 }
 
-bool parseParameterSetElement(ezxml_t element, ssvParameterSetHandle* parameterSetHandle, sspHandle *ssp)
+bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* parameterSetHandle, sspHandle *ssp)
 {
     parameterSetHandle->version = NULL;
     parameterSetHandle->name = NULL;
@@ -559,7 +559,7 @@ bool parseParameterSetElement(ezxml_t element, ssvParameterSetHandle* parameterS
             int i = 0;
             for (ezxml_t parameterElement = parametersElement->child; parameterElement; parameterElement = parameterElement->ordered) {
                 if (!strcmp(parameterElement->name, "ssv:Parameter")) {
-                    parseParameterElement(parameterElement, &(parameterSetHandle->parameters[i]), ssp);
+                    parseSsvParameterElement(parameterElement, &(parameterSetHandle->parameters[i]), ssp);
                 }
                 ++i;
             }
@@ -568,7 +568,7 @@ bool parseParameterSetElement(ezxml_t element, ssvParameterSetHandle* parameterS
     return true;
 }
 
-bool parseParameterElement(ezxml_t element, ssvParameterHandle* parameterHandle, sspHandle *ssp)
+bool parseSsvParameterElement(ezxml_t element, ssvParameterHandle* parameterHandle, sspHandle *ssp)
 {
     parameterHandle->name = NULL;
     parameterHandle->description = NULL;
