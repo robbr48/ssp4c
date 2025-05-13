@@ -10,7 +10,7 @@
          </ssd:Connector>
       </ssd:Connectors>
       <ssd:Elements>
-         <ssd:Component name="resistor" type="application/x-fmu-sharedlibrary" source="resources/test1.fmu">
+         <ssd:Component name="resistor" type="application/x-fmu-sharedlibrary" source="resources/test1.fmu" implementation="CoSimulation">
             <ssd:Connectors>
                <ssd:Connector name="I" kind="input" description="current">
                   <ssc:Real unit="A"/>
