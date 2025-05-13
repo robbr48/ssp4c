@@ -10,15 +10,6 @@
 struct ssdElementGeometryHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    double x1;
-    double y1;
-    double x2;
-    double y2;
-    double rotation;
-    const char* iconSource;
-    double iconRotation;
-    bool iconFlip;
-    bool iconFixedAspectRatio;
 };
 
 struct ssvParameterHandle {

@@ -33,6 +33,10 @@ bool parseUInt32AttributeEzXml(ezxml_t element, const char* attributeName, uint3
 bool parseUInt16AttributeEzXml(ezxml_t element, const char *attributeName, uint16_t* target);
 bool parseUInt8AttributeEzXml(ezxml_t element, const char *attributeName, uint8_t *target);
 
+void setAttributeAndRememberPointersEzxml(ezxml_t xml, const char *key, const char *value, sspHandle *ssp);
+void setFloat64AttributeEzxml(ezxml_t xml, const char *key, double value, sspHandle *ssp);
+void setBooleanAttributeEzxml(ezxml_t xml, const char *key, bool value);
+
 const char* generateTempPath();
 bool unzipSsp(const char* sspfile, const char* unzipLocation);
 bool zipSsp(const char* sspfile, const char* zipLocation);
