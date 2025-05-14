@@ -24,7 +24,7 @@
             <ssd:ParameterBindings>
                <ssd:ParameterBinding type="application/x-ssp-parameter-set">
                   <ssd:ParameterValues>
-                     <ssd:ParameterSet version="1.0" name="parameters"> 
+                     <ssv:ParameterSet version="1.0" name="parameters"> 
                         <ssv:Parameters>
                            <ssv:Parameter name="timestep" description="double test parameter">
                               <ssv:Real value="0.001" unit="s"/>

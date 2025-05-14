@@ -15,41 +15,11 @@ struct ssdElementGeometryHandle {
 struct ssvParameterHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    const char* name;
-    const char* description;
-    const char* id;
-
-    sspDataType datatype;
-    const char* unit;
-
-    double realValue;
-    double float64Value;
-    float float32Value;
-    int intValue;
-    int64_t int64Value;
-    int32_t int32Value;
-    int16_t int16Value;
-    int8_t int8Value;
-    uint64_t uint64Value;
-    uint32_t uint32Value;
-    uint16_t uint16Value;
-    uint8_t uint8Value;
-    bool booleanValue;
-    const char* stringValue;
-    const char* enumValue;
-    int enumValuesCount;
-    const char** enumValues;
-
 };
 
 struct ssvParameterSetHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    const char* version;
-    const char* name;
-    const char* id;
-    const char* description;
-
     int parameterCount;
     ssvParameterHandle *parameters;
 };
@@ -84,12 +54,6 @@ struct sscMappingTransformHandle {
 struct ssmParameterMappingEntryHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    const char* id;
-    const char* description;
-    const char* source;
-    const char* target;
-    bool suppressUnitConveresion;
-
     sscMappingTransformHandle *transform;
 
 };
@@ -97,16 +61,6 @@ struct ssmParameterMappingEntryHandle {
 struct ssmParameterMappingHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    const char* version;
-    const char* id;
-    const char* description;
-    const char* author;
-    const char* fileversion;
-    const char* copyright;
-    const char* license;
-    const char* generationTool;
-    const char* generationDateAndTime;
-
     int mappingEntryCount;
     ssmParameterMappingEntryHandle *mappingEntries;
 };
@@ -114,23 +68,12 @@ struct ssmParameterMappingHandle {
 struct ssdParameterMappingHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    const char* id;
-    const char* description;
-    const char* type;
-    const char* source;
-    ssdParameterSourceBase sourceBase;
-
-    ssmParameterMappingHandle *parameterMapping; //! @todo parse and access functions
+    ssmParameterMappingHandle *parameterMapping;
 };
 
 struct ssdParameterBindingHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    const char* type;
-    const char* source;
-    ssdParameterSourceBase sourceBase;
-    const char* prefix;
-
     ssdParameterValuesHandle *parameterValues;
     ssdParameterMappingHandle *parameterMapping;
 };
@@ -157,7 +100,6 @@ struct ssdConnectorsHandle {
 struct ssdComponentHandle {
     ezxml_t xml;
     sspHandle *ssp;
-
     ssdConnectorsHandle *connectors;
     ssdElementGeometryHandle *geometry;
     ssdParameterBindingsHandle* parameterBindings;

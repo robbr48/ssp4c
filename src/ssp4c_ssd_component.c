@@ -51,11 +51,6 @@ ssdConnectorHandle *ssp4c_ssd_component_getConnectorByIndex(ssdComponentHandle *
     return &h->connectors->connectors[i];
 }
 
-ssdParameterBindingsHandle *ssp4c_ssd_component_getParameterBindings(ssdComponentHandle *h)
-{
-    return h->parameterBindings;
-}
-
 ssdElementGeometryHandle *ssp4c_ssd_component_getElementGeometry(ssdComponentHandle *h)
 {
     return h->geometry;
