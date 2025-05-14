@@ -46,6 +46,7 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
 bool parseSsdConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
 
     h->connectorsCount = 0;
     for(ezxml_t connectorElement = element->child; connectorElement; connectorElement = connectorElement->ordered) {
@@ -70,6 +71,7 @@ bool parseSsdConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandl
 bool parseSsdConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
 
     return true;
 }
@@ -77,6 +79,7 @@ bool parseSsdConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle 
 bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
 
     h->componentsCount = 0;
     for (ezxml_t componentElement = element->child; componentElement; componentElement = componentElement->ordered) {
@@ -102,6 +105,7 @@ bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandl
 bool parseSsdComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
 
     //Parse connectors
     h->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
@@ -138,6 +142,7 @@ bool parseSsdElementGeometryElement(ezxml_t element, ssdElementGeometryHandle *h
 bool parseSsdParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->parameterBindingsCount = 0;
 
     for (ezxml_t parameterBindingElement = element->child; parameterBindingElement ; parameterBindingElement  = parameterBindingElement ->ordered) {
@@ -165,6 +170,7 @@ bool parseSsdParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandl
 bool parseSsdParameterBindingElement(ezxml_t element, ssdParameterBindingHandle *h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->type = NULL;
     h->source = NULL;
     h->prefix = NULL;
@@ -206,6 +212,7 @@ bool parseSsdParameterBindingElement(ezxml_t element, ssdParameterBindingHandle 
 bool parseSsdParameterValuesElement(ezxml_t element, ssdParameterValuesHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->parameterSet = NULL;
     ezxml_t parameterSetElement = ezxml_child(element, "ssv:ParameterSet");
     if(parameterSetElement) {
@@ -219,6 +226,7 @@ bool parseSsdParameterValuesElement(ezxml_t element, ssdParameterValuesHandle* h
 bool parseSsdParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->id = NULL;
     h->description = NULL;
     h->type = NULL;
@@ -255,6 +263,7 @@ bool parseSsdParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* 
 bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle *h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->id = NULL;
     h->description = NULL;
     h->author= NULL;
@@ -296,6 +305,7 @@ bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle 
 bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle *h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->id = NULL;
     h->description = NULL;
     h->source = NULL;
@@ -319,6 +329,7 @@ bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle
 bool parseSscTransformationChoiceElement(ezxml_t element, sscMappingTransformHandle *h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     ezxml_t transformationElement = element->child;
     h->factor = 1;
     h->offset = 0;
@@ -362,6 +373,7 @@ bool parseSscTransformationChoiceElement(ezxml_t element, sscMappingTransformHan
 bool parseSscMapEntryElement(ezxml_t element, sscMapEntryHandle *h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->boolSource = false;
     h->boolTarget= false;
     h->intSource = 0;
@@ -386,6 +398,7 @@ bool parseSscMapEntryElement(ezxml_t element, sscMapEntryHandle *h, sspHandle *s
 bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->version = NULL;
     h->name = NULL;
     h->id = NULL;
@@ -424,6 +437,7 @@ bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* h, sspH
 bool parseSsvParameterElement(ezxml_t element, ssvParameterHandle* h, sspHandle *ssp)
 {
     h->xml = element;
+    h->ssp = ssp;
     h->name = NULL;
     h->description = NULL;
     h->id = NULL;
