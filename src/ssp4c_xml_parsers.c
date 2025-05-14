@@ -171,24 +171,6 @@ bool parseSsdParameterBindingElement(ezxml_t element, ssdParameterBindingHandle 
 {
     h->xml = element;
     h->ssp = ssp;
-    h->type = NULL;
-    h->source = NULL;
-    h->prefix = NULL;
-    parseStringAttributeEzXmlAndRememberPointer(element, "type", &(h->type), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "source", &(h->source), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "prefix", &(h->prefix), ssp);
-
-    h->sourceBase = ssdParameterSourceBaseSSD;
-    const char* sourceBase = NULL;
-    if(parseStringAttributeEzXml(element, "sourceBase", &sourceBase)) {
-        if(!strcmp(sourceBase, "SSD")) {
-            h->sourceBase = ssdParameterSourceBaseSSD;
-        }
-        else if(!strcmp(sourceBase, "component")) {
-            h->sourceBase = ssdParameterSourceBaseComponent;
-        }
-        freeDuplicatedConstChar(sourceBase);
-    }
 
     //Parse parameter sets
     h->parameterValues = NULL;
@@ -227,27 +209,6 @@ bool parseSsdParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* 
 {
     h->xml = element;
     h->ssp = ssp;
-    h->id = NULL;
-    h->description = NULL;
-    h->type = NULL;
-    h->source = NULL;
-    h->sourceBase = ssdParameterSourceBaseSSD;
-    parseStringAttributeEzXmlAndRememberPointer(element, "id", &(h->id), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "description", &(h->description), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "type", &(h->type), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "source", &(h->source), ssp);
-
-    h->sourceBase = ssdParameterSourceBaseSSD;
-    const char* sourceBase = NULL;
-    if(parseStringAttributeEzXml(element, "sourceBase", &sourceBase)) {
-        if(!strcmp(sourceBase, "SSD")) {
-            h->sourceBase = ssdParameterSourceBaseSSD;
-        }
-        else if(!strcmp(sourceBase, "component")) {
-            h->sourceBase = ssdParameterSourceBaseComponent;
-        }
-        freeDuplicatedConstChar(sourceBase);
-    }
 
     //Parse parameter entries
     h->parameterMapping = NULL;
@@ -264,25 +225,6 @@ bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle 
 {
     h->xml = element;
     h->ssp = ssp;
-    h->id = NULL;
-    h->description = NULL;
-    h->author= NULL;
-    h->fileversion = NULL;
-    h->copyright = NULL;
-    h->license = NULL;
-    h->generationTool = NULL;
-    h->generationDateAndTime = NULL;
-    h->version = NULL;
-    parseStringAttributeEzXmlAndRememberPointer(element, "id", &(h->id), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "description", &(h->description), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "author", &(h->author), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "fileversion", &(h->fileversion), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "copyright", &(h->copyright), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "license", &(h->license), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "generationTool", &(h->generationTool), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "generationDateAndTime", &(h->generationDateAndTime), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "version", &(h->version), ssp);
-
     h->mappingEntryCount = 0;
     for(ezxml_t entryElement = element->child; entryElement; entryElement = entryElement->ordered) {
         if (!strcmp(entryElement->name, "ssm:MappingEntry")) {
@@ -306,17 +248,6 @@ bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle
 {
     h->xml = element;
     h->ssp = ssp;
-    h->id = NULL;
-    h->description = NULL;
-    h->source = NULL;
-    h->target = NULL;
-    h->suppressUnitConveresion = false;
-    parseStringAttributeEzXmlAndRememberPointer(element, "id", &(h->id), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "description", &(h->description), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "source", &(h->source), ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "target", &(h->target), ssp);
-    parseBooleanAttributeEzXml(element, "suppressUnitConersion", &(h->suppressUnitConveresion));
-
     h->transform = NULL;
     ezxml_t transformationChoiceElement = ezxml_child(element, "ssc:TransformationChoice");
     if(transformationChoiceElement) {
@@ -399,15 +330,6 @@ bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* h, sspH
 {
     h->xml = element;
     h->ssp = ssp;
-    h->version = NULL;
-    h->name = NULL;
-    h->id = NULL;
-    h->description = NULL;
-    parseStringAttributeEzXmlAndRememberPointer(element, "version", &h->version, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "name", &h->name, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "id", &h->id, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "description", &h->description, ssp);
-
 
     h->parameterCount = 0;
     ezxml_t parametersElement = ezxml_child(element, "ssv:Parameters");
@@ -438,117 +360,6 @@ bool parseSsvParameterElement(ezxml_t element, ssvParameterHandle* h, sspHandle 
 {
     h->xml = element;
     h->ssp = ssp;
-    h->name = NULL;
-    h->description = NULL;
-    h->id = NULL;
-    parseStringAttributeEzXmlAndRememberPointer(element, "name", &h->name, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "description", &h->description, ssp);
-    parseStringAttributeEzXmlAndRememberPointer(element, "id", &h->id, ssp);
-
-    for(ezxml_t subElement = element->child; subElement; subElement = subElement->ordered) {
-        if(!strcmp(subElement->name, "ssv:Real")) {
-            h->datatype = sspDataTypeReal;
-            h->realValue = 0;
-            parseFloat64AttributeEzXml(subElement, "value", &(h->realValue));
-            parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &h->unit, ssp);
-        }
-        else if(!strcmp(subElement->name, "ssv:Float64")) {
-            h->datatype = sspDataTypeFloat64;
-            h->float64Value = 0;
-            parseFloat64AttributeEzXml(subElement, "value", &(h->float64Value));
-            parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &h->unit, ssp);
-        }
-        else if(!strcmp(subElement->name, "ssv:Float32")) {
-            h->datatype = sspDataTypeFloat32;
-            h->float32Value = 0;
-            parseFloat32AttributeEzXml(subElement, "value", &(h->float32Value));
-            parseStringAttributeEzXmlAndRememberPointer(subElement, "unit", &h->unit, ssp);
-        }
-        else if(!strcmp(subElement->name, "ssv:Integer")) {
-            h->datatype = sspDataTypeInteger;
-            h->intValue = 0;
-            parseInt32AttributeEzXml(subElement, "value", &(h->intValue));
-        }
-        else if(!strcmp(subElement->name, "ssv:Int8")) {
-            h->datatype = sspDataTypeInt8;
-            h->int8Value = 0;
-            parseInt8AttributeEzXml(subElement, "value", &(h->int8Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:UInt8")) {
-            h->datatype = sspDataTypeUInt8;
-            h->uint8Value = 0;
-            parseUInt8AttributeEzXml(subElement, "value", &(h->uint8Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:Int16")) {
-            h->datatype = sspDataTypeInt16;
-            h->int16Value = 0;
-            parseInt16AttributeEzXml(subElement, "value", &(h->int16Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:UInt16")) {
-            h->datatype = sspDataTypeUInt16;
-            h->uint16Value = 0;
-            parseUInt16AttributeEzXml(subElement, "value", &(h->uint16Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:Int32")) {
-            h->datatype = sspDataTypeInt32;
-            h->int32Value = 0;
-            parseInt32AttributeEzXml(subElement, "value", &(h->int32Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:UInt32")) {
-            h->datatype = sspDataTypeUInt32;
-            h->uint32Value = 0;
-            parseUInt32AttributeEzXml(subElement, "value", &(h->uint32Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:Int64")) {
-            h->datatype = sspDataTypeInt64;
-            h->int64Value = 0;
-            parseInt64AttributeEzXml(subElement, "value", &(h->int64Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:UInt64")) {
-            h->datatype = sspDataTypeUInt64;
-            h->uint64Value = 0;
-            parseUInt64AttributeEzXml(subElement, "value", &(h->uint64Value));
-        }
-        else if(!strcmp(subElement->name, "ssv:Boolean")) {
-            h->datatype = sspDataTypeBoolean;
-            h->booleanValue = false;
-            parseBooleanAttributeEzXml(subElement, "value", &(h->booleanValue));
-        }
-        else if(!strcmp(subElement->name, "ssv:String")) {
-            h->datatype = sspDataTypeString;
-            h->stringValue = NULL;
-            parseStringAttributeEzXmlAndRememberPointer(subElement, "value", &(h->stringValue), ssp);
-        }
-        else if(!strcmp(subElement->name, "ssv:Enumeration")) {
-            h->datatype = sspDataTypeEnumeration;
-            h->enumValue = NULL;
-            parseStringAttributeEzXmlAndRememberPointer(subElement, "value", &(h->enumValue), ssp);
-
-            h->enumValuesCount = 0;
-            ezxml_t valueElement = ezxml_child(subElement, "ssv:Value");
-            while(valueElement) {
-                ++(h->enumValuesCount);
-                valueElement = valueElement->next;
-            }
-
-            if(h->enumValuesCount > 0) {
-                h->enumValues = mallocAndRememberPointer(ssp, sizeof(const char*)*h->enumValuesCount);
-
-                int i=0;
-                valueElement = ezxml_child(subElement, "ssv:Value");
-                while(valueElement) {
-                    parseStringAttributeEzXmlAndRememberPointer(valueElement, "value", &(h->enumValues[i]), ssp);
-                    valueElement = valueElement->next;
-                    ++i;
-                }
-            }
-        }
-        else if(!strcmp(subElement->name, "ssc:Binary")) {
-            h->datatype = sspDataTypeBinary;
-
-            //! @todo Figure out how to parse binary values
-        }
-    }
 
     return true;
 }
