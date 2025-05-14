@@ -14,6 +14,7 @@ struct ssdElementGeometryHandle {
 
 struct ssvParameterHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* name;
     const char* description;
     const char* id;
@@ -43,6 +44,7 @@ struct ssvParameterHandle {
 
 struct ssvParameterSetHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* version;
     const char* name;
     const char* id;
@@ -54,11 +56,13 @@ struct ssvParameterSetHandle {
 
 struct ssdParameterValuesHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     ssvParameterSetHandle *parameterSet;
 };
 
 struct sscMapEntryHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     bool boolSource;
     bool boolTarget;
     int intSource;
@@ -69,6 +73,7 @@ struct sscMapEntryHandle {
 
 struct sscMappingTransformHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     sscMappingTransform type;
     double factor;
     double offset;
@@ -78,6 +83,7 @@ struct sscMappingTransformHandle {
 
 struct ssmParameterMappingEntryHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* id;
     const char* description;
     const char* source;
@@ -90,6 +96,7 @@ struct ssmParameterMappingEntryHandle {
 
 struct ssmParameterMappingHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* version;
     const char* id;
     const char* description;
@@ -106,6 +113,7 @@ struct ssmParameterMappingHandle {
 
 struct ssdParameterMappingHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* id;
     const char* description;
     const char* type;
@@ -117,6 +125,7 @@ struct ssdParameterMappingHandle {
 
 struct ssdParameterBindingHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* type;
     const char* source;
     ssdParameterSourceBase sourceBase;
@@ -128,22 +137,26 @@ struct ssdParameterBindingHandle {
 
 struct ssdParameterBindingsHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     int parameterBindingsCount;
     ssdParameterBindingHandle *parameterBindings;
 };
 
 struct ssdConnectorHandle {
     ezxml_t xml;
+    sspHandle *ssp;
 };
 
 struct ssdConnectorsHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     int connectorsCount;
     ssdConnectorHandle *connectors;
 };
 
 struct ssdComponentHandle {
     ezxml_t xml;
+    sspHandle *ssp;
 
     ssdConnectorsHandle *connectors;
     ssdElementGeometryHandle *geometry;
@@ -152,12 +165,14 @@ struct ssdComponentHandle {
 
 struct ssdComponentsHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     int componentsCount;
     ssdComponentHandle *components;
 };
 
 struct ssdHandle {
     ezxml_t xml;
+    sspHandle *ssp;
     const char* filename;
     ssdConnectorsHandle *connectors;
     ssdComponentsHandle *components;
