@@ -1,17 +1,6 @@
 #include "ssp4c_private.h"
 #include "ssp4c_ssd.h"
-
-// Centralized XML attribute name constants
-const char *XML_ATTR_SSD_NAME = "name";
-const char *XML_ATTR_SSD_VERSION = "version";
-const char *XML_ATTR_SSD_ID = "id";
-const char *XML_ATTR_SSD_DESCRIPTION = "description";
-const char *XML_ATTR_SSD_AUTHOR = "author";
-const char *XML_ATTR_SSD_FILEVERSION = "fileversion";
-const char *XML_ATTR_SSD_COPYRIGHT = "copyright";
-const char *XML_ATTR_SSD_LICENSE = "license";
-const char *XML_ATTR_SSD_GENERATION_TOOL = "generationTool";
-const char *XML_ATTR_SSD_GENERATION_DATE_AND_TIME = "generationDateAndTime";
+#include "ssp4c_xml_constants.h"
 
 const char *ssp4c_ssd_getFileName(ssdHandle *h)
 {
@@ -20,52 +9,52 @@ const char *ssp4c_ssd_getFileName(ssdHandle *h)
 
 const char *ssp4c_ssd_getName(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_NAME);
+    return ezxml_attr(h->xml, XML_ATTR_NAME);
 }
 
 const char *ssp4c_ssd_getVersion(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_VERSION);
+    return ezxml_attr(h->xml, XML_ATTR_VERSION);
 }
 
 const char *ssp4c_ssd_getId(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_ID);
+    return ezxml_attr(h->xml, XML_ATTR_ID);
 }
 
 const char *ssp4c_ssd_getDescription(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_DESCRIPTION);
+    return ezxml_attr(h->xml, XML_ATTR_DESCRIPTION);
 }
 
 const char *ssp4c_ssd_getAuthor(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_AUTHOR);
+    return ezxml_attr(h->xml, XML_ATTR_AUTHOR);
 }
 
 const char *ssp4c_ssd_getFileversion(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_FILEVERSION);
+    return ezxml_attr(h->xml, XML_ATTR_FILE_VERSION);
 }
 
 const char *ssp4c_ssd_getCopyright(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_COPYRIGHT);
+    return ezxml_attr(h->xml, XML_ATTR_COPYRIGHT);
 }
 
 const char *ssp4c_ssd_getLicense(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_LICENSE);
+    return ezxml_attr(h->xml, XML_ATTR_LICENSE);
 }
 
 const char *ssp4c_ssd_getGenerationTool(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_GENERATION_TOOL);
+    return ezxml_attr(h->xml, XML_ATTR_GENERATION_TOOL);
 }
 
 const char *ssp4c_ssd_getGenerationDateAndTime(ssdHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_GENERATION_DATE_AND_TIME);
+    return ezxml_attr(h->xml, XML_ATTR_GENERATION_DATE_AND_TIME);
 }
 
 int ssp4c_ssd_getNumberOfConnectors(ssdHandle *h)
@@ -95,50 +84,50 @@ void ssp4c_ssd_setFileName(ssdHandle *h, const char *value)
 
 void ssp4c_ssd_setName(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_NAME, value);
+    ezxml_set_attr(h->xml, XML_ATTR_NAME, value);
 }
 
 void ssp4c_ssd_setVersion(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_VERSION, value);
+    ezxml_set_attr(h->xml, XML_ATTR_VERSION, value);
 }
 
 void ssp4c_ssd_setId(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_ID, value);
+    ezxml_set_attr(h->xml, XML_ATTR_ID, value);
 }
 
 void ssp4c_ssd_setDescription(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_DESCRIPTION, value);
+    ezxml_set_attr(h->xml, XML_ATTR_DESCRIPTION, value);
 }
 
 void ssp4c_ssd_setAuthor(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_AUTHOR, value);
+    ezxml_set_attr(h->xml, XML_ATTR_AUTHOR, value);
 }
 
 void ssp4c_ssd_setFileversion(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_FILEVERSION, value);
+    ezxml_set_attr(h->xml, XML_ATTR_FILE_VERSION, value);
 }
 
 void ssp4c_ssd_setCopyright(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_COPYRIGHT, value);
+    ezxml_set_attr(h->xml, XML_ATTR_COPYRIGHT, value);
 }
 
 void ssp4c_ssd_setLicense(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_LICENSE, value);
+    ezxml_set_attr(h->xml, XML_ATTR_LICENSE, value);
 }
 
 void ssp4c_ssd_setGenerationTool(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_GENERATION_TOOL, value);
+    ezxml_set_attr(h->xml, XML_ATTR_GENERATION_TOOL, value);
 }
 
 void ssp4c_ssd_setGenerationDateAndTime(ssdHandle *h, const char *value)
 {
-    ezxml_set_attr(h->xml, XML_ATTR_SSD_GENERATION_DATE_AND_TIME, value);
+    ezxml_set_attr(h->xml, XML_ATTR_GENERATION_DATE_AND_TIME, value);
 }

@@ -71,6 +71,7 @@ set(SRCFILES
     src/ssp4c_ssc_mapping_transform.c
     src/ssp4c_ssc_map_entry.c
     src/ssp4c_utils.c
+    src/ssp4c_xml_constants.c
     src/ssp4c_xml_parsers.c
     include/ssp4c.h
     include/ssp4c_ssd.h
@@ -90,6 +91,7 @@ set(SRCFILES
     include/ssp4c_private.h
     include/ssp4c_public.h
     include/ssp4c_common.h
+    include/ssp4c_xml_constants.h
     include/ssp4c_xml_parsers.h
     3rdparty/ezxml/ezxml.c
     3rdparty/ezxml/ezxml.h)

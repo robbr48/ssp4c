@@ -1,40 +1,35 @@
 #include "ssp4c_private.h"
 #include "ssp4c_ssd_component.h"
-
-// XML attribute name constants
-const char* XML_ATTR_SSD_COMPONENT_NAME = "name";
-const char* XML_ATTR_SSD_COMPONENT_TYPE = "type";
-const char* XML_ATTR_SSD_COMPONENT_SOURCE = "source";
-const char* XML_ATTR_SSD_COMPONENT_IMPLEMENTATION = "implementation";
+#include "ssp4c_xml_constants.h"
 
 const char* ssp4c_ssd_component_getName(ssdComponentHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_NAME);
+    return ezxml_attr(h->xml, XML_ATTR_NAME);
 }
 
 const char* ssp4c_ssd_component_getType(ssdComponentHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_TYPE);
+    return ezxml_attr(h->xml, XML_ATTR_TYPE);
 }
 
 const char* ssp4c_ssd_component_getSource(ssdComponentHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_SOURCE);
+    return ezxml_attr(h->xml, XML_ATTR_SOURCE);
 }
 
 ssdComponentImplementation ssp4c_ssd_component_getImplementation(ssdComponentHandle *h)
 {
-    const char* implementation = ezxml_attr(h->xml, XML_ATTR_SSD_COMPONENT_IMPLEMENTATION);
-    if(implementation && !strcmp(implementation, "any")) {
+    const char* implementation = ezxml_attr(h->xml, XML_ATTR_IMPLEMENTATION);
+    if(implementation && !strcmp(implementation, XML_VALUE_ANY)) {
         return ssdComponentImplementationAny;
     }
-    else if(implementation && !strcmp(implementation, "ModelExchange")) {
+    else if(implementation && !strcmp(implementation, XML_VALUE_MODELEXCHANGE)) {
         return ssdComponentImplementationModelExchange;
     }
-    else if(implementation && !strcmp(implementation, "CoSimulation")) {
+    else if(implementation && !strcmp(implementation, XML_VALUE_COSIMULATION)) {
         return ssdComponentImplementationCoSimulation;
     }
-    else if(implementation && !strcmp(implementation, "ScheduledExecution")) {
+    else if(implementation && !strcmp(implementation, XML_VALUE_SCHEDULED_EXECUTION)) {
         return ssdComponentImplementationScheduledExecution;
     }
 

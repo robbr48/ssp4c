@@ -21,7 +21,7 @@ sspHandle *ssp4c_loadUnzippedSsp_internal(const char *unzipLocation, bool unzipp
 
 bool parseStringAttributeEzXml(ezxml_t element, const char* attributeName, const char** target);
 bool parseStringAttributeEzXmlAndRememberPointer(ezxml_t element, const char *attributeName, const char **target, sspHandle *ssp);
-bool parseBooleanAttributeEzXml(ezxml_t element, const char* attributeName, bool* target);
+bool parseBooleanAttributeEzXml(ezxml_t element, const char* attributeName, bool *value);
 bool parseFloat64AttributeEzXml(ezxml_t element, const char* attributeName, double* target);
 bool parseFloat32AttributeEzXml(ezxml_t element, const char* attributeName, float *target);
 bool parseInt64AttributeEzXml(ezxml_t element, const char* attributeName, int64_t* target);

@@ -28,11 +28,8 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
     ssp->unzippedLocationIsTemporary = true;
     ssp->ssdCount = 0;
     char** files = listFiles(ssp,ssp->unzippedLocation,&ssp->ssdCount);
-    //printf("Looking for files in %s\n",ssp->unzippedLocation);
-    //printf("Found %i files\n",ssdCount);
     ssp->ssds = mallocAndRememberPointer(ssp, sizeof(ssdHandle)*(ssp->ssdCount+1));
     for(int i=0; i<ssp->ssdCount; ++i) {
-        //printf("%s\n",files[i]);
         ssdHandle ssd;
         ssd.filename = duplicateAndRememberString(ssp, files[i]);
         parseSsd(ssp, &ssd, files[i]);
