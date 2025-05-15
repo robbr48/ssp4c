@@ -46,7 +46,7 @@ char **listFiles(sspHandle *ssp, const char *path, int *nfiles) {
         do {
             if(!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
                 fileList = reallocAndRememberPointer(ssp, fileList, sizeof(char *) * (count + 1));
-                fileList[count] = _strdup(findData.cFileName);
+                fileList[count] = duplicateAndRememberString(ssp, findData.cFileName);
                 count++;
             }
         } while(FindNextFile(hFind, &findData));
