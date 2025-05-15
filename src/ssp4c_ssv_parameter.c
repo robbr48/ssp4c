@@ -1,83 +1,73 @@
 #include "ssp4c_private.h"
 #include "ssp4c_ssv_parameter.h"
-
-
-const char* XML_ATTR_SSV_PARAMETER_NAME = "name";
-const char* XML_ATTR_SSV_PARAMETER_DESCRIPTION = "description";
-const char* XML_ATTR_SSV_PARAMETER_ID = "id";
-const char* XML_ATTR_SSV_PARAMETER_DATATYPE = "datatype";
-const char* XML_ATTR_SSV_PARAMETER_UNIT = "unit";
-// const char* XML_ATTR_SSV_PARAMETER_FILE_VERSION = "fileversion";
-// const char* XML_ATTR_SSV_PARAMETER_COPYRIGHT = "copyright";
-// const char* XML_ATTR_SSV_PARAMETER_LICENSE = "license";
-// const char* XML_ATTR_SSV_PARAMETER_GENERATION_TOOL = "generationTool";
-// const char* XML_ATTR_SSV_PARAMETER_GENERATION_DATE_AND_TIME = "generationDateAndTime";
+#include "ssp4c_xml_constants.h"
+#include "ssp4c_utils.h"
 
 const char *ssp4c_ssv_parameter_getName(ssvParameterHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSV_PARAMETER_NAME);
+    return ezxml_attr(h->xml, XML_ATTR_NAME);
 }
 
 const char *ssp4c_ssv_parameter_getDescription(ssvParameterHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSV_PARAMETER_DESCRIPTION);
+    return ezxml_attr(h->xml, XML_ATTR_DESCRIPTION);
 }
 
 const char *ssp4c_ssv_parameter_getId(ssvParameterHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSV_PARAMETER_ID);
+    return ezxml_attr(h->xml, XML_ATTR_ID);
 }
 
 sspDataType ssp4c_ssv_parameter_getDatatype(ssvParameterHandle *h)
 {
     //return h->datatype;
     for(ezxml_t subElement = h->xml->child; subElement; subElement = subElement->ordered) {
-        if(!strcmp(subElement->name, "ssv:Real")) {
+        if(!strcmp(subElement->name, XML_ELEMENT_SSV_REAL)) {
             return sspDataTypeReal;
         }
-        else if(!strcmp(subElement->name, "ssv:Float64")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_FLOAT64)) {
             return sspDataTypeFloat64;
         }
-        else if(!strcmp(subElement->name, "ssv:Float32")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_FLOAT32)) {
             return sspDataTypeFloat32;
         }
-        else if(!strcmp(subElement->name, "ssv:Integer")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_INTEGER)) {
             return sspDataTypeInteger;
         }
-        else if(!strcmp(subElement->name, "ssv:Int8")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_INT8)) {
             return sspDataTypeInt8;
         }
-        else if(!strcmp(subElement->name, "ssv:UInt8")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_UINT8)) {
             return sspDataTypeUInt8;
         }
-        else if(!strcmp(subElement->name, "ssv:Int16")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_INT16)) {
             return sspDataTypeInt16;
         }
-        else if(!strcmp(subElement->name, "ssv:UInt16")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_UINT16)) {
             return sspDataTypeUInt16;
         }
-        else if(!strcmp(subElement->name, "ssv:Int32")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_INT32)) {
             return sspDataTypeInt32;
         }
-        else if(!strcmp(subElement->name, "ssv:UInt32")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_UINT32)) {
             return sspDataTypeUInt32;
         }
-        else if(!strcmp(subElement->name, "ssv:Int64")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_INT64)) {
             return sspDataTypeInt64;
         }
-        else if(!strcmp(subElement->name, "ssv:UInt64")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_UINT64)) {
             return sspDataTypeUInt64;
         }
-        else if(!strcmp(subElement->name, "ssv:Boolean")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_BOOLEAN)) {
             return sspDataTypeBoolean;
         }
-        else if(!strcmp(subElement->name, "ssv:String")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_STRING)) {
             return sspDataTypeString;
         }
-        else if(!strcmp(subElement->name, "ssv:Enumeration")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_ENUMERATION)) {
             return sspDataTypeEnumeration;
         }
-        else if(!strcmp(subElement->name, "ssv:Binary")) {
+        else if(!strcmp(subElement->name, XML_ELEMENT_SSV_BINARY)) {
             return sspDataTypeBinary;
         }
     }
@@ -86,30 +76,30 @@ sspDataType ssp4c_ssv_parameter_getDatatype(ssvParameterHandle *h)
 
 const char *ssp4c_ssv_parameter_getUnit(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Real");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_REAL);
     if(dataElement) {
-        return ezxml_attr(dataElement, XML_ATTR_SSV_PARAMETER_UNIT);
+        return ezxml_attr(dataElement, XML_ATTR_UNIT);
     }
 
-    ezxml_t float64Element = ezxml_child(h->xml, "ssv:Float64");
+    ezxml_t float64Element = ezxml_child(h->xml, XML_ELEMENT_SSV_FLOAT64);
     if(float64Element) {
-        return ezxml_attr(float64Element, XML_ATTR_SSV_PARAMETER_UNIT);
+        return ezxml_attr(float64Element, XML_ATTR_UNIT);
     }
 
-    ezxml_t float32Element = ezxml_child(h->xml, "ssv:Float32");
+    ezxml_t float32Element = ezxml_child(h->xml, XML_ELEMENT_SSV_FLOAT32);
     if(float32Element) {
-        return ezxml_attr(float32Element, XML_ATTR_SSV_PARAMETER_UNIT);
+        return ezxml_attr(float32Element, XML_ATTR_UNIT);
     }
     return NULL;
 }
 
 double ssp4c_ssv_parameter_getRealValue(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Real");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_REAL);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
-        if(valueStr) {
-            return atof(valueStr);
+        double value;
+        if(parseFloat64AttributeEzXml(dataElement, XML_ATTR_VALUE, &value)) {
+            return value;
         }
     }
     return 0;
@@ -117,11 +107,11 @@ double ssp4c_ssv_parameter_getRealValue(ssvParameterHandle *h)
 
 double ssp4c_ssv_parameter_getFloat64Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Float64");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_FLOAT64);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
-        if(valueStr) {
-            return atof(valueStr);
+        double value;
+        if(parseFloat64AttributeEzXml(dataElement, XML_ATTR_VALUE, &value)) {
+            return value;
         }
     }
     return 0;
@@ -129,9 +119,9 @@ double ssp4c_ssv_parameter_getFloat64Value(ssvParameterHandle *h)
 
 float ssp4c_ssv_parameter_getFloat32Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Float32");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_FLOAT32);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atof(valueStr);
         }
@@ -141,9 +131,9 @@ float ssp4c_ssv_parameter_getFloat32Value(ssvParameterHandle *h)
 
 int ssp4c_ssv_parameter_getIntValue(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Integer");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_INTEGER);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -153,9 +143,9 @@ int ssp4c_ssv_parameter_getIntValue(ssvParameterHandle *h)
 
 int64_t ssp4c_ssv_parameter_getInt64Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Int64");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_INT64);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -165,9 +155,9 @@ int64_t ssp4c_ssv_parameter_getInt64Value(ssvParameterHandle *h)
 
 int32_t ssp4c_ssv_parameter_getInt32Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Int32");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_INT32);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -177,9 +167,9 @@ int32_t ssp4c_ssv_parameter_getInt32Value(ssvParameterHandle *h)
 
 int16_t ssp4c_ssv_parameter_getInt16Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:In1t6");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_INT16);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -189,9 +179,9 @@ int16_t ssp4c_ssv_parameter_getInt16Value(ssvParameterHandle *h)
 
 int8_t ssp4c_ssv_parameter_getInt8Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Int8");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_INT8);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -201,9 +191,9 @@ int8_t ssp4c_ssv_parameter_getInt8Value(ssvParameterHandle *h)
 
 uint64_t ssp4c_ssv_parameter_getUInt64Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:UInt64");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_UINT64);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -213,9 +203,9 @@ uint64_t ssp4c_ssv_parameter_getUInt64Value(ssvParameterHandle *h)
 
 uint32_t ssp4c_ssv_parameter_getUInt32Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:UInt32");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_UINT32);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -225,9 +215,9 @@ uint32_t ssp4c_ssv_parameter_getUInt32Value(ssvParameterHandle *h)
 
 uint16_t ssp4c_ssv_parameter_getUInt16Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:UInt16");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_UINT16);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -237,9 +227,9 @@ uint16_t ssp4c_ssv_parameter_getUInt16Value(ssvParameterHandle *h)
 
 uint8_t ssp4c_ssv_parameter_getUInt8Value(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:UInt8");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_UINT8);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
+        const char* valueStr = ezxml_attr(dataElement, XML_ATTR_VALUE);
         if(valueStr) {
             return atoi(valueStr);
         }
@@ -249,11 +239,11 @@ uint8_t ssp4c_ssv_parameter_getUInt8Value(ssvParameterHandle *h)
 
 bool ssp4c_ssv_parameter_getBooleanValue(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Boolean");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_BOOLEAN);
     if(dataElement) {
-        const char* valueStr = ezxml_attr(dataElement, "value");
-        if(valueStr) {
-            return !strcmp(valueStr, "true");
+        bool value;
+        if(parseBooleanAttributeEzXml(dataElement, XML_ATTR_VALUE, &value)) {
+            return value;
         }
     }
     return false;
@@ -261,18 +251,18 @@ bool ssp4c_ssv_parameter_getBooleanValue(ssvParameterHandle *h)
 
 const char *ssp4c_ssv_parameter_getStringValue(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Boolean");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_STRING);
     if(dataElement) {
-        return ezxml_attr(dataElement, "value");
+        return ezxml_attr(dataElement, XML_ATTR_VALUE);
     }
     return NULL;
 }
 
 const char *ssp4c_ssv_parameter_getEnumValue(ssvParameterHandle *h)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Enumeration");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_ENUMERATION);
     if(dataElement) {
-        return ezxml_attr(dataElement, "value");
+        return ezxml_attr(dataElement, XML_ATTR_VALUE);
     }
     return NULL;
 }
@@ -280,9 +270,9 @@ const char *ssp4c_ssv_parameter_getEnumValue(ssvParameterHandle *h)
 int ssp4c_ssv_parameter_getNumberOfEnumerationValues(ssvParameterHandle *h)
 {
     int count = 0;
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Enumeration");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_ENUMERATION);
     if(dataElement) {
-        ezxml_t valueElement = ezxml_child(dataElement, "ssv:Value");
+        ezxml_t valueElement = ezxml_child(dataElement, XML_ELEMENT_SSV_VALUE);
         while(valueElement) {
             ++(count);
             valueElement = valueElement->next;
@@ -293,14 +283,14 @@ int ssp4c_ssv_parameter_getNumberOfEnumerationValues(ssvParameterHandle *h)
 
 const char *ssp4c_ssv_parameter_getEnumerationValueByIndex(ssvParameterHandle *h, int i)
 {
-    ezxml_t dataElement = ezxml_child(h->xml, "ssv:Enumeration");
+    ezxml_t dataElement = ezxml_child(h->xml, XML_ELEMENT_SSV_ENUMERATION);
     if(dataElement) {
-        ezxml_t valueElement = ezxml_child(dataElement, "ssv:Value");
+        ezxml_t valueElement = ezxml_child(dataElement, XML_ELEMENT_SSV_VALUE);
         for(int j=0; j<i; ++j) {
             valueElement = valueElement->next;
         }
         if(valueElement) {
-            return ezxml_attr(valueElement, "value");
+            return ezxml_attr(valueElement, XML_ATTR_VALUE);
         }
     }
     return NULL;

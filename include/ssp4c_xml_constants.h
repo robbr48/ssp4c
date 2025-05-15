@@ -1,0 +1,113 @@
+#ifndef SSP4C_XML_CONSTANTS_H
+#define SSP4C_XML_CONSTANTS_H
+
+extern const char* XML_ELEMENT_SSD;
+extern const char* XML_ELEMENT_SSD_CONNECTOR;
+extern const char* XML_ELEMENT_SSD_SYSTEM;
+extern const char* XML_ELEMENT_SSD_CONNECTORS;
+extern const char* XML_ELEMENT_SSD_ELEMENTS;
+extern const char* XML_ELEMENT_SSD_COMPONENT;
+extern const char* XML_ELEMENT_SSD_ELEMENT_GEOMETRY;
+extern const char* XML_ELEMENT_SSD_PARAMETER_BINDINGS;
+extern const char* XML_ELEMENT_SSD_PARAMETER_BINDING;
+extern const char* XML_ELEMENT_SSD_PARAMETER_VALUES;
+extern const char* XML_ELEMENT_SSD_PARAMETER_MAPPING;
+
+extern const char* XML_ELEMENT_SSV_PARAMETER_SET;
+extern const char* XML_ELEMENT_SSV_VALUE ;
+extern const char* XML_ELEMENT_SSV_PARAMETERS;
+extern const char* XML_ELEMENT_SSV_PARAMETER;
+extern const char* XML_ELEMENT_SSV_REAL;
+extern const char* XML_ELEMENT_SSV_FLOAT64;
+extern const char* XML_ELEMENT_SSV_FLOAT32;
+extern const char* XML_ELEMENT_SSV_INTEGER;
+extern const char* XML_ELEMENT_SSV_INT64;
+extern const char* XML_ELEMENT_SSV_INT32;
+extern const char* XML_ELEMENT_SSV_INT16;
+extern const char* XML_ELEMENT_SSV_INT8;
+extern const char* XML_ELEMENT_SSV_UINT64;
+extern const char* XML_ELEMENT_SSV_UINT32;
+extern const char* XML_ELEMENT_SSV_UINT16;
+extern const char* XML_ELEMENT_SSV_UINT8;
+extern const char* XML_ELEMENT_SSV_BOOLEAN;
+extern const char* XML_ELEMENT_SSV_STRING;
+extern const char* XML_ELEMENT_SSV_ENUMERATION;
+extern const char* XML_ELEMENT_SSV_BINARY;
+
+extern const char* XML_ELEMENT_SSM_PARAMETER_MAPPING;
+extern const char* XML_ELEMENT_SSM_MAPPING_ENTRY;
+
+extern const char* XML_ELEMENT_SSC_VALUE ;
+extern const char* XML_ELEMENT_SSC_TRANSFORMATION_CHOICE;
+extern const char* XML_ELEMENT_SSC_LINEAR_TRANSFORMATION;
+extern const char* XML_ELEMENT_SSC_BOOLEAN_MAPPING_TRANSFORMATION;
+extern const char* XML_ELEMENT_SSC_INTEGER_MAPPING_TRANSFORMATION;
+extern const char* XML_ELEMENT_SSC_ENUMERATION_MAPPING_TRANSFORMATION;
+extern const char* XML_ELEMENT_SSC_MAP_ENTRY;
+extern const char* XML_ELEMENT_SSC_REAL;
+extern const char* XML_ELEMENT_SSC_FLOAT64;
+extern const char* XML_ELEMENT_SSC_FLOAT32;
+extern const char* XML_ELEMENT_SSC_INTEGER;
+extern const char* XML_ELEMENT_SSC_INT64;
+extern const char* XML_ELEMENT_SSC_INT32;
+extern const char* XML_ELEMENT_SSC_INT16;
+extern const char* XML_ELEMENT_SSC_INT8;
+extern const char* XML_ELEMENT_SSC_UINT64;
+extern const char* XML_ELEMENT_SSC_UINT32;
+extern const char* XML_ELEMENT_SSC_UINT16;
+extern const char* XML_ELEMENT_SSC_UINT8;
+extern const char* XML_ELEMENT_SSC_BOOLEAN;
+extern const char* XML_ELEMENT_SSC_STRING;
+extern const char* XML_ELEMENT_SSC_ENUMERATION;
+extern const char* XML_ELEMENT_SSC_BINARY;
+
+extern const char* XML_ATTR_NAME;
+extern const char* XML_ATTR_DESCRIPTION;
+extern const char* XML_ATTR_ID;
+extern const char* XML_ATTR_TYPE;
+extern const char* XML_ATTR_DATATYPE;
+extern const char* XML_ATTR_UNIT;
+extern const char* XML_ATTR_VALUE;
+extern const char* XML_ATTR_VERSION;
+extern const char* XML_ATTR_AUTHOR;
+extern const char* XML_ATTR_FILE_VERSION;
+extern const char* XML_ATTR_COPYRIGHT;
+extern const char* XML_ATTR_LICENSE;
+extern const char* XML_ATTR_GENERATION_TOOL;
+extern const char* XML_ATTR_GENERATION_DATE_AND_TIME;
+extern const char* XML_ATTR_SOURCE;
+extern const char* XML_ATTR_TARGET;
+extern const char* XML_ATTR_SUPPRESS_UNIT_CONVERSION;
+extern const char* XML_ATTR_SOURCE_BASE;
+extern const char* XML_ATTR_PREFIX;
+extern const char* XML_ATTR_X1;
+extern const char* XML_ATTR_Y1;
+extern const char* XML_ATTR_X2;
+extern const char* XML_ATTR_Y2;
+extern const char* XML_ATTR_ROTATION;
+extern const char* XML_ATTR_ICON_ROTATION;
+extern const char* XML_ATTR_ICON_SOURCE;
+extern const char* XML_ATTR_ICON_FLIP;
+extern const char* XML_ATTR_ICON_FIXED_ASPECT_RATIO;
+extern const char* XML_ATTR_KIND;
+extern const char* XML_ATTR_IMPLEMENTATION;
+extern const char* XML_ATTR_FACTOR;
+extern const char* XML_ATTR_OFFSET;
+
+extern const char* XML_VALUE_TRUE;
+extern const char* XML_VALUE_SSD;
+extern const char* XML_VALUE_COMPONENT;
+extern const char* XML_VALUE_INPUT;
+extern const char* XML_VALUE_OUTPUT;
+extern const char* XML_VALUE_PARAMETER;
+extern const char* XML_VALUE_CALCULATED_PARAMETER;
+extern const char* XML_VALUE_STRUCTURAL_PARAMETER;
+extern const char* XML_VALUE_CALCULATED_CONSTANT;
+extern const char* XML_VALUE_LOCAL;
+extern const char* XML_VALUE_INOUT;
+extern const char* XML_VALUE_ANY;
+extern const char* XML_VALUE_MODELEXCHANGE;
+extern const char* XML_VALUE_COSIMULATION;
+extern const char* XML_VALUE_SCHEDULED_EXECUTION;
+
+#endif // SSP4C_XML_CONSTANTS_H

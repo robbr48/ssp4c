@@ -1,6 +1,6 @@
-//#include "ssp4c.h"
 #include "ssp4c_utils.h"
 #include "ssp4c_common.h"
+#include "ssp4c_xml_constants.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -145,10 +145,11 @@ bool parseStringAttributeEzXmlAndRememberPointer(ezxml_t element, const char *at
 //! @param attributeName Attribute name
 //! @param target Pointer to target variable
 //! @returns True if attribute was found, else false
-bool parseBooleanAttributeEzXml(ezxml_t element, const char *attributeName, bool *target)
+bool parseBooleanAttributeEzXml(ezxml_t element, const char *attributeName, bool *value)
 {
-    if(ezxml_attr(element, attributeName)) {
-        (*target) = !strcmp(ezxml_attr(element, attributeName), "true");
+    const char* valueStr = ezxml_attr(element, attributeName);
+    if(valueStr) {
+        (*value) = !strcmp(valueStr, XML_VALUE_TRUE);
         return true;
     }
     return false;

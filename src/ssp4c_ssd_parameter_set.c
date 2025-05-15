@@ -1,32 +1,25 @@
 #include "ssp4c_private.h"
 #include "ssp4c_ssd_parameter_set.h"
-
-
-const char* XML_ATTR_SSD_PARAMETER_SET_VERSION = "type";
-const char* XML_ATTR_SSD_PARAMETER_SET_NAME = "type";
-const char* XML_ATTR_SSD_PARAMETER_SET_ID = "id";
-const char* XML_ATTR_SSD_PARAMETER_SET_DESCRIPTION = "description";
-const char* XML_ATTR_SSD_PARAMETER_SET_SOURCE = "source";
-const char* XML_ATTR_SSD_PARAMETER_SET_SOURCE_BASE = "sourceBase";
+#include "ssp4c_xml_constants.h"
 
 const char *ssp4c_ssd_parameterSet_getVersion(ssvParameterSetHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_PARAMETER_SET_VERSION);
+    return ezxml_attr(h->xml, XML_ATTR_VERSION);
 }
 
 const char *ssp4c_ssd_parameterSet_getName(ssvParameterSetHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_PARAMETER_SET_NAME);
+    return ezxml_attr(h->xml, XML_ATTR_NAME);
 }
 
 const char *ssp4c_ssd_parameterSet_getId(ssvParameterSetHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_PARAMETER_SET_ID);
+    return ezxml_attr(h->xml, XML_ATTR_ID);
 }
 
 const char *ssp4c_ssd_parameterSet_getDescription(ssvParameterSetHandle *h)
 {
-    return ezxml_attr(h->xml, XML_ATTR_SSD_PARAMETER_SET_DESCRIPTION);
+    return ezxml_attr(h->xml, XML_ATTR_DESCRIPTION);
 }
 
 int ssp4c_ssd_parameterSet_getNumberOfParameters(ssvParameterSetHandle *h)
