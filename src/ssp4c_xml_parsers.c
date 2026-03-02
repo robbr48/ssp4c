@@ -37,6 +37,16 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
             ssd->components = mallocAndRememberPointer(ssp, sizeof(ssdComponentsHandle));
             parseSsdComponentsElement(componentsElement, ssd->components, ssp);
         }
+
+        // Parse connections
+        ssd->connections = NULL;
+        ezxml_t connectionsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_CONNECTIONS);
+        if (connectionsElement) {
+            ssd->connections = mallocAndRememberPointer(ssp, sizeof(ssdConnectionsHandle));
+            parseSsdConnectionsElement(connectionsElement, ssd->connections, ssp);
+
+
+        }
     }
 
     chdir(cwd);
@@ -129,6 +139,75 @@ bool parseSsdComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle 
         h->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingsHandle));
         parseSsdParameterBindingsElement(parameterBindingsElement, h->parameterBindings, ssp);
     }
+
+    return true;
+}
+
+bool parseSsdConnectionsElement(ezxml_t element, ssdConnectionsHandle* h, sspHandle *ssp)
+{
+    h->xml = element;
+    h->ssp = ssp;
+
+    h->connectionsCount = 0;
+
+    // First pass: count
+    for (ezxml_t connectionElement = element->child;
+         connectionElement;
+         connectionElement = connectionElement->ordered)
+    {
+        if (!strcmp(connectionElement->name, XML_ELEMENT_SSD_CONNECTION)) {
+            ++h->connectionsCount;
+        }
+    }
+
+    // Allocate
+    if (h->connectionsCount > 0) {
+
+        h->connections =
+            mallocAndRememberPointer(ssp,
+                                     sizeof(ssdConnectionHandle) * h->connectionsCount);
+
+        int i = 0;
+
+        // Second pass: parse
+        for (ezxml_t connectionElement = element->child;
+             connectionElement;
+             connectionElement = connectionElement->ordered)
+        {
+            if (!strcmp(connectionElement->name, XML_ELEMENT_SSD_CONNECTION)) {
+
+                parseSsdConnectionElement(connectionElement,
+                                          &(h->connections[i]),
+                                          ssp);
+                ++i;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool parseSsdConnectionElement(ezxml_t element, ssdConnectionHandle *h, sspHandle *ssp)
+{
+    h->xml = element;
+    h->ssp = ssp;
+
+    h->startElement   = NULL;
+    h->startConnector = NULL;
+    h->endElement     = NULL;
+    h->endConnector   = NULL;
+
+    parseStringAttributeEzXmlAndRememberPointer(
+        element, XML_ATTR_START_ELEMENT, &(h->startElement), ssp);
+
+    parseStringAttributeEzXmlAndRememberPointer(
+        element, XML_ATTR_START_CONNECTOR, &(h->startConnector), ssp);
+
+    parseStringAttributeEzXmlAndRememberPointer(
+        element, XML_ATTR_END_ELEMENT, &(h->endElement), ssp);
+
+    parseStringAttributeEzXmlAndRememberPointer(
+        element, XML_ATTR_END_CONNECTOR, &(h->endConnector), ssp);
 
     return true;
 }

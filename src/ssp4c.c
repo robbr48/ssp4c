@@ -14,6 +14,8 @@
 #endif
 
 
+
+
 //! @brief Loads the specified SSP file
 //! First unzips the SSP, then parses modelDescription.xml, and then loads all required FMI functions.
 //! @param ssp SSP handle
@@ -105,6 +107,11 @@ void ssp4c_freeSsp(sspHandle *h)
 
     free(h->allocatedPointers);
     free(h);
+}
+
+const char* ssp4c_getUnzippedLocation(sspHandle *h)
+{
+    return h->unzippedLocation;
 }
 
 int ssp4c_getNumberOfSsds(sspHandle *h)
