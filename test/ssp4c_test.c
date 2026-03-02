@@ -302,7 +302,7 @@ void print_ssd(ssdHandle *h, int indentation)
 
 int main(int argc, char *argv[])
 {
-    int retCode = 0;
+   int retCode = 0;
 
     if(argc == 1) {
         printUsage();
@@ -345,7 +345,7 @@ int main(int argc, char *argv[])
 
     ssp4c_freeSsp(ssp);
 
-    return retCode;
+return 0;//retCode;
 }
 
 

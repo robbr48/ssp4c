@@ -112,12 +112,29 @@ struct ssdComponentsHandle {
     ssdComponentHandle *components;
 };
 
+struct ssdConnectionHandle {
+    ezxml_t xml;
+    sspHandle *ssp;
+    char *startElement;
+    char *startConnector;
+    char *endElement;
+    char *endConnector;
+};
+
+struct ssdConnectionsHandle {
+    ezxml_t xml;
+    sspHandle *ssp;
+    int connectionsCount;
+    ssdConnectionHandle *connections;
+};
+
 struct ssdHandle {
     ezxml_t xml;
     sspHandle *ssp;
     const char* filename;
     ssdConnectorsHandle *connectors;
     ssdComponentsHandle *components;
+    ssdConnectionsHandle *connections;
 };
 
 struct sspHandle {

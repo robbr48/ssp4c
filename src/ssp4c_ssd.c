@@ -77,6 +77,16 @@ ssdComponentHandle *ssp4c_ssd_getComponentByIndex(ssdHandle *h, int i)
     return &(h->components->components[i]);
 }
 
+int ssp4c_ssd_getNumberOfConnections(ssdHandle* h)
+{
+    return h->connections->connectionsCount;
+}
+
+ssdConnectionHandle *ssp4c_ssd_getConnectionByIndex(ssdHandle *h, int i)
+{
+    return &(h->connections->connections[i]);
+}
+
 void ssp4c_ssd_setFileName(ssdHandle *h, const char *value)
 {
     h->filename = value;

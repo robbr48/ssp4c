@@ -23,6 +23,8 @@ SSP4C_DLLAPI int ssp4c_ssd_getNumberOfConnectors(ssdHandle *h);
 SSP4C_DLLAPI ssdConnectorHandle *ssp4c_ssd_getConnectorByIndex(ssdHandle *h, int i);
 SSP4C_DLLAPI int ssp4c_ssd_getNumberOfComponents(ssdHandle* h);
 SSP4C_DLLAPI ssdComponentHandle *ssp4c_ssd_getComponentByIndex(ssdHandle *h, int i);
+SSP4C_DLLAPI int ssp4c_ssd_getNumberOfConnections(ssdHandle* h);
+SSP4C_DLLAPI ssdConnectionHandle *ssp4c_ssd_getConnectionByIndex(ssdHandle *h, int i);
 
 SSP4C_DLLAPI void ssp4c_ssd_setFileName(ssdHandle *h, const char* value);
 SSP4C_DLLAPI void ssp4c_ssd_setName(ssdHandle *h, const char* value);

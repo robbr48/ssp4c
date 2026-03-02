@@ -56,6 +56,8 @@ typedef struct ssdConnectorHandle ssdConnectorHandle;
 typedef struct ssdConnectorsHandle ssdConnectorsHandle;
 typedef struct ssdComponentHandle ssdComponentHandle;
 typedef struct ssdComponentsHandle ssdComponentsHandle;
+typedef struct ssdConnectionHandle ssdConnectionHandle;
+typedef struct ssdConnectionsHandle ssdConnectionsHandle;
 typedef struct ssdElementGeometryHandle ssdElementGeometryHandle;
 typedef struct ssdParameterBindingHandle ssdParameterBindingHandle;
 typedef struct ssdParameterBindingsHandle ssdParameterBindingsHandle;

@@ -60,6 +60,7 @@ set(SRCFILES
     src/ssp4c_ssd.c
     src/ssp4c_ssd_component.c
     src/ssp4c_ssd_connector.c
+    src/ssp4c_ssd_connection.c
     src/ssp4c_ssd_element_geometry.c
     src/ssp4c_ssd_parameter_binding.c
     src/ssp4c_ssd_parameter_values.c
@@ -77,6 +78,7 @@ set(SRCFILES
     include/ssp4c_ssd.h
     include/ssp4c_ssd_connector.h
     include/ssp4c_ssd_component.h
+    include/ssp4c_ssd_connection.h
     include/ssp4c_ssd_element_geometry.h
     include/ssp4c_ssd_parameter_binding.h
     include/ssp4c_ssd_parameter_values.h
@@ -193,7 +195,6 @@ if(NOT SSP4C_USE_EXTERNAL_MINIZIP)
 endif()
 
 install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-install(DIRECTORY "3rdparty/ssp" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 if(NOT SSP4C_USE_EXTERNAL_MINIZIP)
     # If building a static library, also include the local static zlib if it was built

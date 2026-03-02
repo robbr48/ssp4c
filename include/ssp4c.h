@@ -14,6 +14,7 @@ SSP4C_DLLAPI sspHandle* ssp4c_loadSsp(const char *sspfile);
 SSP4C_DLLAPI bool ssp4c_saveSsp(sspHandle *h, const char *sspfile);
 SSP4C_DLLAPI void ssp4c_freeSsp(sspHandle* h);
 SSP4C_DLLAPI const char* ssp4c_getErrorMessages();
+SSP4C_DLLAPI const char* ssp4c_getUnzippedLocation(sspHandle *h);
 
 SSP4C_DLLAPI int ssp4c_getNumberOfSsds(sspHandle *h);
 SSP4C_DLLAPI ssdHandle *ssp4c_getSsdByIndex(sspHandle *h, int i);
