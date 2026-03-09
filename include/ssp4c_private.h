@@ -115,10 +115,10 @@ struct ssdComponentsHandle {
 struct ssdConnectionHandle {
     ezxml_t xml;
     sspHandle *ssp;
-    char *startElement;
-    char *startConnector;
-    char *endElement;
-    char *endConnector;
+    const char *startElement;
+    const char *startConnector;
+    const char *endElement;
+    const char *endConnector;
 };
 
 struct ssdConnectionsHandle {
