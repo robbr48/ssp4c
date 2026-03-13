@@ -74,7 +74,29 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
         }
     }
 
-    printf("First parameter again: %s\n", ezxml_attr(ssp->ssvs[0].parameters[0].xml, "name"));
+    // First, count .ssm files
+    ssp->ssmCount = 0;
+    for(int i = 0; i < resourceCount; ++i) {
+        if(hasFileExtension(resourceFiles[i], ".ssm")) {
+            ssp->ssmCount++;
+        }
+    }
+    if(ssp->ssmCount > 0) {
+        ssp->ssms = mallocAndRememberPointer(ssp, sizeof(ssmParameterMappingHandle) *(ssp->ssmCount+1));
+    }
+
+    //Now load SSM files as well, and assign them to the correct parameter sets
+    int ssmIndex = 0;
+     for(int i = 0; i < resourceCount; ++i) {
+        if(hasFileExtension(resourceFiles[i], ".ssm")) {
+            ssmParameterMappingHandle ssm;
+            ssm.filename = duplicateAndRememberString(ssp, resourceFiles[i]);
+            parseSsmMappingElement(ezxml_parse_file(resourceFiles[i]), &ssm, ssp);
+            ssp->ssms[ssmIndex] = ssm;
+            ssmIndex++;     
+            printf("Loaded SSM with filename %s\n", ssm.filename);
+        }
+    }
 
     return ssp;
 }
