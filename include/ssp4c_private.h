@@ -144,6 +144,7 @@ struct ssdHandle {
     ssdConnectorsHandle *connectors;
     ssdComponentsHandle *components;
     ssdConnectionsHandle *connections;
+    ssdParameterBindingsHandle *parameterBindings;
 };
 
 struct sspHandle {

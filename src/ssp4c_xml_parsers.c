@@ -44,9 +44,15 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
         if (connectionsElement) {
             ssd->connections = mallocAndRememberPointer(ssp, sizeof(ssdConnectionsHandle));
             parseSsdConnectionsElement(connectionsElement, ssd->connections, ssp);
-
-
         }
+
+        // Parse system parameter bindings
+        ezxml_t parameterBindingsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_PARAMETER_BINDINGS);
+        if(parameterBindingsElement) {
+            ssd->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingsHandle));
+            parseSsdParameterBindingsElement(parameterBindingsElement, ssd->parameterBindings, ssp);
+        
+        }   
     }
 
     chdir(cwd);
@@ -110,6 +116,7 @@ bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandl
             }
         }
     }
+
     return true;
 }
 
