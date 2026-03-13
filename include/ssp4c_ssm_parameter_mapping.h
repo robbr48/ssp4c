@@ -17,6 +17,7 @@ SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getCopyright(ssmParameterMap
 SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getLicense(ssmParameterMappingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getGenerationTool(ssmParameterMappingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getGenerationDateAndTime(ssmParameterMappingHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssm_parameterMapping_getFilename(ssmParameterMappingHandle *h);
 SSP4C_DLLAPI int ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmParameterMappingHandle *h);
 SSP4C_DLLAPI ssmParameterMappingEntryHandle *ssp4c_ssm_parameterMapping_getMappingEntryByIndex(ssmParameterMappingHandle *h, int i);
 

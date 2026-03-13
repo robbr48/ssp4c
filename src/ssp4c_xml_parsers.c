@@ -301,23 +301,56 @@ bool parseSsdParameterMappingElement(ezxml_t element,ssdParameterMappingHandle* 
     return true;
 }
 
+bool parseSsm(sspHandle *ssp, ssmParameterMappingHandle *ssm, const char *path)
+{
+    printf("Parsing SSM file: %s\n", path);
+    char cwd[FILENAME_MAX];
+#ifdef _WIN32
+    _getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#else
+    getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#endif
+    char resourcesPath[FILENAME_MAX];
+    sprintf(resourcesPath, "%s/resources", ssp->unzippedLocation);
+    chdir(resourcesPath);
+    printf("Current directory: %s\n", resourcesPath);
+
+    ssm->xml = ezxml_parse_file(path);
+    if(strcmp(ssm->xml ->name, XML_ELEMENT_SSM_PARAMETER_MAPPING)) {
+        printf("Wrong root tag name: %s\n", ssm->xml ->name);
+        return false;
+    }
+
+    parseSsmParameterMappingElement(ssm->xml, ssm, ssp);
+    printf("Finished parsing SSM file: %s\n", path);
+    chdir(cwd);
+}
+
 bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle *h, sspHandle *ssp)
 {
+    printf("Parsing SSM parameter mapping element\n");
+    if (!element) {
+        printf("Error: element is NULL\n");
+        return false;
+    }
     h->xml = element;
     h->ssp = ssp;
     h->mappingEntryCount = 0;
     for(ezxml_t entryElement = element->child; entryElement; entryElement = entryElement->ordered) {
-        if (!strcmp(entryElement->name, XML_ELEMENT_SSM_MAPPING_ENTRY)) {
+        if (entryElement->name && !strcmp(entryElement->name, XML_ELEMENT_SSM_MAPPING_ENTRY)) {
             h->mappingEntryCount++;
         }
     }
-
+    printf("Found %d mapping entries\n", h->mappingEntryCount);
     if (h->mappingEntryCount > 0) {
         int i=0;
         h->mappingEntries = mallocAndRememberPointer(ssp, sizeof(ssmParameterMappingEntryHandle)*h->mappingEntryCount);
+        printf("Allocated memory for %d mapping entries\n", h->mappingEntryCount);
         for(ezxml_t entryElement = element->child; entryElement; entryElement = entryElement->ordered) {
-            parseSsmMappingEntryElement(entryElement, &(h->mappingEntries[i]), ssp);
-            ++i;
+            if (entryElement->name && !strcmp(entryElement->name, XML_ELEMENT_SSM_MAPPING_ENTRY)) {
+                parseSsmMappingEntryElement(entryElement, &(h->mappingEntries[i]), ssp);
+                ++i;
+            }
         }
     }
 
@@ -326,6 +359,7 @@ bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle 
 
 bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle *h, sspHandle *ssp)
 {
+    printf("Parsing SSM mapping entry element\n");
     h->xml = element;
     h->ssp = ssp;
     h->transform = NULL;

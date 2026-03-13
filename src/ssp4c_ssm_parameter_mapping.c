@@ -47,6 +47,11 @@ const char *ssp4c_ssm_parameterMapping_getGenerationDateAndTime(ssmParameterMapp
     return ezxml_attr(h->xml, XML_ATTR_GENERATION_DATE_AND_TIME);
 }
 
+const char *ssp4c_ssm_parameterMapping_getFilename(ssmParameterMappingHandle *h)
+{
+    return h->filename;
+}
+
 int ssp4c_ssm_parameterMapping_getNumberOfMappingEntries(ssmParameterMappingHandle *h)
 {
     return h->mappingEntryCount;
