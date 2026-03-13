@@ -20,6 +20,7 @@ bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle 
 bool parseSsmMappingEntryElement(ezxml_t element, ssmParameterMappingEntryHandle *h, sspHandle *ssp);
 bool parseSscTransformationChoiceElement(ezxml_t element, sscMappingTransformHandle *h, sspHandle *ssp);
 bool parseSscMapEntryElement(ezxml_t element, sscMapEntryHandle *h, sspHandle *ssp);
+bool parseSsv(sspHandle *ssp, ssvParameterSetHandle *ssv, const char* path);
 bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* parameterSetHandle, sspHandle *ssp);
 bool parseSsvParameterElement(ezxml_t element, ssvParameterHandle* h, sspHandle *ssp);
 

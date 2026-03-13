@@ -10,6 +10,7 @@ extern "C" {
 
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getVersion(ssvParameterSetHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getName(ssvParameterSetHandle *h);
+SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getFileName(ssvParameterSetHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getId(ssvParameterSetHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterSet_getDescription(ssvParameterSetHandle *h);
 SSP4C_DLLAPI int ssp4c_ssd_parameterSet_getNumberOfParameters(ssvParameterSetHandle *h);

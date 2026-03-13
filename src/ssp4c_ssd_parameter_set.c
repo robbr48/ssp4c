@@ -12,6 +12,12 @@ const char *ssp4c_ssd_parameterSet_getName(ssvParameterSetHandle *h)
     return ezxml_attr(h->xml, XML_ATTR_NAME);
 }
 
+const char *ssp4c_ssd_parameterSet_getFileName(ssvParameterSetHandle *h)
+{
+    return h->filename;
+}
+
+
 const char *ssp4c_ssd_parameterSet_getId(ssvParameterSetHandle *h)
 {
     return ezxml_attr(h->xml, XML_ATTR_ID);

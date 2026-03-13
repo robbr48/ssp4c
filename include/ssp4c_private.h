@@ -21,7 +21,15 @@ struct ssvParameterSetHandle {
     ezxml_t xml;
     sspHandle *ssp;
     int parameterCount;
+    const char* filename;
     ssvParameterHandle *parameters;
+};
+
+struct ssvHandle {
+    ezxml_t xml;
+    sspHandle *ssp;
+    const char* filename;
+    ssvParameterSetHandle *parameterSet;
 };
 
 struct ssdParameterValuesHandle {
@@ -143,7 +151,9 @@ struct sspHandle {
     const char* unzippedLocation;
 
     int ssdCount;
+    int ssvCount;
     ssdHandle *ssds;
+    ssvParameterSetHandle *ssvs;
 
     void** allocatedPointers;
     int numAllocatedPointers;
