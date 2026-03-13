@@ -413,12 +413,16 @@ bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* h, sspH
 
     h->parameterCount = 0;
     ezxml_t parametersElement = ezxml_child(element, XML_ELEMENT_SSV_PARAMETERS);
+    printf("parseSsvParameterSetElement: Looking for %s element\n", XML_ELEMENT_SSV_PARAMETERS);
     if(parametersElement) {
+        printf("parseSsvParameterSetElement: Found %s element\n", XML_ELEMENT_SSV_PARAMETERS);
         for (ezxml_t parameterElement = parametersElement->child; parameterElement; parameterElement = parameterElement->ordered) {
             if (!strcmp(parameterElement->name, XML_ELEMENT_SSV_PARAMETER)) {
                 ++(h->parameterCount);
+                printf("parseSsvParameterSetElement: Found parameter element: %s\n", parameterElement->name);
             }
         }
+        printf("parseSsvParameterSetElement: Total parameter count: %d\n", h->parameterCount);
 
         if (h->parameterCount > 0) {
             h->parameters = mallocAndRememberPointer(ssp, sizeof(ssvParameterHandle) * (h->parameterCount));
@@ -427,11 +431,14 @@ bool parseSsvParameterSetElement(ezxml_t element, ssvParameterSetHandle* h, sspH
             int i = 0;
             for (ezxml_t parameterElement = parametersElement->child; parameterElement; parameterElement = parameterElement->ordered) {
                 if (!strcmp(parameterElement->name, XML_ELEMENT_SSV_PARAMETER)) {
+                    printf("parseSsvParameterSetElement: Parsing parameter %d\n", i);
                     parseSsvParameterElement(parameterElement, &(h->parameters[i]), ssp);
                 }
                 ++i;
             }
         }
+    } else {
+        printf("parseSsvParameterSetElement: No %s element found\n", XML_ELEMENT_SSV_PARAMETERS);
     }
     return true;
 }
@@ -440,6 +447,35 @@ bool parseSsvParameterElement(ezxml_t element, ssvParameterHandle* h, sspHandle 
 {
     h->xml = element;
     h->ssp = ssp;
+
+    return true;
+}
+
+
+
+bool parseSsv(sspHandle *ssp, ssvParameterSetHandle *ssv, const char *path)
+{
+    printf("Parsing SSV file: %s\n", path);
+    char cwd[FILENAME_MAX];
+#ifdef _WIN32
+    _getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#else
+    getcwd(cwd, sizeof(char)*FILENAME_MAX);
+#endif
+    char resourcesPath[FILENAME_MAX];
+    sprintf(resourcesPath, "%s/resources", ssp->unzippedLocation);
+    chdir(resourcesPath);
+    printf("Current directory: %s\n", resourcesPath);
+
+    ssv->xml = ezxml_parse_file(path);
+    if(strcmp(ssv->xml ->name, XML_ELEMENT_SSV_PARAMETER_SET)) {
+        printf("Wrong root tag name: %s\n", ssv->xml ->name);
+        return false;
+    }
+
+    parseSsvParameterSetElement(ssv->xml, ssv, ssp);
+    printf("Finished parsing SSV file: %s\n", path);
+    chdir(cwd);
 
     return true;
 }

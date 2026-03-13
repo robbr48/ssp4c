@@ -19,6 +19,9 @@ SSP4C_DLLAPI const char* ssp4c_getUnzippedLocation(sspHandle *h);
 SSP4C_DLLAPI int ssp4c_getNumberOfSsds(sspHandle *h);
 SSP4C_DLLAPI ssdHandle *ssp4c_getSsdByIndex(sspHandle *h, int i);
 
+SSP4C_DLLAPI int ssp4c_getNumberOfSsvs(sspHandle *h);
+SSP4C_DLLAPI ssvParameterSetHandle *ssp4c_getSsvByIndex(sspHandle *h, int i);
+
 
 
 #ifdef __cplusplus

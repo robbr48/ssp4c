@@ -69,5 +69,6 @@ typedef struct ssmParameterMappingHandle ssmParameterMappingHandle;
 typedef struct ssdParameterMappingHandle ssdParameterMappingHandle;
 typedef struct sscMappingTransformHandle sscMappingTransformHandle;
 typedef struct sscMapEntryHandle sscMapEntryHandle;
+typedef struct ssvHandle ssvHandle;
 
 #endif // SSP4C_PUBLIH_H

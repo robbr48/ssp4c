@@ -38,6 +38,44 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
         ssp->ssds[i] = ssd;
     }
 
+    int resourceCount = 0;
+
+    //Create path to resources folder
+    char resourcesPath[FILENAME_MAX] = {0};
+    strncat(resourcesPath, ssp->unzippedLocation, FILENAME_MAX - strlen(resourcesPath) - 1);
+    strncat(resourcesPath, "/resources", FILENAME_MAX - strlen(resourcesPath) - 1);
+
+    printf("Looking for resources in: %s\n", resourcesPath);
+    ssp->ssvCount = 0;    
+    char** resourceFiles = listFiles(ssp, resourcesPath, &resourceCount);
+    printf("Found %d resources\n", resourceCount);
+
+    // First, count .ssv files
+    ssp->ssvCount = 0;
+    for(int i = 0; i < resourceCount; ++i) {
+        if(hasFileExtension(resourceFiles[i], ".ssv")) {
+            ssp->ssvCount++;
+        }
+    }
+    if(ssp->ssvCount > 0) {
+        ssp->ssvs = mallocAndRememberPointer(ssp, sizeof(ssvParameterSetHandle) *(ssp->ssvCount+1));
+    }
+
+    // Then, parse and assign
+    int ssvIndex = 0;
+    for(int i = 0; i < resourceCount; ++i) {
+        if(hasFileExtension(resourceFiles[i], ".ssv")) {
+            ssvParameterSetHandle ssv;
+            ssv.filename = duplicateAndRememberString(ssp, resourceFiles[i]);
+            parseSsv(ssp, &ssv, resourceFiles[i]);
+            ssp->ssvs[ssvIndex] = ssv;
+            printf("First parameter: %s\n", ezxml_attr(ssv.parameters[0].xml, "name"));
+            ssvIndex++;
+        }
+    }
+
+    printf("First parameter again: %s\n", ezxml_attr(ssp->ssvs[0].parameters[0].xml, "name"));
+
     return ssp;
 }
 
@@ -123,3 +161,14 @@ ssdHandle *ssp4c_getSsdByIndex(sspHandle *h, int i)
 {
     return &h->ssds[i];
 }
+
+SSP4C_DLLAPI int ssp4c_getNumberOfSsvs(sspHandle *h)
+{
+    return h->ssvCount;
+}
+
+SSP4C_DLLAPI ssvParameterSetHandle *ssp4c_getSsvByIndex(sspHandle *h, int i)
+{
+    return &h->ssvs[i];
+}
+
