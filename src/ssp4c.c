@@ -91,7 +91,7 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
         if(hasFileExtension(resourceFiles[i], ".ssm")) {
             ssmParameterMappingHandle ssm;
             ssm.filename = duplicateAndRememberString(ssp, resourceFiles[i]);
-            parseSsmMappingElement(ezxml_parse_file(resourceFiles[i]), &ssm, ssp);
+            parseSsmParameterMappingElement(ezxml_parse_file(resourceFiles[i]), &ssm, ssp);
             ssp->ssms[ssmIndex] = ssm;
             ssmIndex++;     
             printf("Loaded SSM with filename %s\n", ssm.filename);
@@ -194,3 +194,12 @@ SSP4C_DLLAPI ssvParameterSetHandle *ssp4c_getSsvByIndex(sspHandle *h, int i)
     return &h->ssvs[i];
 }
 
+SSP4C_DLLAPI int ssp4c_getNumberOfSsms(sspHandle *h)
+{
+    return h->ssmCount;
+}
+
+SSP4C_DLLAPI ssmParameterMappingHandle *ssp4c_getSsmByIndex(sspHandle *h, int i)
+{
+    return &h->ssms[i];
+}
