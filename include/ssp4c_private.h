@@ -69,6 +69,7 @@ struct ssmParameterMappingEntryHandle {
 struct ssmParameterMappingHandle {
     ezxml_t xml;
     sspHandle *ssp;
+    const char* filename;
     int mappingEntryCount;
     ssmParameterMappingEntryHandle *mappingEntries;
 };
@@ -152,8 +153,10 @@ struct sspHandle {
 
     int ssdCount;
     int ssvCount;
+    int ssmCount;
     ssdHandle *ssds;
     ssvParameterSetHandle *ssvs;
+    ssmParameterMappingHandle *ssms;
 
     void** allocatedPointers;
     int numAllocatedPointers;
