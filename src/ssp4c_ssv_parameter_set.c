@@ -1,5 +1,5 @@
 #include "ssp4c_private.h"
-#include "ssp4c_ssd_parameter_set.h"
+#include "ssp4c_ssv_parameter_set.h"
 #include "ssp4c_xml_constants.h"
 
 const char *ssp4c_ssd_parameterSet_getVersion(ssvParameterSetHandle *h)
