@@ -35,7 +35,7 @@ ssdParameterValuesHandle *ssp4c_ssd_parameterBinding_getParameterValues(ssdParam
     return h->parameterValues;
 }
 
-ssdParameterMappingHandle *ssp4c_ssd_parameterSet_getParameterMapping(ssdParameterBindingHandle *h)
+ssdParameterMappingHandle *ssp4c_ssv_parameterSet_getParameterMapping(ssdParameterBindingHandle *h)
 {
     return h->parameterMapping;
 }

@@ -209,14 +209,14 @@ void print_ssv_parameterSet(ssvParameterSetHandle *h, int indentation)
 {
     if(h) {
         printf("%*cparameter set:\n", indentation, ' ');
-        printf("%*c  version: %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getVersion(h));
-        printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getName(h));
-        printf("%*c  id %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getId(h));
-        printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssd_parameterSet_getDescription(h));
-        int parameterSetParameterCount = ssp4c_ssd_parameterSet_getNumberOfParameters(h);
+        printf("%*c  version: %s\n", indentation, ' ', ssp4c_ssv_parameterSet_getVersion(h));
+        printf("%*c  name: %s\n", indentation, ' ', ssp4c_ssv_parameterSet_getName(h));
+        printf("%*c  id %s\n", indentation, ' ', ssp4c_ssv_parameterSet_getId(h));
+        printf("%*c  description: %s\n", indentation, ' ', ssp4c_ssv_parameterSet_getDescription(h));
+        int parameterSetParameterCount = ssp4c_ssv_parameterSet_getNumberOfParameters(h);
         printf("        number of parameters: %i\n", parameterSetParameterCount);
         for(int k=0; k<parameterSetParameterCount; ++k) {
-            print_ssv_parameter(ssp4c_ssd_parameterSet_getParameterByIndex(h, k), indentation+2);
+            print_ssv_parameter(ssp4c_ssv_parameterSet_getParameterByIndex(h, k), indentation+2);
         }
     }
 }
@@ -233,7 +233,7 @@ void print_ssd_parameterBinding(ssdParameterBindingHandle *h, int indentation)
 
     print_ssv_parameterSet(ssp4c_ssd_parameterValues_getParameterSet(values), indentation+2);
 
-    print_ssd_parameterMapping(ssp4c_ssd_parameterSet_getParameterMapping(h), indentation+2);
+    print_ssd_parameterMapping(ssp4c_ssv_parameterSet_getParameterMapping(h), indentation+2);
 }
 
 void print_ssd_elementGeometry(ssdElementGeometryHandle *h, int indentation)

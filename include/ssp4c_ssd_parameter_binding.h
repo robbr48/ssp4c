@@ -13,7 +13,7 @@ SSP4C_DLLAPI const char* ssp4c_ssd_parameterBinding_getSource(ssdParameterBindin
 SSP4C_DLLAPI ssdParameterSourceBase ssp4c_ssd_parameterBinding_getSourceBase(ssdParameterBindingHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_parameterBinding_getPrefix(ssdParameterBindingHandle *h);
 SSP4C_DLLAPI ssdParameterValuesHandle *ssp4c_ssd_parameterBinding_getParameterValues(ssdParameterBindingHandle *h);
-SSP4C_DLLAPI ssdParameterMappingHandle *ssp4c_ssd_parameterSet_getParameterMapping(ssdParameterBindingHandle *h);
+SSP4C_DLLAPI ssdParameterMappingHandle *ssp4c_ssv_parameterSet_getParameterMapping(ssdParameterBindingHandle *h);
 
 #ifdef __cplusplus
 }
