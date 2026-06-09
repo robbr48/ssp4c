@@ -4,6 +4,51 @@
 #include "ssp4c_xml_parsers.h"
 #include "ssp4c_utils.h"
 
+static bool parseSsdSystem(ssdHandle *ssd, ezxml_t systemElement, sspHandle *ssp)
+{
+    if (!systemElement) {
+        return false;
+    }
+
+    ssd->system = mallocAndRememberPointer(ssp, sizeof(ssdSystemHandle));
+    ssd->system->xml = systemElement;
+    ssd->system->ssp = ssp;
+    const char *systemName = ezxml_attr(systemElement, XML_ATTR_NAME);
+    ssd->system->name = systemName ? duplicateAndRememberString(ssp, systemName) : NULL;
+
+    // Parse connectors
+    ezxml_t connectorsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_CONNECTORS);
+    if(connectorsElement) {
+        ssd->system->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
+        parseSsdConnectorsElement(connectorsElement, ssd->system->connectors, ssp);
+    }
+
+    // Parse components
+    ssd->system->components = NULL;
+    ezxml_t componentsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_ELEMENTS);
+    if (componentsElement) {
+        ssd->system->components = mallocAndRememberPointer(ssp, sizeof(ssdComponentsHandle));
+        parseSsdComponentsElement(componentsElement, ssd->system->components, ssp);
+    }
+
+    // Parse connections
+    ssd->system->connections = NULL;
+    ezxml_t connectionsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_CONNECTIONS);
+    if (connectionsElement) {
+        ssd->system->connections = mallocAndRememberPointer(ssp, sizeof(ssdConnectionsHandle));
+        parseSsdConnectionsElement(connectionsElement, ssd->system->connections, ssp);
+    }
+
+    // Parse system parameter bindings
+    ezxml_t parameterBindingsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_PARAMETER_BINDINGS);
+    if(parameterBindingsElement) {
+        ssd->system->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingsHandle));
+        parseSsdParameterBindingsElement(parameterBindingsElement, ssd->system->parameterBindings, ssp);
+    }
+
+    return true;
+}
+
 bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
 {
     char cwd[FILENAME_MAX];
@@ -22,37 +67,10 @@ bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path)
 
     ezxml_t systemElement = ezxml_child(ssd->xml , XML_ELEMENT_SSD_SYSTEM);
     if(systemElement) {
-
-        //Parse connectors
-        ezxml_t connectorsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_CONNECTORS);
-        if(connectorsElement) {
-            ssd->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
-            parseSsdConnectorsElement(connectorsElement, ssd->connectors, ssp);
+        if(!parseSsdSystem(ssd, systemElement, ssp)) {
+            chdir(cwd);
+            return false;
         }
-
-        // Parse components
-        ssd->components = NULL;
-        ezxml_t componentsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_ELEMENTS);
-        if (componentsElement) {
-            ssd->components = mallocAndRememberPointer(ssp, sizeof(ssdComponentsHandle));
-            parseSsdComponentsElement(componentsElement, ssd->components, ssp);
-        }
-
-        // Parse connections
-        ssd->connections = NULL;
-        ezxml_t connectionsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_CONNECTIONS);
-        if (connectionsElement) {
-            ssd->connections = mallocAndRememberPointer(ssp, sizeof(ssdConnectionsHandle));
-            parseSsdConnectionsElement(connectionsElement, ssd->connections, ssp);
-        }
-
-        // Parse system parameter bindings
-        ezxml_t parameterBindingsElement = ezxml_child(systemElement, XML_ELEMENT_SSD_PARAMETER_BINDINGS);
-        if(parameterBindingsElement) {
-            ssd->parameterBindings = mallocAndRememberPointer(ssp, sizeof(ssdParameterBindingsHandle));
-            parseSsdParameterBindingsElement(parameterBindingsElement, ssd->parameterBindings, ssp);
-        
-        }   
     }
 
     chdir(cwd);
@@ -89,9 +107,25 @@ bool parseSsdConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle 
 {
     h->xml = element;
     h->ssp = ssp;
+    h->geometry = NULL;
+
+    ezxml_t geometryElement = ezxml_child(element, XML_ELEMENT_SSD_CONNECTOR_GEOMETRY);
+    if(geometryElement) {
+        h->geometry = mallocAndRememberPointer(ssp, sizeof(ssdConnectorGeometryHandle));
+        parseSsdConnectorGeometryElement(geometryElement, h->geometry, ssp);
+    }
 
     return true;
 }
+
+
+bool parseSsdConnectorGeometryElement(ezxml_t element, ssdConnectorGeometryHandle *h, sspHandle *ssp)
+{
+    h->xml = element;
+    h->ssp = ssp;
+    return true;
+}
+
 
 bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *ssp)
 {
@@ -124,6 +158,9 @@ bool parseSsdComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle 
 {
     h->xml = element;
     h->ssp = ssp;
+
+    h->geometry = NULL;
+    h->parameterBindings = NULL;
 
     //Parse connectors
     h->connectors = mallocAndRememberPointer(ssp, sizeof(ssdConnectorsHandle));
@@ -198,6 +235,7 @@ bool parseSsdConnectionElement(ezxml_t element, ssdConnectionHandle *h, sspHandl
 {
     h->xml = element;
     h->ssp = ssp;
+    h->geometry = NULL;
 
     h->startElement   = NULL;
     h->startConnector = NULL;
@@ -216,8 +254,24 @@ bool parseSsdConnectionElement(ezxml_t element, ssdConnectionHandle *h, sspHandl
     parseStringAttributeEzXmlAndRememberPointer(
         element, XML_ATTR_END_CONNECTOR, &(h->endConnector), ssp);
 
+
+    ezxml_t geometryElement = ezxml_child(element, XML_ELEMENT_SSD_CONNECTION_GEOMETRY);
+    if(geometryElement) {
+        h->geometry = mallocAndRememberPointer(ssp, sizeof(ssdConnectionGeometryHandle));
+        parseSsdConnectionGeometryElement(geometryElement, h->geometry, ssp);
+    }
+
     return true;
 }
+
+
+bool parseSsdConnectionGeometryElement(ezxml_t element, ssdConnectionGeometryHandle *h, sspHandle *ssp)
+{
+    h->xml = element;
+    h->ssp = ssp;
+    return true;
+}
+
 
 bool parseSsdElementGeometryElement(ezxml_t element, ssdElementGeometryHandle *h, sspHandle *ssp)
 {

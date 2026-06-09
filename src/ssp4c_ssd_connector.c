@@ -122,3 +122,8 @@ ssdConnectorKind ssp4c_ssd_connector_getKind(ssdConnectorHandle *h)
     return ssdConnectorKindUnspecified;
 }
 
+
+ssdConnectorGeometryHandle *ssp4c_ssd_connector_getConnectorGeometry(ssdConnectorHandle *h)
+{
+  return  h->geometry;
+}

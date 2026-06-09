@@ -5,35 +5,35 @@
 
 double ssp4c_ssd_elementGeometry_getX1(ssdElementGeometryHandle *h)
 {
-    double value;
+    double value = 0;
     parseFloat64AttributeEzXml(h->xml, XML_ATTR_X1, &value);
     return value;
 }
 
 double ssp4c_ssd_elementGeometry_getY1(ssdElementGeometryHandle *h)
 {
-    double value;
+    double value = 0;
     parseFloat64AttributeEzXml(h->xml, XML_ATTR_Y1, &value);
     return value;
 }
 
 double ssp4c_ssd_elementGeometry_getX2(ssdElementGeometryHandle *h)
 {
-    double value;
+    double value = 0;
     parseFloat64AttributeEzXml(h->xml, XML_ATTR_X2, &value);
     return value;
 }
 
 double ssp4c_ssd_elementGeometry_getY2(ssdElementGeometryHandle *h)
 {
-    double value;
+    double value = 0;
     parseFloat64AttributeEzXml(h->xml, XML_ATTR_Y2, &value);
     return value;
 }
 
 double ssp4c_ssd_elementGeometry_getRotation(ssdElementGeometryHandle *h)
 {
-    double value;
+    double value = 0;
     parseFloat64AttributeEzXml(h->xml, XML_ATTR_ROTATION, &value);
     return value;
 }
@@ -45,7 +45,7 @@ const char* ssp4c_ssd_elementGeometry_getIconSource(ssdElementGeometryHandle *h)
 
 double ssp4c_ssd_elementGeometry_getIconRotation(ssdElementGeometryHandle *h)
 {
-    double value;
+    double value = 0;
     parseFloat64AttributeEzXml(h->xml, XML_ATTR_ICON_ROTATION, &value);
     return value;
 }

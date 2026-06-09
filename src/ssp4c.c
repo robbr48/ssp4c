@@ -28,14 +28,26 @@ sspHandle *ssp4c_loadSsp(const char *sspfile)
     }
     sspHandle *ssp = ssp4c_loadUnzippedSsp_internal(unzipLocation, true);
     ssp->unzippedLocationIsTemporary = true;
+    
     ssp->ssdCount = 0;
-    char** files = listFiles(ssp,ssp->unzippedLocation,&ssp->ssdCount);
+    int totalFileCount = 0;
+    char** files = listFiles(ssp,ssp->unzippedLocation,&totalFileCount);
+    // Count only .ssd files
+    for(int i=0; i<totalFileCount; ++i) {
+        if(hasFileExtension(files[i], ".ssd")) {
+            ssp->ssdCount++;
+        }
+    }
     ssp->ssds = mallocAndRememberPointer(ssp, sizeof(ssdHandle)*(ssp->ssdCount+1));
-    for(int i=0; i<ssp->ssdCount; ++i) {
-        ssdHandle ssd;
-        ssd.filename = duplicateAndRememberString(ssp, files[i]);
-        parseSsd(ssp, &ssd, files[i]);
-        ssp->ssds[i] = ssd;
+    int ssdIndex = 0;
+    for(int i=0; i<totalFileCount; ++i) {
+        if(hasFileExtension(files[i], ".ssd")) {
+            ssdHandle ssd;
+            ssd.filename = duplicateAndRememberString(ssp, files[i]);
+            parseSsd(ssp, &ssd, files[i]);
+            ssp->ssds[ssdIndex] = ssd;
+            ssdIndex++;
+        }
     }
 
     int resourceCount = 0;

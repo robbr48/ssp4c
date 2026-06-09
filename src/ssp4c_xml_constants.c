@@ -2,12 +2,14 @@
 
 const char* XML_ELEMENT_SSD = "ssd:SystemStructureDescription";
 const char* XML_ELEMENT_SSD_CONNECTOR = "ssd:Connector";
+const char* XML_ELEMENT_SSD_CONNECTOR_GEOMETRY = "ssd:ConnectorGeometry";
 const char* XML_ELEMENT_SSD_SYSTEM = "ssd:System";
 const char* XML_ELEMENT_SSD_CONNECTORS = "ssd:Connectors";
 const char* XML_ELEMENT_SSD_ELEMENTS = "ssd:Elements";
 const char* XML_ELEMENT_SSD_COMPONENT = "ssd:Component";
 const char* XML_ELEMENT_SSD_CONNECTIONS = "ssd:Connections";
 const char* XML_ELEMENT_SSD_CONNECTION = "ssd:Connection";
+const char* XML_ELEMENT_SSD_CONNECTION_GEOMETRY = "ssd:ConnectionGeometry";
 const char* XML_ELEMENT_SSD_ELEMENT_GEOMETRY = "ssd:ElementGeometry";
 const char* XML_ELEMENT_SSD_PARAMETER_BINDINGS = "ssd:ParameterBindings";
 const char* XML_ELEMENT_SSD_PARAMETER_BINDING = "ssd:ParameterBinding";
@@ -81,6 +83,8 @@ const char* XML_ATTR_TARGET = "target";
 const char* XML_ATTR_SUPPRESS_UNIT_CONVERSION = "target";
 const char* XML_ATTR_SOURCE_BASE = "sourceBase";
 const char* XML_ATTR_PREFIX = "prefix";
+const char* XML_ATTR_X = "x";
+const char* XML_ATTR_Y = "y";
 const char* XML_ATTR_X1 = "x1";
 const char* XML_ATTR_Y1 = "y1";
 const char* XML_ATTR_X2 = "x2";
@@ -98,6 +102,8 @@ const char* XML_ATTR_START_ELEMENT = "startElement";
 const char* XML_ATTR_START_CONNECTOR = "startConnector";
 const char* XML_ATTR_END_ELEMENT = "endElement";
 const char* XML_ATTR_END_CONNECTOR = "endConnector";
+const char* XML_ATTR_POINTSX = "pointsX";
+const char* XML_ATTR_POINTSY = "pointsY";
 
 const char* XML_VALUE_TRUE = "true";
 const char* XML_VALUE_SSD = "SSD";

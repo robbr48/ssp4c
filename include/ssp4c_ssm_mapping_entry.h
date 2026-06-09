@@ -15,6 +15,12 @@ SSP4C_DLLAPI const char* ssp4c_ssm_mappingEntry_getTarget(ssmParameterMappingEnt
 SSP4C_DLLAPI bool ssp4c_ssm_mappingEntry_getSuppressUnitConveresion(ssmParameterMappingEntryHandle *h);
 SSP4C_DLLAPI sscMappingTransformHandle *ssp4c_ssm_mappingEntry_getSsmMappingTransform(ssmParameterMappingEntryHandle *h);
 
+SSP4C_DLLAPI void ssp4c_ssm_mappingEntry_setId(ssmParameterMappingEntryHandle *h, const char* value);
+SSP4C_DLLAPI void ssp4c_ssm_mappingEntry_setDescription(ssmParameterMappingEntryHandle *h, const char* value);
+SSP4C_DLLAPI void ssp4c_ssm_mappingEntry_setSource(ssmParameterMappingEntryHandle *h, const char* value);
+SSP4C_DLLAPI void ssp4c_ssm_mappingEntry_setTarget(ssmParameterMappingEntryHandle *h, const char* value);
+SSP4C_DLLAPI void ssp4c_ssm_mappingEntry_setSuppressUnitConveresion(ssmParameterMappingEntryHandle *h, bool value);
+
 #ifdef __cplusplus
 }
 #endif

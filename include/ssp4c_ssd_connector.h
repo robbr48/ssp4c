@@ -14,6 +14,7 @@ SSP4C_DLLAPI const char* ssp4c_ssd_connector_getDescription(ssdConnectorHandle *
 SSP4C_DLLAPI const char* ssp4c_ssd_connector_getId(ssdConnectorHandle *h);
 SSP4C_DLLAPI sspDataType ssp4c_ssd_connector_getDatatype(ssdConnectorHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_connector_getUnit(ssdConnectorHandle *h);
+SSP4C_DLLAPI ssdConnectorGeometryHandle *ssp4c_ssd_connector_getConnectorGeometry(ssdConnectorHandle *h);
 
 #ifdef __cplusplus
 }

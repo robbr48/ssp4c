@@ -36,3 +36,28 @@ sscMappingTransformHandle *ssp4c_ssm_mappingEntry_getSsmMappingTransform(ssmPara
 {
     return h->transform;
 }
+
+void ssp4c_ssm_mappingEntry_setId(ssmParameterMappingEntryHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_ID, value);
+}
+
+void ssp4c_ssm_mappingEntry_setDescription(ssmParameterMappingEntryHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_DESCRIPTION, value);
+}
+
+void ssp4c_ssm_mappingEntry_setSource(ssmParameterMappingEntryHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_SOURCE, value);
+}
+
+void ssp4c_ssm_mappingEntry_setTarget(ssmParameterMappingEntryHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_TARGET, value);
+}
+
+void ssp4c_ssm_mappingEntry_setSuppressUnitConveresion(ssmParameterMappingEntryHandle *h, bool value)
+{
+    setBooleanAttributeEzxml(h->xml, XML_ATTR_SUPPRESS_UNIT_CONVERSION, value);
+}

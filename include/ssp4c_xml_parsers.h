@@ -7,10 +7,12 @@
 bool parseSsd(sspHandle *ssp, ssdHandle *ssd, const char* path);
 bool parseSsdConnectorsElement(ezxml_t element, ssdConnectorsHandle* h, sspHandle *ssp);
 bool parseSsdConnectorElement(ezxml_t element, ssdConnectorHandle *h, sspHandle *ssp);
+bool parseSsdConnectorGeometryElement(ezxml_t element, ssdConnectorGeometryHandle *h, sspHandle *ssp);
 bool parseSsdComponentsElement(ezxml_t element, ssdComponentsHandle* h, sspHandle *ssp);
 bool parseSsdComponentElement(ezxml_t element, ssdComponentHandle* h, sspHandle *ssp);
 bool parseSsdConnectionsElement(ezxml_t element, ssdConnectionsHandle* h, sspHandle *ssp);
 bool parseSsdConnectionElement(ezxml_t element, ssdConnectionHandle *h, sspHandle *ssp);
+bool parseSsdConnectionGeometryElement(ezxml_t element, ssdConnectionGeometryHandle *h, sspHandle *ssp);
 bool parseSsdElementGeometryElement(ezxml_t element, ssdElementGeometryHandle *h, sspHandle *ssp);
 bool parseSsdParameterBindingsElement(ezxml_t element, ssdParameterBindingsHandle* h, sspHandle *ssp);
 bool parseSsdParameterBindingElement(ezxml_t element, ssdParameterBindingHandle *h, sspHandle *ssp);

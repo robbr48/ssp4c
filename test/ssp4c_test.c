@@ -7,6 +7,7 @@
 
 #include "ssp4c.h"
 #include "ssp4c_ssd.h"
+#include "ssp4c_ssd_system.h"
 #include "ssp4c_ssd_connector.h"
 #include "ssp4c_ssd_component.h"
 #include "ssp4c_ssd_element_geometry.h"
@@ -288,15 +289,15 @@ void print_ssd(ssdHandle *h, int indentation)
     printf("%*c  generationTool: %s\n", indentation, ' ', ssp4c_ssd_getGenerationTool(h));
     printf("%*c  generationDateAndTime: %s\n", indentation, ' ', ssp4c_ssd_getGenerationDateAndTime(h));
 
-    int ssdConnectorCount = ssp4c_ssd_getNumberOfConnectors(h);
+    int ssdConnectorCount = ssp4c_ssd_system_getNumberOfConnectors(h);
     printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
 
     for(int j=0; j<ssdConnectorCount; ++j) {
-        print_ssd_connector(ssp4c_ssd_getConnectorByIndex(h, j), indentation+2);
+        print_ssd_connector(ssp4c_ssd_system_getConnectorByIndex(h, j), indentation+2);
     }
 
-    for(int i=0; i<ssp4c_ssd_getNumberOfComponents(h); ++i) {
-        print_ssd_component(ssp4c_ssd_getComponentByIndex(h, i),indentation+2);
+    for(int i=0; i<ssp4c_ssd_system_getNumberOfComponents(h); ++i) {
+        print_ssd_component(ssp4c_ssd_system_getComponentByIndex(h, i),indentation+2);
     }
 }
 
@@ -324,7 +325,7 @@ int main(int argc, char *argv[])
 
     //Make changes to SSP
     ssdHandle *ssd = ssp4c_getSsdByIndex(ssp,0);
-    ssdComponentHandle *comp = ssp4c_ssd_getComponentByIndex(ssd, 0);
+    ssdComponentHandle *comp = ssp4c_ssd_system_getComponentByIndex(ssp4c_ssd_getRootSystem(ssd), 0);
     ssdElementGeometryHandle *geometry = ssp4c_ssd_component_getElementGeometry(comp);
     ssp4c_ssd_elementGeometry_setX1(geometry,42);
 
@@ -335,7 +336,7 @@ int main(int argc, char *argv[])
     //Load SSP again to check if modifications were saved
     ssp = ssp4c_loadSsp(sspfile);
     ssd = ssp4c_getSsdByIndex(ssp, 0);
-    comp = ssp4c_ssd_getComponentByIndex(ssd, 0);
+    comp = ssp4c_ssd_system_getComponentByIndex(ssp4c_ssd_getRootSystem(ssd), 0);
     geometry = ssp4c_ssd_component_getElementGeometry(comp);
     double x1 = ssp4c_ssd_elementGeometry_getX1(geometry);
     if(!fuzzyEquals(42, x1, 1e-3,1e-5)) {

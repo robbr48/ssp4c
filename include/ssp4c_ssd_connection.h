@@ -15,6 +15,7 @@ SSP4C_DLLAPI const char* ssp4c_ssd_connection_getEndConnector(ssdConnectionHandl
 SSP4C_DLLAPI const char* ssp4c_ssd_connection_getDescription(ssdConnectionHandle *h);
 SSP4C_DLLAPI const char* ssp4c_ssd_connection_getId(ssdConnectionHandle *h);
 SSP4C_DLLAPI bool ssp4c_ssd_connection_isSuppressed(ssdConnectionHandle *h);
+SSP4C_DLLAPI ssdConnectionGeometryHandle *ssp4c_ssd_connection_getConnectionGeometry(ssdConnectionHandle *h);
 
 #ifdef __cplusplus
 }
