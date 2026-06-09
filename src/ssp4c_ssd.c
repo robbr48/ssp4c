@@ -57,34 +57,9 @@ const char *ssp4c_ssd_getGenerationDateAndTime(ssdHandle *h)
     return ezxml_attr(h->xml, XML_ATTR_GENERATION_DATE_AND_TIME);
 }
 
-int ssp4c_ssd_getNumberOfConnectors(ssdHandle *h)
+ssdSystemHandle *ssp4c_ssd_getRootSystem(ssdHandle *h)
 {
-    return h->connectors->connectorsCount;
-}
-
-ssdConnectorHandle *ssp4c_ssd_getConnectorByIndex(ssdHandle *ssd, int i)
-{
-    return &ssd->connectors->connectors[i];
-}
-
-int ssp4c_ssd_getNumberOfComponents(ssdHandle* h)
-{
-    return h->components->componentsCount;
-}
-
-ssdComponentHandle *ssp4c_ssd_getComponentByIndex(ssdHandle *h, int i)
-{
-    return &(h->components->components[i]);
-}
-
-int ssp4c_ssd_getNumberOfConnections(ssdHandle* h)
-{
-    return h->connections->connectionsCount;
-}
-
-ssdConnectionHandle *ssp4c_ssd_getConnectionByIndex(ssdHandle *h, int i)
-{
-    return &(h->connections->connections[i]);
+    return h->system;
 }
 
 void ssp4c_ssd_setFileName(ssdHandle *h, const char *value)
@@ -140,4 +115,14 @@ void ssp4c_ssd_setGenerationTool(ssdHandle *h, const char *value)
 void ssp4c_ssd_setGenerationDateAndTime(ssdHandle *h, const char *value)
 {
     ezxml_set_attr(h->xml, XML_ATTR_GENERATION_DATE_AND_TIME, value);
+}
+
+int ssp4c_ssd_getNumberOfParameterBindings(ssdComponentHandle *h)
+{
+    return h->parameterBindings->parameterBindingsCount;
+}
+
+ssdParameterBindingHandle *ssp4c_ssd_getParameterBindingByIndex(ssdComponentHandle *h, int i)
+{
+    return &(h->parameterBindings->parameterBindings[i]);
 }

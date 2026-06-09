@@ -3,12 +3,14 @@
 
 extern const char* XML_ELEMENT_SSD;
 extern const char* XML_ELEMENT_SSD_CONNECTOR;
+extern const char* XML_ELEMENT_SSD_CONNECTOR_GEOMETRY;
 extern const char* XML_ELEMENT_SSD_SYSTEM;
 extern const char* XML_ELEMENT_SSD_CONNECTORS;
 extern const char* XML_ELEMENT_SSD_ELEMENTS;
 extern const char* XML_ELEMENT_SSD_COMPONENT;
 extern const char* XML_ELEMENT_SSD_CONNECTIONS;
 extern const char* XML_ELEMENT_SSD_CONNECTION;
+extern const char* XML_ELEMENT_SSD_CONNECTION_GEOMETRY;
 extern const char* XML_ELEMENT_SSD_ELEMENT_GEOMETRY;
 extern const char* XML_ELEMENT_SSD_PARAMETER_BINDINGS;
 extern const char* XML_ELEMENT_SSD_PARAMETER_BINDING;
@@ -82,6 +84,8 @@ extern const char* XML_ATTR_TARGET;
 extern const char* XML_ATTR_SUPPRESS_UNIT_CONVERSION;
 extern const char* XML_ATTR_SOURCE_BASE;
 extern const char* XML_ATTR_PREFIX;
+extern const char* XML_ATTR_X;
+extern const char* XML_ATTR_Y;
 extern const char* XML_ATTR_X1;
 extern const char* XML_ATTR_Y1;
 extern const char* XML_ATTR_X2;
@@ -99,6 +103,8 @@ extern const char* XML_ATTR_START_ELEMENT;
 extern const char* XML_ATTR_START_CONNECTOR;
 extern const char* XML_ATTR_END_ELEMENT;
 extern const char* XML_ATTR_END_CONNECTOR;
+extern const char* XML_ATTR_POINTSX;
+extern const char* XML_ATTR_POINTSY;
 
 extern const char* XML_VALUE_TRUE;
 extern const char* XML_VALUE_SSD;

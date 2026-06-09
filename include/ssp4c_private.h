@@ -7,6 +7,16 @@
 #include "ezxml/ezxml.h"
 #include "ssp4c_public.h"
 
+struct ssdSystemHandle {
+    ezxml_t xml;
+    sspHandle *ssp;
+    const char *name;
+    ssdConnectorsHandle *connectors;
+    ssdComponentsHandle *components;
+    ssdConnectionsHandle *connections;
+    ssdParameterBindingsHandle *parameterBindings;
+};
+
 struct ssdElementGeometryHandle {
     ezxml_t xml;
     sspHandle *ssp;
@@ -94,9 +104,21 @@ struct ssdParameterBindingsHandle {
     ssdParameterBindingHandle *parameterBindings;
 };
 
+
+struct ssdConnectorGeometryHandle {
+    ezxml_t xml;
+    sspHandle *ssp;
+};
+
+struct ssdConnectionGeometryHandle {
+    ezxml_t xml;
+    sspHandle *ssp;
+};
+
 struct ssdConnectorHandle {
     ezxml_t xml;
     sspHandle *ssp;
+    ssdConnectorGeometryHandle *geometry;
 };
 
 struct ssdConnectorsHandle {
@@ -124,6 +146,7 @@ struct ssdComponentsHandle {
 struct ssdConnectionHandle {
     ezxml_t xml;
     sspHandle *ssp;
+    ssdConnectionGeometryHandle *geometry;
     const char *startElement;
     const char *startConnector;
     const char *endElement;
@@ -141,10 +164,7 @@ struct ssdHandle {
     ezxml_t xml;
     sspHandle *ssp;
     const char* filename;
-    ssdConnectorsHandle *connectors;
-    ssdComponentsHandle *components;
-    ssdConnectionsHandle *connections;
-    ssdParameterBindingsHandle *parameterBindings;
+    ssdSystemHandle *system;
 };
 
 struct sspHandle {
@@ -155,6 +175,7 @@ struct sspHandle {
     int ssdCount;
     int ssvCount;
     int ssmCount;
+
     ssdHandle *ssds;
     ssvParameterSetHandle *ssvs;
     ssmParameterMappingHandle *ssms;

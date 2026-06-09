@@ -52,8 +52,11 @@ typedef enum { sscMappingTransformLinear,
 
 typedef struct sspHandle sspHandle;
 typedef struct ssdHandle ssdHandle;
+typedef struct ssdSystemHandle ssdSystemHandle;
 typedef struct ssdConnectorHandle ssdConnectorHandle;
 typedef struct ssdConnectorsHandle ssdConnectorsHandle;
+typedef struct ssdConnectorGeometryHandle ssdConnectorGeometryHandle;
+typedef struct ssdConnectionGeometryHandle ssdConnectionGeometryHandle;
 typedef struct ssdComponentHandle ssdComponentHandle;
 typedef struct ssdComponentsHandle ssdComponentsHandle;
 typedef struct ssdConnectionHandle ssdConnectionHandle;

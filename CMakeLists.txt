@@ -58,6 +58,7 @@ endif()
 set(SRCFILES
     src/ssp4c.c
     src/ssp4c_ssd.c
+    src/ssp4c_ssd_system.c
     src/ssp4c_ssd_component.c
     src/ssp4c_ssd_connector.c
     src/ssp4c_ssd_connection.c
@@ -74,8 +75,11 @@ set(SRCFILES
     src/ssp4c_utils.c
     src/ssp4c_xml_constants.c
     src/ssp4c_xml_parsers.c
+    src/ssp4c_ssd_connector_geometry.c
+    src/ssp4c_ssd_connection_geometry.c
     include/ssp4c.h
     include/ssp4c_ssd.h
+    include/ssp4c_ssd_system.h
     include/ssp4c_ssd_connector.h
     include/ssp4c_ssd_component.h
     include/ssp4c_ssd_connection.h
@@ -95,6 +99,8 @@ set(SRCFILES
     include/ssp4c_common.h
     include/ssp4c_xml_constants.h
     include/ssp4c_xml_parsers.h
+    include/ssp4c_ssd_connector_geometry.h
+    include/ssp4c_ssd_connection_geometry.h
     3rdparty/ezxml/ezxml.c
     3rdparty/ezxml/ezxml.h)
 #if (WIN32)

@@ -61,3 +61,53 @@ ssmParameterMappingEntryHandle *ssp4c_ssm_parameterMapping_getMappingEntryByInde
 {
     return &(h->mappingEntries[i]);
 }
+
+void ssp4c_ssm_parameterMapping_setVersion(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_VERSION, value);
+}
+
+void ssp4c_ssm_parameterMapping_setId(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_ID, value);
+}
+
+void ssp4c_ssm_parameterMapping_setDescription(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_DESCRIPTION, value);
+}
+
+void ssp4c_ssm_parameterMapping_setAuthor(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_AUTHOR, value);
+}
+
+void ssp4c_ssm_parameterMapping_setFileversion(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_FILE_VERSION, value);
+}
+
+void ssp4c_ssm_parameterMapping_setCopyright(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_COPYRIGHT, value);
+}
+
+void ssp4c_ssm_parameterMapping_setLicense(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_LICENSE, value);
+}
+
+void ssp4c_ssm_parameterMapping_setGenerationTool(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_GENERATION_TOOL, value);
+}
+
+void ssp4c_ssm_parameterMapping_setGenerationDateAndTime(ssmParameterMappingHandle *h, const char *value)
+{
+    ezxml_set_attr(h->xml, XML_ATTR_GENERATION_DATE_AND_TIME, value);
+}
+
+void ssp4c_ssm_parameterMapping_setFilename(ssmParameterMappingHandle *h, const char *value)
+{
+    h->filename = value;
+}

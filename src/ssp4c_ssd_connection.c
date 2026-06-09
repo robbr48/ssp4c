@@ -32,3 +32,8 @@ const char* ssp4c_ssd_connection_getId(ssdConnectionHandle *h)
     return ezxml_attr(h->xml, XML_ATTR_ID);
 }
 
+
+ssdConnectionGeometryHandle *ssp4c_ssd_connection_getConnectionGeometry(ssdConnectionHandle *h)
+{
+  return h->geometry;
+}
