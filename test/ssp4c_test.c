@@ -289,15 +289,16 @@ void print_ssd(ssdHandle *h, int indentation)
     printf("%*c  generationTool: %s\n", indentation, ' ', ssp4c_ssd_getGenerationTool(h));
     printf("%*c  generationDateAndTime: %s\n", indentation, ' ', ssp4c_ssd_getGenerationDateAndTime(h));
 
-    int ssdConnectorCount = ssp4c_ssd_system_getNumberOfConnectors(h);
+    ssdSystemHandle *s = ssp4c_ssd_getRootSystem(h);
+    int ssdConnectorCount = ssp4c_ssd_system_getNumberOfConnectors(s);
     printf("%*c  number of connectors: %i\n", indentation, ' ', ssdConnectorCount);
 
     for(int j=0; j<ssdConnectorCount; ++j) {
-        print_ssd_connector(ssp4c_ssd_system_getConnectorByIndex(h, j), indentation+2);
+        print_ssd_connector(ssp4c_ssd_system_getConnectorByIndex(s, j), indentation+2);
     }
 
-    for(int i=0; i<ssp4c_ssd_system_getNumberOfComponents(h); ++i) {
-        print_ssd_component(ssp4c_ssd_system_getComponentByIndex(h, i),indentation+2);
+    for(int i=0; i<ssp4c_ssd_system_getNumberOfComponents(s); ++i) {
+        print_ssd_component(ssp4c_ssd_system_getComponentByIndex(s, i),indentation+2);
     }
 }
 
