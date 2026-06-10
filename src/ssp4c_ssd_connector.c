@@ -95,6 +95,10 @@ ssdConnectorKind ssp4c_ssd_connector_getKind(ssdConnectorHandle *h)
 {
     const char* kind = ezxml_attr(h->xml, XML_ATTR_KIND);
 
+    if(kind == NULL) {
+        return ssdConnectorKindUnspecified;
+    }
+
     if(!strcmp(kind, XML_VALUE_INPUT)) {
         return ssdConnectorKindInput;
     }
