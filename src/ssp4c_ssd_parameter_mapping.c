@@ -2,6 +2,8 @@
 #include "ssp4c_ssd_parameter_mapping.h"
 #include "ssp4c_xml_constants.h"
 
+#include <string.h>
+
 const char *ssp4c_ssd_parameterMapping_getDescription(ssdParameterMappingHandle *h)
 {
     return ezxml_attr(h->xml, XML_ATTR_DESCRIPTION);

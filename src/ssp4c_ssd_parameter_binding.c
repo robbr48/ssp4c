@@ -2,6 +2,8 @@
 #include "ssp4c_ssd_parameter_binding.h"
 #include "ssp4c_xml_constants.h"
 
+#include <string.h>
+
 const char *ssp4c_ssd_parameterBinding_getType(ssdParameterBindingHandle *h)
 {
     return ezxml_attr(h->xml, XML_ATTR_TYPE);

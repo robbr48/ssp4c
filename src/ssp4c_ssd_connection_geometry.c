@@ -3,6 +3,8 @@
 #include "ssp4c_utils.h"
 #include "ssp4c_xml_constants.h"
 
+#include <string.h>
+
 double *ssp4c_ssd_connectionGeometry_getPointsX(ssdConnectionGeometryHandle *h, int *n)
 {
     *n = 0;

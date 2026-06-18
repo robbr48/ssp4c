@@ -3,6 +3,8 @@
 #include "ssp4c_xml_constants.h"
 #include "ssp4c_utils.h"
 
+#include <string.h>
+
 const char *ssp4c_ssv_parameter_getName(ssvParameterHandle *h)
 {
     return ezxml_attr(h->xml, XML_ATTR_NAME);
