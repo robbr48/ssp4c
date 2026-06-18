@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 #ifndef _WIN32
-#include "ssp4c.h"
 #include <dlfcn.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -136,7 +135,7 @@ bool ssp4c_saveSsp(sspHandle *h, const char *sspfile)
         else
         {
             const char* xmlText = ezxml_toxml(h->ssds[i].xml);
-            fprintf(fp, xmlText);
+            fprintf(fp, "%s", xmlText);
             freeDuplicatedConstChar(xmlText);
             fclose(fp);
         }

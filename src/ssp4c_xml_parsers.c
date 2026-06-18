@@ -4,6 +4,11 @@
 #include "ssp4c_xml_parsers.h"
 #include "ssp4c_utils.h"
 
+#include <string.h>
+#if !defined(_WIN32)
+#include <unistd.h>
+#endif
+
 static bool parseSsdSystem(ssdHandle *ssd, ezxml_t systemElement, sspHandle *ssp)
 {
     if (!systemElement) {
@@ -385,6 +390,7 @@ bool parseSsm(sspHandle *ssp, ssmParameterMappingHandle *ssm, const char *path)
     parseSsmParameterMappingElement(ssm->xml, ssm, ssp);
     printf("Finished parsing SSM file: %s\n", path);
     chdir(cwd);
+    return true;
 }
 
 bool parseSsmParameterMappingElement(ezxml_t element, ssmParameterMappingHandle *h, sspHandle *ssp)

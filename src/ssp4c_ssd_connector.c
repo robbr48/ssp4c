@@ -2,6 +2,8 @@
 #include "ssp4c_ssd_connector.h"
 #include "ssp4c_xml_constants.h"
 
+#include <string.h>
+
 const char* ssp4c_ssd_connector_getName(ssdConnectorHandle *h)
 {
     return ezxml_attr(h->xml, XML_ATTR_NAME);
