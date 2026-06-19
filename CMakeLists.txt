@@ -11,8 +11,6 @@ option(SSP4C_BUILD_TEST "Build test executable" OFF)
 option(SSP4C_BUILD_SHARED "Build as shared library (DLL)" ON)
 option(SSP4C_USE_SYSTEM_ZIP "Use system utilities for unzipping" ON)
 option(SSP4C_USE_INCLUDED_ZLIB "Use the included zlib (statically linked) even if a system version is available" OFF)
-#this option is only enabled when SSP4C_USE_SYSTEM_ZIP=OFF
-cmake_dependent_option(SSP4C_USE_INCLUDED_ZLIB "Use the included zlib (statically linked) even if a system version is available" OFF "NOT SSP4C_USE_SYSTEM_ZIP" OFF)
 
 if (NOT DEFINED SSP4C_EXTERNAL_MINIZIP)
     set(SSP4C_EXTERNAL_MINIZIP "" CACHE STRING "Defines an external target for minizip.")
@@ -20,7 +18,7 @@ endif()
 
 # Set default debug postfix
 if (NOT CMAKE_DEBUG_POSTFIX)
-    set(CMAKE_DEBUG_POSTFIX )
+    set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
 if (${SSP4C_BUILD_DOCUMENTATION})
@@ -174,7 +172,7 @@ else()
         target_link_libraries(ssp4c PRIVATE ZLIB::ZLIB)
         target_compile_definitions(ssp4c PRIVATE SSP4C_WITH_MINIZIP)
     else()
-        message(STATUS "Using esystem zip")
+        message(STATUS "Using system zip")
     endif()
 endif()
 
