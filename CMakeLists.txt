@@ -154,7 +154,7 @@ target_include_directories(ssp4c
 )
 
 if(NOT SSP4C_USE_EXTERNAL_MINIZIP)
-    target_include_directories(ssp4c PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/3rdparty>/minizip")
+    target_include_directories(ssp4c PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/minizip>")
 endif()
 
 # Internal dependecy (PRIVATE) on zlib and ${CMAKE_DL_LIBS}) for libdl on Linux
